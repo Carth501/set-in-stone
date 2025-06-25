@@ -4,7 +4,6 @@ import type { Card } from "../types/Card.tsx";
 type Props = {
   card: Card;
   onChange: (card: Card) => void;
-  onSubmit: (e: React.FormEvent) => void;
 };
 
 const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
