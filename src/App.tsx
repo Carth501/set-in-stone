@@ -31,7 +31,7 @@ function App() {
       <div style={{ marginTop: 32 }}>
         <h2>Card Preview</h2>
         <div id="card-preview" style={{ backgroundColor: undefined }}>
-          <CardDisplay card={card} />
+          <CardDisplay card={card} className={card.type} />
         </div>
         <button style={{ marginTop: 16 }} onClick={handleExport}>
           Export as Image

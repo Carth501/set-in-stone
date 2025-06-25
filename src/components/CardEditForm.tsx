@@ -32,6 +32,22 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
   return (
     <form>
       <div>
+        <label>Type:</label>
+        <select
+          value={card.type}
+          onChange={(e) =>
+            onChange({ ...card, type: e.target.value as Card["type"] })
+          }
+        >
+          <option value="CREATURE">Creature</option>
+          <option value="ENCHANTMENT">Enchantment</option>
+          <option value="DEVICE">Device</option>
+          <option value="REACTION">Reaction</option>
+          <option value="FAST">Fast</option>
+          <option value="SLOW">Slow</option>
+        </select>
+      </div>
+      <div>
         <label>Name:</label>
         <input
           type="text"
