@@ -16,12 +16,28 @@
 	justify-content: space-between;
 	border-radius: 12px;
 	align-items: stretch;
+	padding: 4px;
 }
 
 .card-header {
 	display: flex;
 	justify-content: space-between;
-	padding: 0 4px;
+}
+
+.card-type {
+	text-align: left;
+	font-weight: bold;
+}
+
+.card-name {
+	text-align: left;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.header-left {
+	display: flex;
+	flex-direction: column;
 }
 
 .CREATURE {

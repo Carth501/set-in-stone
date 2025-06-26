@@ -12,16 +12,21 @@ const CardDisplay: React.FC<Props> = ({ card, className }) => (
   <div className="card-container">
     <div className={`card ${className}`}>
       <div className="card-header">
-        <h2 className="card-name">{card.name}</h2>
-        <span className="card-costs">
-          <ul style={{ margin: "8px 0 0 0", padding: "0 0 0 16px" }}>
-            {Object.entries(card.cost).map(([key, value]) => (
-              <li key={key}>
-                {key}: {value}
-              </li>
-            ))}
-          </ul>
-        </span>
+        <div className="header-left">
+          <div className="card-type">{card.type}</div>
+          <div className="card-name">{card.name}</div>
+        </div>
+        <div>
+          <span className="card-costs">
+            <ul style={{ margin: "8px 0 0 0", padding: "0 0 0 16px" }}>
+              {Object.entries(card.cost).map(([key, value]) => (
+                <li key={key}>
+                  {key}: {value}
+                </li>
+              ))}
+            </ul>
+          </span>
+        </div>
       </div>
       <div style={{ flex: 1, marginBottom: 16 }}>{card.description}</div>
       <div
