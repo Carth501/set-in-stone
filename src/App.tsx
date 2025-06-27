@@ -30,7 +30,7 @@ function App() {
       <CardEditForm card={card} onChange={handleChange} />
       <div style={{ marginTop: 32 }}>
         <h2>Card Preview</h2>
-        <div id="card-preview" style={{ backgroundColor: undefined }}>
+        <div id="card-preview" className="flex justify-center">
           <CardDisplay card={card} className={card.type} />
         </div>
         <button style={{ marginTop: 16 }} onClick={handleExport}>

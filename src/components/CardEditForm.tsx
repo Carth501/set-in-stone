@@ -30,10 +30,11 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
   };
 
   return (
-    <form>
+    <form className="flex flex-col gap-2">
       <div>
         <label>Type:</label>
         <select
+          className="bg-gray-700 ml-4 rounded p-2"
           value={card.type}
           onChange={(e) =>
             onChange({ ...card, type: e.target.value as Card["type"] })
@@ -50,6 +51,7 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
       <div>
         <label>Name:</label>
         <input
+          className="bg-gray-700 ml-4 rounded p-2"
           type="text"
           value={card.name}
           onChange={(e) => onChange({ ...card, name: e.target.value })}
@@ -63,13 +65,13 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
               type="text"
               value={key}
               onChange={() => handleCostKeyChange()}
-              style={{ width: 80 }}
+              className="bg-gray-700 ml-4 rounded p-2 w-80"
             />
             <input
               type="text"
               value={value}
               onChange={(e) => handleCostValueChange(key, e.target.value)}
-              style={{ width: 80 }}
+              className="bg-gray-700 ml-4 rounded p-2 w-80"
             />
             <button type="button" onClick={() => handleRemoveCost()}>
               Remove
@@ -82,14 +84,14 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
             placeholder="New Key"
             value={newCostKey}
             onChange={(e) => setNewCostKey(e.target.value)}
-            style={{ width: 80 }}
+            className="bg-gray-700 ml-4 rounded p-2 w-80"
           />
           <input
             type="text"
             placeholder="New Value"
             value={newCostValue}
             onChange={(e) => setNewCostValue(e.target.value)}
-            style={{ width: 80 }}
+            className="bg-gray-700 ml-4 rounded p-2 w-80"
           />
           <button type="button" onClick={handleAddCost}>
             Add Cost
@@ -99,6 +101,7 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
       <div>
         <label>Description:</label>
         <textarea
+          className="bg-gray-700 ml-4 rounded p-2 w-200"
           value={card.description}
           onChange={(e) => onChange({ ...card, description: e.target.value })}
         />
@@ -106,6 +109,7 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
       <div>
         <label>Offence:</label>
         <input
+          className="bg-gray-700 ml-4 rounded p-2"
           type="number"
           value={card.offence}
           onChange={(e) =>
@@ -116,6 +120,7 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
       <div>
         <label>Defence:</label>
         <input
+          className="bg-gray-700 ml-4 rounded p-2"
           type="number"
           value={card.defence}
           onChange={(e) =>
