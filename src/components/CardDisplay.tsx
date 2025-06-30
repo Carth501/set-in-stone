@@ -15,10 +15,20 @@ const CardDisplay: React.FC<Props> = ({ card, className }) => (
       <div className="card-header">
         <div className="header-left">
           <div className="card-type">{card.type}</div>
-          <div className="card-name">{card.name}</div>
+          <div className="card-name max-w-330px max-h-72px wrap-break-word">
+            {card.name}
+          </div>
         </div>
         <span className="card-costs">
-          <div style={{ display: "flex", gap: "0.5em" }}>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "0.5em",
+              maxWidth: 120,
+              justifyContent: "flex-end",
+            }}
+          >
             {Object.entries(card.aspectList ?? {}).flatMap(([aspect, count]) =>
               count > 0
                 ? Array.from({ length: count }).map((_, i) => (
