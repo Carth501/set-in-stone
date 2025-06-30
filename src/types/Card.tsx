@@ -1,7 +1,7 @@
 export type Card = {
   type: CardType;
   name: string;
-  cost: CardCost;
+  aspectList: CardCost;
   description: string;
   offence: number;
   defence: number;
@@ -14,7 +14,7 @@ export type CardCost = {
 export const blankCard: Card = {
   type: "CREATURE",
   name: "",
-  cost: {},
+  aspectList: {},
   description: "",
   offence: 0,
   defence: 0,

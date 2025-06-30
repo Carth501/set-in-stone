@@ -1,4 +1,5 @@
 import React from "react";
+import { ALL_ASPECTS } from "../aspects/aspects.ts";
 import type { Card } from "../types/Card.tsx";
 import AspectSymbolSelector from "./AspectSymbolSelector.tsx";
 
@@ -8,27 +9,25 @@ type Props = {
 };
 
 const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
-  // For adding a new cost entry
-  //   const [newCostKey, setNewCostKey] = useState("");
-  //   const [newCostValue, setNewCostValue] = useState("");
+  // Add aspect to aspectList or increment its value
+  const handleAddAspect = (idx: number) => {
+    const aspect = ALL_ASPECTS[idx];
+    const current = card.aspectList?.[aspect] ?? 0;
+    onChange({
+      ...card,
+      aspectList: { ...card.aspectList, [aspect]: current + 1 },
+    });
+  };
 
-  //   const handleCostKeyChange = () => {};
-
-  //   const handleCostValueChange = (key: string, value: string) => {
-  //     onChange({ ...card, cost: { ...card.cost, [key]: Number(value) || 0 } });
-  //   };
-
-  //   const handleRemoveCost = () => {};
-
-  //   const handleAddCost = () => {
-  //     if (!newCostKey || newCostKey in card.cost) return;
-  //     onChange({
-  //       ...card,
-  //       cost: { ...card.cost, [newCostKey]: Number(newCostValue) || 0 },
-  //     });
-  //     setNewCostKey("");
-  //     setNewCostValue("");
-  //   };
+  // Decrement aspect in aspectList, remove if <= 0
+  const handleRemoveAspect = (idx: number) => {
+    const aspect = ALL_ASPECTS[idx];
+    const current = card.aspectList?.[aspect] ?? 0;
+    onChange({
+      ...card,
+      aspectList: { ...card.aspectList, [aspect]: current - 1 },
+    });
+  };
 
   return (
     <form className="flex flex-col gap-2">
@@ -60,11 +59,13 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
       </div>
       <div>
         <label>Cost:</label>
-        <AspectSymbolSelector
-          onSelect={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
+        <AspectSymbolSelector onSelect={handleAddAspect} />
+        <div className="mt-2">
+          <AspectSymbolSelector
+            onSelect={handleRemoveAspect}
+            aspectCounts={card.aspectList}
+          />
+        </div>
       </div>
       <div>
         <label>Description:</label>
