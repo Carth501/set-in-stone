@@ -1,4 +1,5 @@
 import React from "react";
+import { AspectIcons } from "../aspects/aspects";
 import type { Card } from "../types/Card";
 import "./Card.css";
 
@@ -17,13 +18,20 @@ const CardDisplay: React.FC<Props> = ({ card, className }) => (
           <div className="card-name">{card.name}</div>
         </div>
         <span className="card-costs">
-          <ul style={{ margin: "8px 0 0 0", padding: "0 0 0 16px" }}>
-            {Object.entries(card.cost).map(([key, value]) => (
-              <li key={key}>
-                {key}: {value}
-              </li>
-            ))}
-          </ul>
+          <div style={{ display: "flex", gap: "0.5em" }}>
+            {Object.entries(card.aspectList ?? {}).flatMap(([aspect, count]) =>
+              count > 0
+                ? Array.from({ length: count }).map((_, i) => (
+                    <img
+                      key={aspect + "-" + i}
+                      src={AspectIcons[aspect as keyof typeof AspectIcons]}
+                      alt={aspect}
+                      style={{ width: 32, height: 32 }}
+                    />
+                  ))
+                : []
+            )}
+          </div>
         </span>
       </div>
       <div style={{ flex: 1, marginBottom: 16 }}>{card.description}</div>
