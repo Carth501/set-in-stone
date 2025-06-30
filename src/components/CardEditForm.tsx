@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import type { Card } from "../types/Card.tsx";
+import AspectSymbolSelector from "./AspectSymbolSelector.tsx";
 
 type Props = {
   card: Card;
@@ -8,26 +9,26 @@ type Props = {
 
 const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
   // For adding a new cost entry
-  const [newCostKey, setNewCostKey] = useState("");
-  const [newCostValue, setNewCostValue] = useState("");
+  //   const [newCostKey, setNewCostKey] = useState("");
+  //   const [newCostValue, setNewCostValue] = useState("");
 
-  const handleCostKeyChange = () => {};
+  //   const handleCostKeyChange = () => {};
 
-  const handleCostValueChange = (key: string, value: string) => {
-    onChange({ ...card, cost: { ...card.cost, [key]: Number(value) || 0 } });
-  };
+  //   const handleCostValueChange = (key: string, value: string) => {
+  //     onChange({ ...card, cost: { ...card.cost, [key]: Number(value) || 0 } });
+  //   };
 
-  const handleRemoveCost = () => {};
+  //   const handleRemoveCost = () => {};
 
-  const handleAddCost = () => {
-    if (!newCostKey || newCostKey in card.cost) return;
-    onChange({
-      ...card,
-      cost: { ...card.cost, [newCostKey]: Number(newCostValue) || 0 },
-    });
-    setNewCostKey("");
-    setNewCostValue("");
-  };
+  //   const handleAddCost = () => {
+  //     if (!newCostKey || newCostKey in card.cost) return;
+  //     onChange({
+  //       ...card,
+  //       cost: { ...card.cost, [newCostKey]: Number(newCostValue) || 0 },
+  //     });
+  //     setNewCostKey("");
+  //     setNewCostValue("");
+  //   };
 
   return (
     <form className="flex flex-col gap-2">
@@ -59,44 +60,11 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
       </div>
       <div>
         <label>Cost:</label>
-        {Object.entries(card.cost).map(([key, value]) => (
-          <div key={key} style={{ display: "flex", gap: 4, marginBottom: 4 }}>
-            <input
-              type="text"
-              value={key}
-              onChange={() => handleCostKeyChange()}
-              className="bg-gray-700 ml-4 rounded p-2 w-80"
-            />
-            <input
-              type="text"
-              value={value}
-              onChange={(e) => handleCostValueChange(key, e.target.value)}
-              className="bg-gray-700 ml-4 rounded p-2 w-80"
-            />
-            <button type="button" onClick={() => handleRemoveCost()}>
-              Remove
-            </button>
-          </div>
-        ))}
-        <div style={{ display: "flex", gap: 4, marginBottom: 4 }}>
-          <input
-            type="text"
-            placeholder="New Key"
-            value={newCostKey}
-            onChange={(e) => setNewCostKey(e.target.value)}
-            className="bg-gray-700 ml-4 rounded p-2 w-80"
-          />
-          <input
-            type="text"
-            placeholder="New Value"
-            value={newCostValue}
-            onChange={(e) => setNewCostValue(e.target.value)}
-            className="bg-gray-700 ml-4 rounded p-2 w-80"
-          />
-          <button type="button" onClick={handleAddCost}>
-            Add Cost
-          </button>
-        </div>
+        <AspectSymbolSelector
+          onSelect={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
       </div>
       <div>
         <label>Description:</label>
