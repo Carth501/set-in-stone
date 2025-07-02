@@ -1,4 +1,18 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+@theme {
+  --color-bloom: #0c900c;
+  --color-callous: #4a074e;
+  --color-fundamental: #b9b8b8;
+  --color-grace: #c5549b;
+  --color-law: #efdd7d;
+  --color-mythic: #9d6a22;
+  --color-relic: #607b4f;
+  --color-tide: #1f49de;
+  --color-weird: #34a7d8;
+  --color-xeno: #6a67b4;
+  --color-zeal: #cd1414;
+}
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -56,18 +70,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
-
-@theme {
-  --color-bloom: #0C900C;
-  --color-callous: #4A074E;
-  --color-fundamental: #B9B8B8;
-  --color-grace: #C5549B;
-  --color-law: #EFDD7D;
-  --color-mythic: #9D6A22;
-  --color-relic: #607B4F;
-  --color-tide: #1F49DE;
-  --color-weird: #34A7D8;
-  --color-xeno: #6A67B4;
-  --color-zeal: #CD1414;
 }

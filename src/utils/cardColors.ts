@@ -19,8 +19,7 @@ export function getCardColorClass(aspectList: CardCost): string {
   }
 
   if (aspectsWithCost.length === 1) {
-    const aspect = aspectsWithCost[0];
-    return `bg-${aspectColorMap[aspect]}`;
+    return getSingleAspectColor(aspectsWithCost[0]);
   }
 
   if (aspectsWithCost.length === 2) {
@@ -30,4 +29,21 @@ export function getCardColorClass(aspectList: CardCost): string {
 
   const [first, second, third] = aspectsWithCost;
   return `bg-gradient-to-br from-${aspectColorMap[first]} via-${aspectColorMap[second]} to-${aspectColorMap[third]}`;
+}
+
+export function getSingleAspectColor(aspect: Aspect): string {
+  switch (aspect) {
+    case "BLOOM":
+      return "bg-bloom";
+    case "CALLOUS":
+      return "bg-callous";
+    case "LAW":
+      return "bg-law";
+    case "TIDE":
+      return "bg-tide";
+    case "ZEAL":
+      return "bg-zeal";
+    default:
+      return "bg-fundamental";
+  }
 }
