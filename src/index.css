@@ -3,7 +3,7 @@
 @theme {
   --color-bloom: #0c900c;
   --color-callous: #4a074e;
-  --color-fundamental: #b9b8b8;
+  --color-fundamental: #303030;
   --color-grace: #c5549b;
   --color-law: #efdd7d;
   --color-mythic: #9d6a22;
@@ -12,6 +12,7 @@
   --color-weird: #34a7d8;
   --color-xeno: #6a67b4;
   --color-zeal: #cd1414;
+  --color-poly: #e8e8e8;
 }
 
 :root {
