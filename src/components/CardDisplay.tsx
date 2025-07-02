@@ -21,7 +21,7 @@ const CardDisplay: React.FC<Props> = ({ card, className }) => {
             <div className="card-name max-w-330px max-h-72px wrap-break-word">
               {card.name}
             </div>
-            <span className="card-costs">
+            <span className="card-costs min-w-8">
               <div
                 style={{
                   display: "flex",
