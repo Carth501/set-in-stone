@@ -32,6 +32,15 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
   return (
     <form className="flex flex-col gap-2">
       <div>
+        <label>Name:</label>
+        <input
+          className="bg-gray-700 ml-4 rounded p-2"
+          type="text"
+          value={card.name}
+          onChange={(e) => onChange({ ...card, name: e.target.value })}
+        />
+      </div>
+      <div>
         <label>Type:</label>
         <select
           className="bg-gray-700 ml-4 rounded p-2"
@@ -47,15 +56,6 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
           <option value="FAST">Fast</option>
           <option value="SLOW">Slow</option>
         </select>
-      </div>
-      <div>
-        <label>Name:</label>
-        <input
-          className="bg-gray-700 ml-4 rounded p-2"
-          type="text"
-          value={card.name}
-          onChange={(e) => onChange({ ...card, name: e.target.value })}
-        />
       </div>
       <div>
         <label>Cost:</label>

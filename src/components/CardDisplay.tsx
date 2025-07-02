@@ -16,12 +16,12 @@ const CardDisplay: React.FC<Props> = ({ card, className }) => {
   return (
     <div className="card-container">
       <div className={`card ${cardColorClass} ${className}`}>
-        <div className="card-header">
+        <div className="card-header bg-gray-800/25 rounded px-2">
           <div className="header-left">
-            <div className="card-type">{card.type}</div>
             <div className="card-name max-w-330px max-h-72px wrap-break-word">
               {card.name}
             </div>
+            <div className="card-type">{card.type}</div>
           </div>
           <span className="card-costs">
             <div
