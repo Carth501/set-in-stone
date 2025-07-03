@@ -227,7 +227,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
   };
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row gap-1">
       <CardDisplay
         card={card}
         className={className}
