@@ -1,4 +1,4 @@
-import { ALL_ASPECTS } from "@/aspects/aspects";
+import { ALL_ASPECTS, sortAspectRecord } from "@/aspects/aspects";
 import React, { useState } from "react";
 import type { Card, CardType } from "../types/Card";
 import AspectSymbolSelector from "./AspectSymbolSelector";
@@ -157,7 +157,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
 
     return {
       ...card,
-      aspectList: updatedAspectList,
+      aspectList: sortAspectRecord(updatedAspectList),
     };
   };
 
@@ -181,7 +181,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
 
     return {
       ...card,
-      aspectList: updatedAspectList,
+      aspectList: sortAspectRecord(updatedAspectList),
     };
   };
 

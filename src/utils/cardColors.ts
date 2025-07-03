@@ -3,7 +3,6 @@ import type { CardCost } from "../types/Card";
 
 export function getCardColorClass(aspectList: CardCost): string {
   const aspectsWithCost = Object.entries(aspectList)
-    .sort(([aspectA], [aspectB]) => aspectA.localeCompare(aspectB))
     .filter(([, count]) => count > 0)
     .map(([aspect]) => aspect as Aspect);
 

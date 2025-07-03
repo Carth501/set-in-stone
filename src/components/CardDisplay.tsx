@@ -79,9 +79,8 @@ const CardDisplay: React.FC<Props> = ({
           </div>
           <div className="col-start-8 row-start-1 row-end-8 flex flex-col bg-gray-800/50 rounded-xl pt-1">
             <div className="flex flex-col gap-0.75 items-center">
-              {Object.entries(card.aspectList ?? {})
-                .sort(([aspectA], [aspectB]) => aspectA.localeCompare(aspectB))
-                .flatMap(([aspect, count]) =>
+              {Object.entries(card.aspectList ?? {}).flatMap(
+                ([aspect, count]) =>
                   count > 0
                     ? Array.from({ length: count }).map((_, i) => (
                         <img
@@ -101,7 +100,7 @@ const CardDisplay: React.FC<Props> = ({
                         />
                       ))
                     : []
-                )}
+              )}
             </div>
           </div>
           <div
