@@ -91,7 +91,7 @@ const CardDisplay: React.FC<Props> = ({
 
   return (
     <div className="card-container">
-      <div className={`card ${cardColorClass} ${className}`}>
+      <div className={`card ${cardColorClass} ${className}`} id="card-preview">
         <div className="grid grid-cols-8 grid-rows-8 gap-2 w-full h-full text-gray-100">
           <div className="col-span-7 row-span-7 flex flex-col gap-2">
             <div className="card-header bg-gray-800/50 rounded-xl text-left p-2 shrink-0">
