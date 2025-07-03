@@ -153,6 +153,22 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     const aspectCode = ALL_ASPECTS[aspectIndex];
     const updatedAspectList = { ...card.aspectList };
 
+    if (aspectCode !== "FUNDAMENTAL") {
+      const currentTotal = Object.entries(updatedAspectList).reduce(
+        (sum, [aspect, count]) => {
+          if (aspect === "FUNDAMENTAL") {
+            return sum + (count > 0 ? 1 : 0);
+          }
+          return sum + count;
+        },
+        0
+      );
+
+      if (currentTotal >= 14) {
+        return card;
+      }
+    }
+
     updatedAspectList[aspectCode] = (updatedAspectList[aspectCode] || 0) + 1;
 
     return {
