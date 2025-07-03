@@ -19,7 +19,11 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
   const startEditing = (field: string) => {
     setEditingField(field);
     const currentValue = card[field as keyof Card];
-    setTempValue(currentValue?.toString() || "");
+    if (field === "tags") {
+      setTempValue(card.tags.join(", "));
+    } else {
+      setTempValue(currentValue?.toString() || "");
+    }
   };
 
   const saveEdit = () => {
@@ -35,6 +39,11 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
       (updatedCard as Card)[editingField] = parseInt(tempValue) || 0;
     } else if (editingField === "name" || editingField === "description") {
       (updatedCard as Card)[editingField] = tempValue;
+    } else if (editingField === "tags") {
+      updatedCard.tags = tempValue
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter((tag) => tag.length > 0);
     }
 
     onCardChange(updatedCard);
@@ -134,6 +143,21 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
           onBlur={saveEdit}
           onKeyDown={handleKeyDown}
           className="w-full bg-gray-700 text-white rounded px-2 py-1 text-5xl font-bold text-center"
+          autoFocus
+        />
+      );
+    }
+
+    if (editingField === "tags") {
+      elements.tags = (
+        <input
+          type="text"
+          value={tempValue}
+          onChange={(e) => setTempValue(e.target.value)}
+          onBlur={saveEdit}
+          onKeyDown={handleKeyDown}
+          placeholder="Enter tags separated by commas"
+          className="w-full bg-gray-700 text-white rounded px-2 py-1 text-sm"
           autoFocus
         />
       );

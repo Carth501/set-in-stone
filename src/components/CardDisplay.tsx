@@ -14,6 +14,7 @@ type Props = {
   editableElements?: {
     name?: React.ReactNode;
     type?: React.ReactNode;
+    tags?: React.ReactNode;
     description?: React.ReactNode;
     offence?: React.ReactNode;
     defence?: React.ReactNode;
@@ -106,7 +107,7 @@ const CardDisplay: React.FC<Props> = ({
                   </div>
                 )}
               </div>
-              <div className="text-lg font-bold">
+              <div className="text-lg font-bold flex flex-wrap gap-1">
                 {editableElements.type || (
                   <div
                     onClick={() => handleFieldClick("type")}
@@ -114,6 +115,31 @@ const CardDisplay: React.FC<Props> = ({
                   >
                     {card.type}
                   </div>
+                )}
+                -
+                {editableElements.tags || (
+                  <>
+                    {card.tags.map((tag, index) => (
+                      <div
+                        key={index}
+                        onClick={() => handleFieldClick("tags")}
+                        className={
+                          "bg-gray-600 px-2 py-1 rounded text-sm " +
+                          (onFieldClick ? "cursor-pointer" : "")
+                        }
+                      >
+                        {tag}
+                      </div>
+                    ))}
+                    {card.tags.length === 0 && onFieldClick && (
+                      <div
+                        onClick={() => handleFieldClick("tags")}
+                        className="text-gray-400 cursor-pointer text-sm"
+                      >
+                        +Add tags
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>

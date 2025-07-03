@@ -6,6 +6,7 @@ export type Card = {
   offence: number;
   defence: number;
   regeneration: number;
+  tags: string[];
 };
 
 export type CardCost = {
@@ -20,6 +21,7 @@ export const blankCard: Card = {
   offence: 0,
   defence: 0,
   regeneration: 0,
+  tags: [],
 };
 
 export const CARD_TYPES = [
