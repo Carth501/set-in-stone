@@ -71,16 +71,21 @@ const CardDisplay: React.FC<Props> = ({
       />
     ));
 
-  const renderAspectIcons = () =>
-    Object.entries(card.aspectList ?? {}).flatMap(([aspect, count]) => {
-      if (count <= 0) return [];
+  const renderAspectIcons = () => {
+    const allIcons = Object.entries(card.aspectList ?? {}).flatMap(
+      ([aspect, count]) => {
+        if (count <= 0) return [];
 
-      if (aspect === "FUNDAMENTAL") {
-        return renderFundamentalAspect(aspect, count);
+        if (aspect === "FUNDAMENTAL") {
+          return renderFundamentalAspect(aspect, count);
+        }
+
+        return renderRegularAspects(aspect, count);
       }
+    );
 
-      return renderRegularAspects(aspect, count);
-    });
+    return allIcons.slice(0, 14);
+  };
 
   return (
     <div className="card-container">
