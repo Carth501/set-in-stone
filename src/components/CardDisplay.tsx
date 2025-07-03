@@ -57,14 +57,13 @@ const CardDisplay: React.FC<Props> = ({ card, className }) => {
           >
             {card.defence}
           </div>
-          {card.regeneration > 0 && (
-            <div
-              className="col-start-5 col-span-2 row-start-8 row-end-8 bg-gray-800/50 font-bold 
+          <div
+            className="col-start-5 col-span-2 row-start-8 row-end-8 bg-gray-800/50 font-bold 
 			text-5xl rounded-xl p-2 text-center w-full h-full flex items-center justify-center"
-            >
-              +{card.regeneration}
-            </div>
-          )}
+          >
+            {card.regeneration > 0 && `+`}
+            {card.regeneration}
+          </div>
         </div>
       </div>
     </div>
