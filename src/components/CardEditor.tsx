@@ -1,5 +1,7 @@
+import { ALL_ASPECTS } from "@/aspects/aspects";
 import React, { useState } from "react";
 import type { Card, CardType } from "../types/Card";
+import AspectSymbolSelector from "./AspectSymbolSelector";
 import CardDisplay from "./CardDisplay";
 import CardTypeSelector from "./CardTypeSelector";
 
@@ -139,13 +141,36 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     return elements;
   };
 
+  function handleAspectChange(index: number): void {
+    onCardChange(incrementAspectByIndex(index));
+  }
+
+  const incrementAspectByIndex = (aspectIndex: number): Card => {
+    if (aspectIndex < 0 || aspectIndex >= ALL_ASPECTS.length) {
+      return card;
+    }
+
+    const aspectCode = ALL_ASPECTS[aspectIndex];
+    const updatedAspectList = { ...card.aspectList };
+
+    updatedAspectList[aspectCode] = (updatedAspectList[aspectCode] || 0) + 1;
+
+    return {
+      ...card,
+      aspectList: updatedAspectList,
+    };
+  };
+
   return (
-    <CardDisplay
-      card={card}
-      className={className}
-      onFieldClick={startEditing}
-      editableElements={getEditableElements()}
-    />
+    <div className="flex flex-row">
+      <CardDisplay
+        card={card}
+        className={className}
+        onFieldClick={startEditing}
+        editableElements={getEditableElements()}
+      />
+      <AspectSymbolSelector vertical={true} onSelect={handleAspectChange} />
+    </div>
   );
 };
 

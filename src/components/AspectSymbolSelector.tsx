@@ -6,6 +6,7 @@ type Props = {
   selectedIndex?: number;
   onSelect: (index: number) => void;
   aspectCounts?: Partial<Record<Aspect, number>>;
+  vertical?: boolean;
 };
 
 const AspectSymbolSelector: React.FC<Props> = ({
@@ -13,8 +14,9 @@ const AspectSymbolSelector: React.FC<Props> = ({
   selectedIndex,
   onSelect,
   aspectCounts,
+  vertical = false,
 }) => (
-  <div className="flex flex-row gap-4">
+  <div className={`flex ${vertical ? "flex-col" : "flex-row"} gap-4`}>
     {aspects.map((aspect, idx) => {
       const count = aspectCounts?.[aspect];
       if (aspectCounts && (count === undefined || count === 0 || count < 0)) {
