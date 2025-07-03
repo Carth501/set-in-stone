@@ -19,7 +19,7 @@ const CardDisplay: React.FC<Props> = ({ card, className }) => {
         <div className="grid grid-cols-8 grid-rows-8 gap-2 w-full h-full">
           <div className="col-span-7 row-span-7 flex flex-col gap-2">
             <div className="card-header bg-gray-800/50 rounded-xl text-left p-2 shrink-0">
-              <div className="text-2xl font-bold overflow-ellipsis">
+              <div className="text-2xl font-bold overflow-ellipsis min-h-8">
                 {card.name}
               </div>
               <div className="text-lg font-bold">{card.type}</div>
