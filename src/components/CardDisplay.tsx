@@ -35,6 +35,53 @@ const CardDisplay: React.FC<Props> = ({
     }
   };
 
+  const renderFundamentalAspect = (aspect: string, count: number) => (
+    <div key={aspect} className="relative">
+      <img
+        src={AspectIcons[aspect as keyof typeof AspectIcons]}
+        alt={aspect}
+        onClick={() =>
+          removeAspect && removeAspect(ALL_ASPECTS.indexOf(aspect as Aspect))
+        }
+        className={
+          "w-8 h-8" + (removeAspect ? "cursor-pointer hover:opacity-75" : "")
+        }
+      />
+      <div
+        className="absolute inset-0 flex items-center justify-center text-black 
+        font-bold text-lg pointer-events-none"
+      >
+        {count}
+      </div>
+    </div>
+  );
+
+  const renderRegularAspects = (aspect: string, count: number) =>
+    Array.from({ length: count }).map((_, i) => (
+      <img
+        key={aspect + "-" + i}
+        src={AspectIcons[aspect as keyof typeof AspectIcons]}
+        alt={aspect}
+        onClick={() =>
+          removeAspect && removeAspect(ALL_ASPECTS.indexOf(aspect as Aspect))
+        }
+        className={
+          "w-8 h-8" + (removeAspect ? "cursor-pointer hover:opacity-75" : "")
+        }
+      />
+    ));
+
+  const renderAspectIcons = () =>
+    Object.entries(card.aspectList ?? {}).flatMap(([aspect, count]) => {
+      if (count <= 0) return [];
+
+      if (aspect === "FUNDAMENTAL") {
+        return renderFundamentalAspect(aspect, count);
+      }
+
+      return renderRegularAspects(aspect, count);
+    });
+
   return (
     <div className="card-container">
       <div className={`card ${cardColorClass} ${className}`}>
@@ -79,54 +126,7 @@ const CardDisplay: React.FC<Props> = ({
           </div>
           <div className="col-start-8 row-start-1 row-end-8 flex flex-col bg-gray-800/50 rounded-xl pt-1">
             <div className="flex flex-col gap-0.75 items-center">
-              {Object.entries(card.aspectList ?? {}).flatMap(
-                ([aspect, count]) => {
-                  if (count <= 0) return [];
-
-                  if (aspect === "FUNDAMENTAL") {
-                    return (
-                      <div key={aspect} className="relative">
-                        <img
-                          src={AspectIcons[aspect as keyof typeof AspectIcons]}
-                          alt={aspect}
-                          onClick={() =>
-                            removeAspect &&
-                            removeAspect(ALL_ASPECTS.indexOf(aspect as Aspect))
-                          }
-                          className={
-                            "w-8 h-8" +
-                            (removeAspect
-                              ? "cursor-pointer hover:opacity-75"
-                              : "")
-                          }
-                        />
-                        <div
-                          className="absolute inset-0 flex items-center justify-center text-black 
-						font-bold text-lg pointer-events-none"
-                        >
-                          {count}
-                        </div>
-                      </div>
-                    );
-                  }
-
-                  return Array.from({ length: count }).map((_, i) => (
-                    <img
-                      key={aspect + "-" + i}
-                      src={AspectIcons[aspect as keyof typeof AspectIcons]}
-                      alt={aspect}
-                      onClick={() =>
-                        removeAspect &&
-                        removeAspect(ALL_ASPECTS.indexOf(aspect as Aspect))
-                      }
-                      className={
-                        "w-8 h-8" +
-                        (removeAspect ? "cursor-pointer hover:opacity-75" : "")
-                      }
-                    />
-                  ));
-                }
-              )}
+              {renderAspectIcons()}
             </div>
           </div>
           <div
