@@ -62,7 +62,6 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     const elements: { [key: string]: React.ReactNode } = {};
 
     if (editingField === "name") {
-      console.log("Providing the name input field");
       elements.name = (
         <input
           type="text"
@@ -77,7 +76,6 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     }
 
     if (editingField === "type") {
-      console.log("Providing the type selector");
       elements.type = (
         <CardTypeSelector value={card.type} onChange={handleCardTypeChange} />
       );

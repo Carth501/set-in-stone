@@ -28,7 +28,6 @@ const CardDisplay: React.FC<Props> = ({
   const cardColorClass = getCardColorClass(card.aspectList);
 
   const handleFieldClick = (field: string) => {
-    console.log(`Field clicked: ${field}`);
     if (onFieldClick) {
       onFieldClick(field);
     }
