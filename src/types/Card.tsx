@@ -22,10 +22,13 @@ export const blankCard: Card = {
   regeneration: 0,
 };
 
-export type CardType =
-  | "CREATURE"
-  | "ENCHANTMENT"
-  | "DEVICE"
-  | "REACTION"
-  | "FAST"
-  | "SLOW";
+export const CARD_TYPES = [
+  "CREATURE",
+  "ENCHANTMENT",
+  "DEVICE",
+  "REACTION",
+  "FAST",
+  "SLOW",
+] as const;
+
+export type CardType = (typeof CARD_TYPES)[number];
