@@ -16,51 +16,55 @@ const CardDisplay: React.FC<Props> = ({ card, className }) => {
   return (
     <div className="card-container">
       <div className={`card ${cardColorClass} ${className}`}>
-        <div className="card-header bg-gray-800/25 rounded px-2 flex flex-col">
-          <div className="flex justify-between">
-            <div className="card-name max-w-330px max-h-72px wrap-break-word">
-              {card.name}
-            </div>
-            <span className="card-costs min-w-8">
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "0.5em",
-                  justifyContent: "flex-end",
-                }}
-              >
-                {Object.entries(card.aspectList ?? {}).flatMap(
-                  ([aspect, count]) =>
-                    count > 0
-                      ? Array.from({ length: count }).map((_, i) => (
-                          <img
-                            key={aspect + "-" + i}
-                            src={
-                              AspectIcons[aspect as keyof typeof AspectIcons]
-                            }
-                            alt={aspect}
-                            style={{ width: 32, height: 32 }}
-                          />
-                        ))
-                      : []
-                )}
+        <div className="grid grid-cols-8 grid-rows-8 gap-1 w-full h-full">
+          <div className="col-span-7 row-span-7 flex flex-col gap-2">
+            <div className="card-header bg-gray-800/25 rounded text-left p-2 shrink-0">
+              <div className="text-2xl font-bold overflow-ellipsis">
+                {card.name}
               </div>
-            </span>
+              <div className="text-lg font-bold">{card.type}</div>
+            </div>
+            <div className="card-description bg-gray-800/25 text-left rounded p-1 grow-1">
+              {card.description}
+            </div>
           </div>
-          <div className="card-type">{card.type}</div>
-        </div>
-        <div style={{ flex: 1, marginBottom: 16 }}>{card.description}</div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            fontWeight: "bold",
-            fontSize: "3em",
-          }}
-        >
-          <span>{card.offence}</span>
-          <span>{card.defence}</span>
+          <div className="col-start-8 row-start-1 row-end-8 flex flex-col bg-gray-800/25 rounded pt-1">
+            <div className="flex flex-col gap-0.75 items-center">
+              {Object.entries(card.aspectList ?? {}).flatMap(
+                ([aspect, count]) =>
+                  count > 0
+                    ? Array.from({ length: count }).map((_, i) => (
+                        <img
+                          key={aspect + "-" + i}
+                          src={AspectIcons[aspect as keyof typeof AspectIcons]}
+                          alt={aspect}
+                          style={{ width: 32, height: 32 }}
+                        />
+                      ))
+                    : []
+              )}
+            </div>
+          </div>
+          <div
+            className="col-start-1 col-span-2 row-start-8 row-end-8 bg-gray-800/25 font-bold 
+		  text-5xl rounded p-1 text-center w-full h-full flex items-center justify-center"
+          >
+            {card.offence}
+          </div>
+          <div
+            className="col-start-3 col-span-2 row-start-8 row-end-8 bg-gray-800/25 font-bold 
+		  text-5xl rounded p-1 text-center w-full h-full flex items-center justify-center"
+          >
+            {card.defence}
+          </div>
+          {card.regeneration > 0 && (
+            <div
+              className="col-start-5 col-span-2 row-start-8 row-end-8 bg-gray-800/25 font-bold 
+			text-5xl rounded p-1 text-center w-full h-full flex items-center justify-center"
+            >
+              {card.regeneration}
+            </div>
+          )}
         </div>
       </div>
     </div>

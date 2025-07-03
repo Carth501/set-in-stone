@@ -82,5 +82,5 @@ export function getDoubleAspectColor(aspect1: Aspect, aspect2: Aspect): string {
       toClass = "to-fundamental";
       break;
   }
-  return `bg-linear-110  ${fromClass} from-40% ${toClass} to-60%`;
+  return `bg-linear-110/oklab ${fromClass} from-40% ${toClass} to-60%`;
 }

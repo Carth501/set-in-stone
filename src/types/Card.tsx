@@ -5,6 +5,7 @@ export type Card = {
   description: string;
   offence: number;
   defence: number;
+  regeneration: number;
 };
 
 export type CardCost = {
@@ -18,6 +19,7 @@ export const blankCard: Card = {
   description: "",
   offence: 0,
   defence: 0,
+  regeneration: 0,
 };
 
 export type CardType =
