@@ -107,7 +107,7 @@ const CardDisplay: React.FC<Props> = ({
                   </div>
                 )}
               </div>
-              <div className="text-lg font-bold flex flex-wrap gap-1">
+              <div className="text-lg font-bold flex flex-wrap gap-1 items-center">
                 {editableElements.type || (
                   <div
                     onClick={() => handleFieldClick("type")}
@@ -116,7 +116,6 @@ const CardDisplay: React.FC<Props> = ({
                     {card.type}
                   </div>
                 )}
-                -
                 {editableElements.tags || (
                   <>
                     {card.tags.map((tag, index) => (
