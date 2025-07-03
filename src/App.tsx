@@ -1,8 +1,7 @@
 import html2canvas from "html2canvas";
 import { useState } from "react";
 import "./App.css";
-import CardDisplay from "./components/CardDisplay";
-import CardEditForm from "./components/CardEditForm";
+import CardEditor from "./components/CardEditor.tsx";
 import type { Card } from "./types/Card.tsx";
 import { blankCard } from "./types/Card.tsx";
 
@@ -27,12 +26,12 @@ function App() {
   return (
     <div>
       <h1>Create a Card</h1>
-      <CardEditForm card={card} onChange={handleChange} />
       <div style={{ marginTop: 32 }}>
-        <h2>Card Preview</h2>
-        <div id="card-preview" className="flex justify-center">
-          <CardDisplay card={card} className={card.type} />
-        </div>
+        <CardEditor
+          card={card}
+          className={card.type}
+          onCardChange={handleChange}
+        />
         <button style={{ marginTop: 16 }} onClick={handleExport}>
           Export as Image
         </button>

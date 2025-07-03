@@ -11,8 +11,8 @@
   --color-law: #efdd7d;
   --color-mythic: #9d6a22;
   --color-relic: #607b4f;
-  --color-tide: #1f49de;
-  --color-weird: #0eaaed;
+  --color-tide: #221fde;
+  --color-weird: #0b94ce;
   --color-xeno: #6a67b4;
   --color-zeal: #cd1414;
   --color-poly: #e8e8e8;
@@ -32,8 +32,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --background: #211f1f;
+  --foreground: #b2b8d6;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
