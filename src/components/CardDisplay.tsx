@@ -1,5 +1,6 @@
 import React from "react";
 import { ALL_ASPECTS, AspectIcons, type Aspect } from "../aspects/aspects";
+import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
 import type { Card } from "../types/Card";
 import { getCardColorClass } from "../utils/cardColors";
 import "./Card.css";
@@ -84,7 +85,7 @@ const CardDisplay: React.FC<Props> = ({
       }
     );
 
-    return allIcons.slice(0, 14);
+    return allIcons.slice(0, MAX_ASPECT_ICONS);
   };
 
   return (

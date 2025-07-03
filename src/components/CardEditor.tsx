@@ -1,5 +1,6 @@
 import { ALL_ASPECTS, sortAspectRecord } from "@/aspects/aspects";
 import React, { useState } from "react";
+import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
 import type { Card, CardType } from "../types/Card";
 import AspectSymbolSelector from "./AspectSymbolSelector";
 import CardDisplay from "./CardDisplay";
@@ -164,7 +165,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
         0
       );
 
-      if (currentTotal >= 14) {
+      if (currentTotal >= MAX_ASPECT_ICONS) {
         return card;
       }
     }
