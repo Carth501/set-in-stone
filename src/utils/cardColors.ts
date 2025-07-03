@@ -4,6 +4,7 @@ import type { CardCost } from "../types/Card";
 export function getCardColorClass(aspectList: CardCost): string {
   const aspectsWithCost = Object.entries(aspectList)
     .filter(([, count]) => count > 0)
+    .filter(([aspect]) => aspect !== "FUNDAMENTAL")
     .map(([aspect]) => aspect as Aspect);
 
   if (aspectsWithCost.length === 0) {
