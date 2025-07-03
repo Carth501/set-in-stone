@@ -97,6 +97,17 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
           }
         />
       </div>
+      <div>
+        <label>Regeneration:</label>
+        <input
+          className="bg-gray-700 ml-4 rounded p-2"
+          type="number"
+          value={card.regeneration}
+          onChange={(e) =>
+            onChange({ ...card, regeneration: parseInt(e.target.value) || 0 })
+          }
+        />
+      </div>
     </form>
   );
 };

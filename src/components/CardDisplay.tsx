@@ -17,18 +17,18 @@ const CardDisplay: React.FC<Props> = ({ card, className }) => {
     <div className="card-container">
       <div className={`card ${cardColorClass} ${className}`}>
         <div className="grid grid-cols-8 grid-rows-8 gap-1 w-full h-full">
-          <div className="col-span-7 row-span-7 flex flex-col gap-2">
-            <div className="card-header bg-gray-800/25 rounded text-left p-2 shrink-0">
+          <div className="col-span-7 row-span-7 flex flex-col gap-1">
+            <div className="card-header bg-gray-800/50 rounded text-left p-1 shrink-0">
               <div className="text-2xl font-bold overflow-ellipsis">
                 {card.name}
               </div>
               <div className="text-lg font-bold">{card.type}</div>
             </div>
-            <div className="card-description bg-gray-800/25 text-left rounded p-1 grow-1">
+            <div className="card-description bg-gray-800/50 text-left rounded p-1 grow-1">
               {card.description}
             </div>
           </div>
-          <div className="col-start-8 row-start-1 row-end-8 flex flex-col bg-gray-800/25 rounded pt-1">
+          <div className="col-start-8 row-start-1 row-end-8 flex flex-col bg-gray-800/50 rounded pt-1">
             <div className="flex flex-col gap-0.75 items-center">
               {Object.entries(card.aspectList ?? {}).flatMap(
                 ([aspect, count]) =>
@@ -46,23 +46,23 @@ const CardDisplay: React.FC<Props> = ({ card, className }) => {
             </div>
           </div>
           <div
-            className="col-start-1 col-span-2 row-start-8 row-end-8 bg-gray-800/25 font-bold 
+            className="col-start-1 col-span-2 row-start-8 row-end-8 bg-gray-800/50 font-bold 
 		  text-5xl rounded p-1 text-center w-full h-full flex items-center justify-center"
           >
             {card.offence}
           </div>
           <div
-            className="col-start-3 col-span-2 row-start-8 row-end-8 bg-gray-800/25 font-bold 
+            className="col-start-3 col-span-2 row-start-8 row-end-8 bg-gray-800/50 font-bold 
 		  text-5xl rounded p-1 text-center w-full h-full flex items-center justify-center"
           >
             {card.defence}
           </div>
           {card.regeneration > 0 && (
             <div
-              className="col-start-5 col-span-2 row-start-8 row-end-8 bg-gray-800/25 font-bold 
+              className="col-start-5 col-span-2 row-start-8 row-end-8 bg-gray-800/50 font-bold 
 			text-5xl rounded p-1 text-center w-full h-full flex items-center justify-center"
             >
-              {card.regeneration}
+              +{card.regeneration}
             </div>
           )}
         </div>
