@@ -80,26 +80,52 @@ const CardDisplay: React.FC<Props> = ({
           <div className="col-start-8 row-start-1 row-end-8 flex flex-col bg-gray-800/50 rounded-xl pt-1">
             <div className="flex flex-col gap-0.75 items-center">
               {Object.entries(card.aspectList ?? {}).flatMap(
-                ([aspect, count]) =>
-                  count > 0
-                    ? Array.from({ length: count }).map((_, i) => (
+                ([aspect, count]) => {
+                  if (count <= 0) return [];
+
+                  if (aspect === "FUNDAMENTAL") {
+                    return (
+                      <div key={aspect} className="relative">
                         <img
-                          key={aspect + "-" + i}
                           src={AspectIcons[aspect as keyof typeof AspectIcons]}
                           alt={aspect}
-                          style={{ width: 32, height: 32 }}
                           onClick={() =>
                             removeAspect &&
                             removeAspect(ALL_ASPECTS.indexOf(aspect as Aspect))
                           }
                           className={
-                            removeAspect
+                            "w-8 h-8" +
+                            (removeAspect
                               ? "cursor-pointer hover:opacity-75"
-                              : ""
+                              : "")
                           }
                         />
-                      ))
-                    : []
+                        <div
+                          className="absolute inset-0 flex items-center justify-center text-black 
+						font-bold text-lg pointer-events-none"
+                        >
+                          {count}
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  return Array.from({ length: count }).map((_, i) => (
+                    <img
+                      key={aspect + "-" + i}
+                      src={AspectIcons[aspect as keyof typeof AspectIcons]}
+                      alt={aspect}
+                      onClick={() =>
+                        removeAspect &&
+                        removeAspect(ALL_ASPECTS.indexOf(aspect as Aspect))
+                      }
+                      className={
+                        "w-8 h-8" +
+                        (removeAspect ? "cursor-pointer hover:opacity-75" : "")
+                      }
+                    />
+                  ));
+                }
               )}
             </div>
           </div>
