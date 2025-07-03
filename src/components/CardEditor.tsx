@@ -141,7 +141,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     return elements;
   };
 
-  function handleAspectChange(index: number): void {
+  function handleAspectIncrement(index: number): void {
     onCardChange(incrementAspectByIndex(index));
   }
 
@@ -161,6 +161,30 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     };
   };
 
+  function handleAspectDecrement(index: number): void {
+    onCardChange(decrementAspectByIndex(index));
+  }
+
+  const decrementAspectByIndex = (aspectIndex: number): Card => {
+    if (aspectIndex < 0 || aspectIndex >= ALL_ASPECTS.length) {
+      return card;
+    }
+
+    const aspectCode = ALL_ASPECTS[aspectIndex];
+    const updatedAspectList = { ...card.aspectList };
+
+    if (updatedAspectList[aspectCode] > 1) {
+      updatedAspectList[aspectCode] -= 1;
+    } else {
+      delete updatedAspectList[aspectCode];
+    }
+
+    return {
+      ...card,
+      aspectList: updatedAspectList,
+    };
+  };
+
   return (
     <div className="flex flex-row">
       <CardDisplay
@@ -168,8 +192,9 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
         className={className}
         onFieldClick={startEditing}
         editableElements={getEditableElements()}
+        removeAspect={handleAspectDecrement}
       />
-      <AspectSymbolSelector vertical={true} onSelect={handleAspectChange} />
+      <AspectSymbolSelector vertical={true} onSelect={handleAspectIncrement} />
     </div>
   );
 };

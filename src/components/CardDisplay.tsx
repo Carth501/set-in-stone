@@ -1,5 +1,5 @@
 import React from "react";
-import { AspectIcons } from "../aspects/aspects";
+import { ALL_ASPECTS, AspectIcons, type Aspect } from "../aspects/aspects";
 import type { Card } from "../types/Card";
 import { getCardColorClass } from "../utils/cardColors";
 import "./Card.css";
@@ -9,6 +9,7 @@ type Props = {
   style?: React.CSSProperties;
   className?: string;
   onFieldClick?: (field: string) => void;
+  removeAspect?: (index: number) => void;
   editableElements?: {
     name?: React.ReactNode;
     type?: React.ReactNode;
@@ -23,6 +24,7 @@ const CardDisplay: React.FC<Props> = ({
   card,
   className,
   onFieldClick,
+  removeAspect,
   editableElements = {},
 }) => {
   const cardColorClass = getCardColorClass(card.aspectList);
@@ -86,6 +88,15 @@ const CardDisplay: React.FC<Props> = ({
                           src={AspectIcons[aspect as keyof typeof AspectIcons]}
                           alt={aspect}
                           style={{ width: 32, height: 32 }}
+                          onClick={() =>
+                            removeAspect &&
+                            removeAspect(ALL_ASPECTS.indexOf(aspect as Aspect))
+                          }
+                          className={
+                            removeAspect
+                              ? "cursor-pointer hover:opacity-75"
+                              : ""
+                          }
                         />
                       ))
                     : []
