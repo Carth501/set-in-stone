@@ -172,7 +172,7 @@ const CardDisplay: React.FC<Props> = ({
       {editableElements[field as keyof typeof editableElements] || (
         <div
           onClick={() => handleFieldClick(field)}
-          className={onFieldClick ? "cursor-pointer" : ""}
+          className={"w-full h-full " + (onFieldClick ? "cursor-pointer" : "")}
         >
           {showPlus && value > 0 && "+"}
           {value}
@@ -184,19 +184,19 @@ const CardDisplay: React.FC<Props> = ({
   return (
     <div className="card-container" id="card-preview">
       <div className={`card ${cardColorClass} ${className}`}>
-        <div className="grid grid-cols-8 grid-rows-8 gap-2 w-full h-full text-gray-100">
-          <div className="col-span-7 row-span-7 flex flex-col gap-2">
+        <div className="grid grid-cols-9 grid-rows-8 gap-2 w-full h-full text-gray-100">
+          <div className="col-span-8 row-span-7 flex flex-col gap-2">
             {cardHeader()}
             {cardDescriptionPanel()}
           </div>
-          <div className="col-start-8 row-start-1 row-end-8 flex flex-col bg-gray-800/50 rounded-xl pt-1">
+          <div className="col-start-9 row-start-1 row-end-8 flex flex-col bg-gray-800/50 rounded-xl pt-1">
             <div className="flex flex-col gap-0.75 items-center">
               {renderAspectIcons()}
             </div>
           </div>
-          {renderStatField("offence", card.offence, 1, 2)}
-          {renderStatField("defence", card.defence, 3, 2)}
-          {renderStatField("regeneration", card.regeneration, 5, 2, true)}
+          {renderStatField("offence", card.offence, 1, 3)}
+          {renderStatField("defence", card.defence, 4, 3)}
+          {renderStatField("regeneration", card.regeneration, 7, 3, true)}
         </div>
       </div>
     </div>
