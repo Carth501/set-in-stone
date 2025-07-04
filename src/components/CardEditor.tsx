@@ -1,5 +1,5 @@
 import { ALL_ASPECTS, sortAspectRecord } from "@/aspects/aspects";
-import { capitalizeFirstLetter } from "@/lib/utils";
+import { capitalizeFirstLetter } from "@/utils/generalUtils";
 import React, { useState } from "react";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
 import type { Card, CardType } from "../types/Card";

@@ -16,6 +16,9 @@ function App() {
     const canvas = await html2canvas(cardPreview, {
       backgroundColor: null,
       scale: 2,
+      ignoreElements: (element) => {
+        return element.hasAttribute("data-html2canvas-ignore");
+      },
     });
     const link = document.createElement("a");
     link.download = `${card.name || "card"}.png`;

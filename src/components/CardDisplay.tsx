@@ -1,4 +1,4 @@
-import { capitalizeFirstLetter } from "@/lib/utils";
+import { capitalizeFirstLetter } from "@/utils/generalUtils";
 import React from "react";
 import { ALL_ASPECTS, AspectIcons, type Aspect } from "../aspects/aspects";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
@@ -130,6 +130,7 @@ const CardDisplay: React.FC<Props> = ({
                 <div
                   onClick={() => handleFieldClick("tags")}
                   className="text-gray-400 cursor-pointer text-sm"
+                  data-html2canvas-ignore="true"
                 >
                   +Add tags
                 </div>
