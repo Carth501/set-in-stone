@@ -144,7 +144,7 @@ const CardDisplay: React.FC<Props> = ({
 
   const cardDescriptionPanel = () => {
     return (
-      <div className="card-description bg-gray-800/50 text-left rounded-xl p-2 grow-1 overflow-hidden">
+      <div className="card-description bg-gray-800/50 text-left rounded-xl px-2 py-1 grow-1 overflow-hidden">
         {editableElements.description || (
           <div
             onClick={() => handleFieldClick("description")}
