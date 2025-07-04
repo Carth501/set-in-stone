@@ -44,8 +44,7 @@ export function interpolateIcons(text: string): React.ReactNode[] {
         key={`${match.index}-${iconCode}`}
         src={AspectIcons[aspectName]}
         alt={aspectName}
-        className="inline w-4 h-4 mx-1"
-        style={{ verticalAlign: "middle" }}
+        className="inline w-5 h-5 vertical-align-top"
       />
     );
 
