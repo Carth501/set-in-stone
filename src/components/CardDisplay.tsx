@@ -90,117 +90,113 @@ const CardDisplay: React.FC<Props> = ({
     return allIcons.slice(0, MAX_ASPECT_ICONS);
   };
 
+  const cardHeader = () => {
+    return (
+      <div className="card-header bg-gray-800/50 rounded-xl text-left p-2 shrink-0">
+        <div className="text-2xl font-bold overflow-ellipsis">
+          {editableElements.name || (
+            <div
+              onClick={() => handleFieldClick("name")}
+              className={"min-h-8" + (onFieldClick ? " cursor-pointer" : "")}
+            >
+              {card.name}
+            </div>
+          )}
+        </div>
+        <div className="text-lg font-bold flex flex-wrap gap-1 items-center">
+          {editableElements.type || (
+            <div
+              onClick={() => handleFieldClick("type")}
+              className={onFieldClick ? "cursor-pointer" : ""}
+            >
+              {card.type}
+            </div>
+          )}
+          {editableElements.tags || (
+            <>
+              {card.tags.map((tag, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleFieldClick("tags")}
+                  className={
+                    "bg-gray-600 px-2 py-1 rounded text-sm " +
+                    (onFieldClick ? "cursor-pointer" : "")
+                  }
+                >
+                  {capitalizeFirstLetter(tag)}
+                </div>
+              ))}
+              {card.tags.length === 0 && onFieldClick && (
+                <div
+                  onClick={() => handleFieldClick("tags")}
+                  className="text-gray-400 cursor-pointer text-sm"
+                >
+                  +Add tags
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const cardDescriptionPanel = () => {
+    return (
+      <div className="card-description bg-gray-800/50 text-left rounded-xl p-2 grow-1">
+        {editableElements.description || (
+          <div
+            onClick={() => handleFieldClick("description")}
+            className={
+              "h-full w-full " + (onFieldClick ? "cursor-pointer" : "")
+            }
+          >
+            {card.description}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderStatField = (
+    field: string,
+    value: number,
+    colStart: number,
+    colSpan: number,
+    showPlus = false
+  ) => (
+    <div
+      className={`col-start-${colStart} col-span-${colSpan} row-start-8 row-end-8 bg-gray-800/50 font-bold 
+      text-5xl rounded-xl p-2 text-center w-full h-full flex items-center justify-center`}
+    >
+      {editableElements[field as keyof typeof editableElements] || (
+        <div
+          onClick={() => handleFieldClick(field)}
+          className={onFieldClick ? "cursor-pointer" : ""}
+        >
+          {showPlus && value > 0 && "+"}
+          {value}
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className="card-container" id="card-preview">
       <div className={`card ${cardColorClass} ${className}`}>
         <div className="grid grid-cols-8 grid-rows-8 gap-2 w-full h-full text-gray-100">
           <div className="col-span-7 row-span-7 flex flex-col gap-2">
-            <div className="card-header bg-gray-800/50 rounded-xl text-left p-2 shrink-0">
-              <div className="text-2xl font-bold overflow-ellipsis">
-                {editableElements.name || (
-                  <div
-                    onClick={() => handleFieldClick("name")}
-                    className={
-                      "min-h-8" + (onFieldClick ? " cursor-pointer" : "")
-                    }
-                  >
-                    {card.name}
-                  </div>
-                )}
-              </div>
-              <div className="text-lg font-bold flex flex-wrap gap-1 items-center">
-                {editableElements.type || (
-                  <div
-                    onClick={() => handleFieldClick("type")}
-                    className={onFieldClick ? "cursor-pointer" : ""}
-                  >
-                    {card.type}
-                  </div>
-                )}
-                {editableElements.tags || (
-                  <>
-                    {card.tags.map((tag, index) => (
-                      <div
-                        key={index}
-                        onClick={() => handleFieldClick("tags")}
-                        className={
-                          "bg-gray-600 px-2 py-1 rounded text-sm " +
-                          (onFieldClick ? "cursor-pointer" : "")
-                        }
-                      >
-                        {capitalizeFirstLetter(tag)}
-                      </div>
-                    ))}
-                    {card.tags.length === 0 && onFieldClick && (
-                      <div
-                        onClick={() => handleFieldClick("tags")}
-                        className="text-gray-400 cursor-pointer text-sm"
-                      >
-                        +Add tags
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
-            <div className="card-description bg-gray-800/50 text-left rounded-xl p-2 grow-1">
-              {editableElements.description || (
-                <div
-                  onClick={() => handleFieldClick("description")}
-                  className={
-                    "h-full w-full " + (onFieldClick ? "cursor-pointer" : "")
-                  }
-                >
-                  {card.description}
-                </div>
-              )}
-            </div>
+            {cardHeader()}
+            {cardDescriptionPanel()}
           </div>
           <div className="col-start-8 row-start-1 row-end-8 flex flex-col bg-gray-800/50 rounded-xl pt-1">
             <div className="flex flex-col gap-0.75 items-center">
               {renderAspectIcons()}
             </div>
           </div>
-          <div
-            className="col-start-1 col-span-2 row-start-8 row-end-8 bg-gray-800/50 font-bold 
-		  text-5xl rounded-xl p-2 text-center w-full h-full flex items-center justify-center"
-          >
-            {editableElements.offence || (
-              <div
-                onClick={() => handleFieldClick("offence")}
-                className={onFieldClick ? "cursor-pointer" : ""}
-              >
-                {card.offence}
-              </div>
-            )}
-          </div>
-          <div
-            className="col-start-3 col-span-2 row-start-8 row-end-8 bg-gray-800/50 font-bold 
-		  text-5xl rounded-xl p-2 text-center w-full h-full flex items-center justify-center"
-          >
-            {editableElements.defence || (
-              <div
-                onClick={() => handleFieldClick("defence")}
-                className={onFieldClick ? "cursor-pointer" : ""}
-              >
-                {card.defence}
-              </div>
-            )}
-          </div>
-          <div
-            className="col-start-5 col-span-2 row-start-8 row-end-8 bg-gray-800/50 font-bold 
-			text-5xl rounded-xl p-2 text-center w-full h-full flex items-center justify-center"
-          >
-            {editableElements.regeneration || (
-              <div
-                onClick={() => handleFieldClick("regeneration")}
-                className={onFieldClick ? "cursor-pointer" : ""}
-              >
-                {card.regeneration > 0 && `+`}
-                {card.regeneration}
-              </div>
-            )}
-          </div>
+          {renderStatField("offence", card.offence, 1, 2)}
+          {renderStatField("defence", card.defence, 3, 2)}
+          {renderStatField("regeneration", card.regeneration, 5, 2, true)}
         </div>
       </div>
     </div>
