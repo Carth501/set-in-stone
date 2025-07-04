@@ -4,6 +4,7 @@ import { ALL_ASPECTS, AspectIcons, type Aspect } from "../aspects/aspects";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
 import type { Card } from "../types/Card";
 import { getCardColorClass } from "../utils/cardColors";
+import { interpolateIcons } from "../utils/iconInterpolation";
 import "./Card.css";
 
 type Props = {
@@ -153,7 +154,7 @@ const CardDisplay: React.FC<Props> = ({
               (onFieldClick ? "cursor-pointer" : "")
             }
           >
-            {card.description}
+            {interpolateIcons(card.description)}
           </div>
         )}
       </div>

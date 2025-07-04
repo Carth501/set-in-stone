@@ -3,9 +3,11 @@ import { capitalizeFirstLetter } from "@/utils/generalUtils";
 import React, { useState } from "react";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
 import type { Card, CardType } from "../types/Card";
+import { insertIconCode } from "../utils/iconInterpolation";
 import AspectSymbolSelector from "./AspectSymbolSelector";
 import CardDisplay from "./CardDisplay";
 import CardTypeSelector from "./CardTypeSelector";
+import IconInsertButtons from "./IconInsertButtons";
 
 type Props = {
   card: Card;
@@ -16,6 +18,9 @@ type Props = {
 const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
   const [editingField, setEditingField] = useState<string | null>(null);
   const [tempValue, setTempValue] = useState<string>("");
+  const [textareaRef, setTextareaRef] = useState<HTMLTextAreaElement | null>(
+    null
+  );
 
   const startEditing = (field: string) => {
     setEditingField(field);
@@ -88,6 +93,25 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     }
   };
 
+  const handleIconInsert = (iconCode: string) => {
+    if (editingField === "description" && textareaRef) {
+      const cursorPosition = textareaRef.selectionStart;
+      const { newText, newCursorPosition } = insertIconCode(
+        tempValue,
+        cursorPosition,
+        iconCode
+      );
+
+      setTempValue(newText);
+
+      // Set cursor position after React updates
+      setTimeout(() => {
+        textareaRef.setSelectionRange(newCursorPosition, newCursorPosition);
+        textareaRef.focus();
+      }, 0);
+    }
+  };
+
   const getEditableElements = () => {
     const elements: { [key: string]: React.ReactNode } = {};
 
@@ -113,28 +137,32 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
 
     if (editingField === "description") {
       elements.description = (
-        <div className="flex flex-col gap-2 h-full">
-          <textarea
-            value={tempValue}
-            onChange={(e) => setTempValue(e.target.value)}
-            onKeyDown={handleDescriptionKeyDown}
-            className="w-full flex-1 bg-gray-700 text-white rounded px-2 py-1 resize-none"
-            placeholder="Enter description... (Shift+Enter for new line, Enter to save)"
-            autoFocus
-          />
-          <div className="flex gap-2" data-html2canvas-ignore="true">
-            <button
-              onClick={saveEdit}
-              className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
-            >
-              Save
-            </button>
-            <button
-              onClick={cancelEdit}
-              className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700"
-            >
-              Cancel
-            </button>
+        <div className="flex gap-2 h-full">
+          <IconInsertButtons onIconInsert={handleIconInsert} />
+          <div className="flex flex-col gap-2 flex-1">
+            <textarea
+              ref={setTextareaRef}
+              value={tempValue}
+              onChange={(e) => setTempValue(e.target.value)}
+              onKeyDown={handleDescriptionKeyDown}
+              className="w-full flex-1 bg-gray-700 text-white rounded px-2 py-1 resize-none"
+              placeholder="Enter description... (Shift+Enter for new line, Enter to save)"
+              autoFocus
+            />
+            <div className="flex gap-2" data-html2canvas-ignore="true">
+              <button
+                onClick={saveEdit}
+                className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+              >
+                Save
+              </button>
+              <button
+                onClick={cancelEdit}
+                className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       );
