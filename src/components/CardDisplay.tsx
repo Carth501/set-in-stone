@@ -165,11 +165,10 @@ const CardDisplay: React.FC<Props> = ({
     field: string,
     value: number,
     colStart: number,
-    colSpan: number,
     showPlus = false
   ) => (
     <div
-      className={`col-start-${colStart} col-span-${colSpan} row-start-8 row-end-8 bg-gray-800/50 font-bold 
+      className={`col-start-${colStart} col-span-3 row-start-8 row-end-8 bg-gray-800/50 font-bold 
       text-5xl rounded-xl p-2 text-center w-full h-full flex items-center justify-center`}
     >
       {editableElements[field as keyof typeof editableElements] || (
@@ -208,9 +207,9 @@ const CardDisplay: React.FC<Props> = ({
 
           {card.type === "CREATURE" && (
             <>
-              {renderStatField("offence", card.offence, 1, 3)}
-              {renderStatField("defence", card.defence, 4, 3)}
-              {renderStatField("regeneration", card.regeneration, 7, 3, true)}
+              {renderStatField("offence", card.offence, 1)}
+              {renderStatField("defence", card.defence, 4)}
+              {renderStatField("regeneration", card.regeneration, 7, true)}
             </>
           )}
         </div>

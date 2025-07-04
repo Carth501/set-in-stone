@@ -137,32 +137,29 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
 
     if (editingField === "description") {
       elements.description = (
-        <div className="flex gap-2 h-full">
-          <IconInsertButtons onIconInsert={handleIconInsert} />
-          <div className="flex flex-col gap-2 flex-1">
-            <textarea
-              ref={setTextareaRef}
-              value={tempValue}
-              onChange={(e) => setTempValue(e.target.value)}
-              onKeyDown={handleDescriptionKeyDown}
-              className="w-full flex-1 bg-gray-700 text-white rounded px-2 py-1 resize-none"
-              placeholder="Enter description... (Shift+Enter for new line, Enter to save)"
-              autoFocus
-            />
-            <div className="flex gap-2" data-html2canvas-ignore="true">
-              <button
-                onClick={saveEdit}
-                className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
-              >
-                Save
-              </button>
-              <button
-                onClick={cancelEdit}
-                className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700"
-              >
-                Cancel
-              </button>
-            </div>
+        <div className="flex flex-col gap-2 h-full">
+          <textarea
+            ref={setTextareaRef}
+            value={tempValue}
+            onChange={(e) => setTempValue(e.target.value)}
+            onKeyDown={handleDescriptionKeyDown}
+            className="w-full flex-1 bg-gray-700 text-white rounded px-2 py-1 resize-none"
+            placeholder="Enter description... (Shift+Enter for new line, Enter to save)"
+            autoFocus
+          />
+          <div className="flex gap-2" data-html2canvas-ignore="true">
+            <button
+              onClick={saveEdit}
+              className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+            >
+              Save
+            </button>
+            <button
+              onClick={cancelEdit}
+              className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       );
@@ -289,7 +286,12 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
   };
 
   return (
-    <div className="flex flex-row gap-1">
+    <div className="flex flex-row gap-1 relative">
+      {editingField === "description" && (
+        <div className="absolute -left-20 top-0 z-10">
+          <IconInsertButtons onIconInsert={handleIconInsert} />
+        </div>
+      )}
       <CardDisplay
         card={card}
         className={className}
