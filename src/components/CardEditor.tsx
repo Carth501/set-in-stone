@@ -1,4 +1,5 @@
 import { ALL_ASPECTS, sortAspectRecord } from "@/aspects/aspects";
+import { capitalizeFirstLetter } from "@/lib/utils";
 import React, { useState } from "react";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
 import type { Card, CardType } from "../types/Card";
@@ -20,7 +21,9 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     setEditingField(field);
     const currentValue = card[field as keyof Card];
     if (field === "tags") {
-      setTempValue(card.tags.join(", "));
+      setTempValue(
+        card.tags.map((tag) => capitalizeFirstLetter(tag)).join(", ")
+      );
     } else {
       setTempValue(currentValue?.toString() || "");
     }
@@ -43,6 +46,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
       updatedCard.tags = tempValue
         .split(",")
         .map((tag) => tag.trim())
+        .map((tag) => tag.toLowerCase())
         .filter((tag) => tag.length > 0);
     }
 

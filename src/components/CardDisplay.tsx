@@ -1,3 +1,4 @@
+import { capitalizeFirstLetter } from "@/lib/utils";
 import React from "react";
 import { ALL_ASPECTS, AspectIcons, type Aspect } from "../aspects/aspects";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
@@ -127,7 +128,7 @@ const CardDisplay: React.FC<Props> = ({
                           (onFieldClick ? "cursor-pointer" : "")
                         }
                       >
-                        {tag}
+                        {capitalizeFirstLetter(tag)}
                       </div>
                     ))}
                     {card.tags.length === 0 && onFieldClick && (
