@@ -185,18 +185,31 @@ const CardDisplay: React.FC<Props> = ({
     <div className="card-container" id="card-preview">
       <div className={`card ${cardColorClass} ${className}`}>
         <div className="grid grid-cols-9 grid-rows-8 gap-2 w-full h-full text-gray-100">
-          <div className="col-span-8 row-span-7 flex flex-col gap-2">
+          <div
+            className={`col-span-8 flex flex-col gap-2 ${
+              card.type === "CREATURE" ? "row-span-7" : "row-span-8"
+            }`}
+          >
             {cardHeader()}
             {cardDescriptionPanel()}
           </div>
-          <div className="col-start-9 row-start-1 row-end-8 flex flex-col bg-gray-800/50 rounded-xl pt-1">
+          <div
+            className={`col-start-9 flex flex-col bg-gray-800/50 rounded-xl pt-1 ${
+              card.type === "CREATURE" ? "row-span-7" : "row-span-8"
+            }`}
+          >
             <div className="flex flex-col gap-0.75 items-center">
               {renderAspectIcons()}
             </div>
           </div>
-          {renderStatField("offence", card.offence, 1, 3)}
-          {renderStatField("defence", card.defence, 4, 3)}
-          {renderStatField("regeneration", card.regeneration, 7, 3, true)}
+
+          {card.type === "CREATURE" && (
+            <>
+              {renderStatField("offence", card.offence, 1, 3)}
+              {renderStatField("defence", card.defence, 4, 3)}
+              {renderStatField("regeneration", card.regeneration, 7, 3, true)}
+            </>
+          )}
         </div>
       </div>
     </div>
