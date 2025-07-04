@@ -19,12 +19,14 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
 
   const startEditing = (field: string) => {
     setEditingField(field);
-    const currentValue = card[field as keyof Card];
     if (field === "tags") {
       setTempValue(
         card.tags.map((tag) => capitalizeFirstLetter(tag)).join(", ")
       );
+    } else if (field === "description") {
+      setTempValue(card.description || "");
     } else {
+      const currentValue = card[field as keyof Card];
       setTempValue(currentValue?.toString() || "");
     }
   };
@@ -67,7 +69,19 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      saveEdit();
+    } else if (e.key === "Escape") {
+      cancelEdit();
+    }
+  };
+
+  const handleDescriptionKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && e.shiftKey) {
+      return;
+    } else if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
       saveEdit();
     } else if (e.key === "Escape") {
       cancelEdit();
@@ -99,14 +113,30 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
 
     if (editingField === "description") {
       elements.description = (
-        <textarea
-          value={tempValue}
-          onChange={(e) => setTempValue(e.target.value)}
-          onBlur={saveEdit}
-          onKeyDown={handleKeyDown}
-          className="w-full h-full bg-gray-700 text-white rounded px-2 py-1 resize-none"
-          autoFocus
-        />
+        <div className="flex flex-col gap-2 h-full">
+          <textarea
+            value={tempValue}
+            onChange={(e) => setTempValue(e.target.value)}
+            onKeyDown={handleDescriptionKeyDown}
+            className="w-full flex-1 bg-gray-700 text-white rounded px-2 py-1 resize-none"
+            placeholder="Enter description... (Shift+Enter for new line, Enter to save)"
+            autoFocus
+          />
+          <div className="flex gap-2" data-html2canvas-ignore="true">
+            <button
+              onClick={saveEdit}
+              className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+            >
+              Save
+            </button>
+            <button
+              onClick={cancelEdit}
+              className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
       );
     }
 
