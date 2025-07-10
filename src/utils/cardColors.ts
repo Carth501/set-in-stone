@@ -35,12 +35,12 @@ export function getSingleAspectColor(aspect: AspectType): string {
       return "bg-law";
     case "MYTHIC":
       return "bg-mythic";
-    case "OCCULT":
-      return "bg-occult";
     case "RELIC":
       return "bg-relic";
     case "TIDE":
       return "bg-tide";
+    case "WEIRD":
+      return "bg-weird";
     case "XENO":
       return "bg-xeno";
     case "ZEAL":
@@ -71,14 +71,14 @@ export function getDoubleAspectColor(
     case "MYTHIC":
       fromClass = "from-mythic";
       break;
-    case "OCCULT":
-      fromClass = "from-occult";
-      break;
     case "RELIC":
       fromClass = "from-relic";
       break;
     case "TIDE":
       fromClass = "from-tide";
+      break;
+    case "WEIRD":
+      fromClass = "from-weird";
       break;
     case "XENO":
       fromClass = "from-xeno";
@@ -107,14 +107,14 @@ export function getDoubleAspectColor(
     case "MYTHIC":
       toClass = "to-mythic";
       break;
-    case "OCCULT":
-      toClass = "to-occult";
-      break;
     case "RELIC":
       toClass = "to-relic";
       break;
     case "TIDE":
       toClass = "to-tide";
+      break;
+    case "WEIRD":
+      toClass = "to-weird";
       break;
     case "XENO":
       toClass = "to-xeno";
