@@ -17,7 +17,12 @@ export function getCardColorClass(aspectList: CardCost): string {
 
   if (aspectsWithCost.length === 2) {
     const [first, second] = aspectsWithCost;
-    return getDoubleAspectColor(first, second);
+    return getMultiAspectColor(first, second);
+  }
+
+  if (aspectsWithCost.length === 3) {
+    const [first, second, third] = aspectsWithCost;
+    return getMultiAspectColor(first, second, third);
   }
 
   return "bg-poly";
@@ -50,9 +55,10 @@ export function getSingleAspectColor(aspect: AspectType): string {
   }
 }
 
-export function getDoubleAspectColor(
+export function getMultiAspectColor(
   aspect1: AspectType,
-  aspect2: AspectType
+  aspect2: AspectType,
+  aspect3?: AspectType
 ): string {
   let fromClass;
   switch (aspect1) {
@@ -90,8 +96,46 @@ export function getDoubleAspectColor(
       fromClass = "from-fundamental";
       break;
   }
+  let viaClass;
+  if (aspect3) {
+    switch (aspect2) {
+      case "BLOOM":
+        viaClass = " via-bloom ";
+        break;
+      case "CALLOUS":
+        viaClass = " via-callous ";
+        break;
+      case "GRACE":
+        viaClass = " via-grace ";
+        break;
+      case "LAW":
+        viaClass = " via-law ";
+        break;
+      case "MYTHIC":
+        viaClass = " via-mythic ";
+        break;
+      case "RELIC":
+        viaClass = " via-relic ";
+        break;
+      case "TIDE":
+        viaClass = " via-tide ";
+        break;
+      case "WEIRD":
+        viaClass = " via-weird ";
+        break;
+      case "XENO":
+        viaClass = " via-xeno ";
+        break;
+      case "ZEAL":
+        viaClass = " via-zeal ";
+        break;
+      default:
+        break;
+    }
+  }
   let toClass;
-  switch (aspect2) {
+  const toAspect = aspect3 || aspect2;
+  switch (toAspect) {
     case "BLOOM":
       toClass = "to-bloom";
       break;
@@ -126,5 +170,8 @@ export function getDoubleAspectColor(
       toClass = "to-fundamental";
       break;
   }
-  return `bg-linear-110/oklab ${fromClass} from-40% ${toClass} to-60%`;
+  if (aspect3) {
+    return `bg-linear-110/oklab ${fromClass} ${viaClass} ${toClass} from-30% via-50% to-70%`;
+  }
+  return `bg-linear-110/oklab ${fromClass} ${toClass} from-40% to-60%`;
 }
