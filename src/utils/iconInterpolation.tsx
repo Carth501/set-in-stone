@@ -42,8 +42,11 @@ export function interpolateIcons(text: string): React.ReactNode[] {
   const flushFundamental = (index: number) => {
     if (pendingFundamental && fundamentalCount > 0) {
       parts.push(
-        <span key={`fundamental-${index}`} className="relative inline-block">
-          {renderFundamentalAspect("FUNDAMENTAL", fundamentalCount)}
+        <span
+          key={`fundamental-${index}`}
+          className="relative inline-block align-bottom"
+        >
+          {renderFundamentalAspect("FUNDAMENTAL", fundamentalCount, 5)}
         </span>
       );
       fundamentalCount = 0;
@@ -111,6 +114,7 @@ export function insertIconCode(
 export const renderFundamentalAspect = (
   aspect: string,
   count: number,
+  size: number = 8,
   clickFunction?: () => void
 ) => (
   <>
@@ -119,7 +123,8 @@ export const renderFundamentalAspect = (
       alt={aspect}
       onClick={clickFunction}
       className={
-        "w-8 h-8" + (clickFunction ? "cursor-pointer hover:opacity-75" : "")
+        `w-${size} h-${size}` +
+        (clickFunction ? "cursor-pointer hover:opacity-75" : "")
       }
     />
     <div
