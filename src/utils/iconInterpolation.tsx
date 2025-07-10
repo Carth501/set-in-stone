@@ -5,8 +5,13 @@ import { AspectIcons, type Aspect } from "../aspects/aspects";
 export const ICON_CODES = {
   "{b}": "BLOOM",
   "{c}": "CALLOUS",
+  "{g}": "GRACE",
   "{l}": "LAW",
+  "{m}": "MYTHIC",
+  "{o}": "OCCULT",
+  "{r}": "RELIC",
   "{t}": "TIDE",
+  "{x}": "XENO",
   "{z}": "ZEAL",
   "{f}": "FUNDAMENTAL",
 } as const;
