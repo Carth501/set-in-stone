@@ -1,11 +1,11 @@
-import type { Aspect } from "../aspects/aspects";
+import type { AspectType } from "../aspects/aspects";
 import type { CardCost } from "../types/Card";
 
 export function getCardColorClass(aspectList: CardCost): string {
   const aspectsWithCost = Object.entries(aspectList)
     .filter(([, count]) => count > 0)
     .filter(([aspect]) => aspect !== "FUNDAMENTAL")
-    .map(([aspect]) => aspect as Aspect);
+    .map(([aspect]) => aspect as AspectType);
 
   if (aspectsWithCost.length === 0) {
     return "bg-fundamental";
@@ -23,7 +23,7 @@ export function getCardColorClass(aspectList: CardCost): string {
   return "bg-poly";
 }
 
-export function getSingleAspectColor(aspect: Aspect): string {
+export function getSingleAspectColor(aspect: AspectType): string {
   switch (aspect) {
     case "BLOOM":
       return "bg-bloom";
@@ -50,7 +50,10 @@ export function getSingleAspectColor(aspect: Aspect): string {
   }
 }
 
-export function getDoubleAspectColor(aspect1: Aspect, aspect2: Aspect): string {
+export function getDoubleAspectColor(
+  aspect1: AspectType,
+  aspect2: AspectType
+): string {
   let fromClass;
   switch (aspect1) {
     case "BLOOM":

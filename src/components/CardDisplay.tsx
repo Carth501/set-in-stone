@@ -1,6 +1,6 @@
 import { capitalizeFirstLetter } from "@/utils/generalUtils";
 import React from "react";
-import { ALL_ASPECTS, AspectIcons, type Aspect } from "../aspects/aspects";
+import { ASPECTS, Icons, type AspectType } from "../aspects/aspects";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
 import type { Card } from "../types/Card";
 import { getCardColorClass } from "../utils/cardColors";
@@ -42,10 +42,10 @@ const CardDisplay: React.FC<Props> = ({
   const renderFundamentalAspect = (aspect: string, count: number) => (
     <div key={aspect} className="relative">
       <img
-        src={AspectIcons[aspect as keyof typeof AspectIcons]}
+        src={Icons[aspect as keyof typeof Icons]}
         alt={aspect}
         onClick={() =>
-          removeAspect && removeAspect(ALL_ASPECTS.indexOf(aspect as Aspect))
+          removeAspect && removeAspect(ASPECTS.indexOf(aspect as AspectType))
         }
         className={
           "w-8 h-8" + (removeAspect ? "cursor-pointer hover:opacity-75" : "")
@@ -64,10 +64,10 @@ const CardDisplay: React.FC<Props> = ({
     Array.from({ length: count }).map((_, i) => (
       <img
         key={aspect + "-" + i}
-        src={AspectIcons[aspect as keyof typeof AspectIcons]}
+        src={Icons[aspect as keyof typeof Icons]}
         alt={aspect}
         onClick={() =>
-          removeAspect && removeAspect(ALL_ASPECTS.indexOf(aspect as Aspect))
+          removeAspect && removeAspect(ASPECTS.indexOf(aspect as AspectType))
         }
         className={
           "w-8 h-8" + (removeAspect ? "cursor-pointer hover:opacity-75" : "")

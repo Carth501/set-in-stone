@@ -1,16 +1,16 @@
 import React from "react";
-import { ALL_ASPECTS, type Aspect, AspectIcons } from "../aspects/aspects";
+import { ASPECTS, type AspectType, Icons } from "../aspects/aspects";
 
 type Props = {
-  aspects?: Aspect[];
+  aspects?: AspectType[];
   selectedIndex?: number;
   onSelect: (index: number) => void;
-  aspectCounts?: Partial<Record<Aspect, number>>;
+  aspectCounts?: Partial<Record<AspectType, number>>;
   vertical?: boolean;
 };
 
 const AspectSymbolSelector: React.FC<Props> = ({
-  aspects = ALL_ASPECTS,
+  aspects = ASPECTS,
   selectedIndex,
   onSelect,
   aspectCounts,
@@ -36,7 +36,7 @@ const AspectSymbolSelector: React.FC<Props> = ({
             onClick={() => onSelect(idx)}
           >
             <img
-              src={AspectIcons[aspect]}
+              src={Icons[aspect]}
               alt={aspect}
               className="w-8 h-8 object-contain"
             />

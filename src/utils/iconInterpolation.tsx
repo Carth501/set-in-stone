@@ -1,10 +1,11 @@
 import React from "react";
-import { AspectIcons, type Aspect } from "../aspects/aspects";
+import { Icons, type AspectType } from "../aspects/aspects";
 
 // Icon code mappings - using single letters for brevity
 export const ICON_CODES = {
   "{b}": "BLOOM",
   "{c}": "CALLOUS",
+  "{e}": "EXHAUST",
   "{g}": "GRACE",
   "{l}": "LAW",
   "{m}": "MYTHIC",
@@ -18,7 +19,7 @@ export const ICON_CODES = {
 
 export const REVERSE_ICON_CODES = Object.fromEntries(
   Object.entries(ICON_CODES).map(([code, aspect]) => [aspect, code])
-) as Record<Aspect, string>;
+) as Record<AspectType, string>;
 
 export function interpolateIcons(text: string): React.ReactNode[] {
   if (!text) return [text];
@@ -47,7 +48,7 @@ export function interpolateIcons(text: string): React.ReactNode[] {
     parts.push(
       <img
         key={`${match.index}-${iconCode}`}
-        src={AspectIcons[aspectName]}
+        src={Icons[aspectName]}
         alt={aspectName}
         className="inline w-5 h-5 vertical-align-top"
       />

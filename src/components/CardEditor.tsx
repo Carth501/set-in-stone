@@ -1,4 +1,4 @@
-import { ALL_ASPECTS, sortAspectRecord } from "@/aspects/aspects";
+import { ASPECTS, sortAspectRecord } from "@/aspects/aspects";
 import { capitalizeFirstLetter } from "@/utils/generalUtils";
 import React, { useState } from "react";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
@@ -230,11 +230,11 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
   }
 
   const incrementAspectByIndex = (aspectIndex: number): Card => {
-    if (aspectIndex < 0 || aspectIndex >= ALL_ASPECTS.length) {
+    if (aspectIndex < 0 || aspectIndex >= ASPECTS.length) {
       return card;
     }
 
-    const aspectCode = ALL_ASPECTS[aspectIndex];
+    const aspectCode = ASPECTS[aspectIndex];
     const updatedAspectList = { ...card.aspectList };
 
     if (aspectCode !== "FUNDAMENTAL") {
@@ -266,11 +266,11 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
   }
 
   const decrementAspectByIndex = (aspectIndex: number): Card => {
-    if (aspectIndex < 0 || aspectIndex >= ALL_ASPECTS.length) {
+    if (aspectIndex < 0 || aspectIndex >= ASPECTS.length) {
       return card;
     }
 
-    const aspectCode = ALL_ASPECTS[aspectIndex];
+    const aspectCode = ASPECTS[aspectIndex];
     const updatedAspectList = { ...card.aspectList };
 
     if (updatedAspectList[aspectCode] > 1) {
