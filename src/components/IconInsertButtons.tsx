@@ -13,6 +13,13 @@ const IconInsertButtons: React.FC<Props> = ({ onIconInsert }) => {
       data-html2canvas-ignore="true"
     >
       <div className="text-xs text-gray-300 mb-1">Insert Icons:</div>
+      <button
+        onClick={() => onIconInsert("{e}")}
+        className="flex items-center gap-1 p-1 bg-gray-600 hover:bg-gray-500 rounded text-xs"
+      >
+        <img src={Icons.EXHAUST} alt="EXHAUST" className="w-4 h-4" />
+        <span>{REVERSE_ICON_CODES.EXHAUST}</span>
+      </button>
       {ASPECTS.map((aspect) => (
         <button
           key={aspect}

@@ -3,9 +3,9 @@ import { Icons, type AspectType } from "../aspects/aspects";
 
 // Icon code mappings - using single letters for brevity
 export const ICON_CODES = {
+  "{e}": "EXHAUST",
   "{b}": "BLOOM",
   "{c}": "CALLOUS",
-  "{e}": "EXHAUST",
   "{g}": "GRACE",
   "{l}": "LAW",
   "{m}": "MYTHIC",
