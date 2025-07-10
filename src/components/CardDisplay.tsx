@@ -4,7 +4,10 @@ import { ASPECTS, Icons, type AspectType } from "../aspects/aspects";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
 import type { Card } from "../types/Card";
 import { getCardColorClass } from "../utils/cardColors";
-import { interpolateIcons } from "../utils/iconInterpolation";
+import {
+  interpolateIcons,
+  renderFundamentalAspect,
+} from "../utils/iconInterpolation";
 import "./Card.css";
 
 type Props = {
@@ -39,27 +42,6 @@ const CardDisplay: React.FC<Props> = ({
     }
   };
 
-  const renderFundamentalAspect = (aspect: string, count: number) => (
-    <div key={aspect} className="relative">
-      <img
-        src={Icons[aspect as keyof typeof Icons]}
-        alt={aspect}
-        onClick={() =>
-          removeAspect && removeAspect(ASPECTS.indexOf(aspect as AspectType))
-        }
-        className={
-          "w-8 h-8" + (removeAspect ? "cursor-pointer hover:opacity-75" : "")
-        }
-      />
-      <div
-        className="absolute inset-0 flex items-center justify-center text-black 
-        font-bold text-lg pointer-events-none"
-      >
-        {count}
-      </div>
-    </div>
-  );
-
   const renderRegularAspects = (aspect: string, count: number) =>
     Array.from({ length: count }).map((_, i) => (
       <img
@@ -81,7 +63,11 @@ const CardDisplay: React.FC<Props> = ({
         if (count <= 0) return [];
 
         if (aspect === "FUNDAMENTAL") {
-          return renderFundamentalAspect(aspect, count);
+          return (
+            <div key={aspect} className="relative">
+              {renderFundamentalAspect(aspect, count)}
+            </div>
+          );
         }
 
         return renderRegularAspects(aspect, count);

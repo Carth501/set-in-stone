@@ -37,7 +37,6 @@ export function interpolateIcons(text: string): React.ReactNode[] {
 
   let match;
   while ((match = regex.exec(text)) !== null) {
-    // Add text before the icon
     if (match.index > lastIndex) {
       parts.push(text.slice(lastIndex, match.index));
     }
@@ -82,3 +81,26 @@ export function insertIconCode(
     newCursorPosition: cursorPosition + iconCode.length,
   };
 }
+
+export const renderFundamentalAspect = (
+  aspect: string,
+  count: number,
+  clickFunction?: () => void
+) => (
+  <>
+    <img
+      src={Icons[aspect as keyof typeof Icons]}
+      alt={aspect}
+      onClick={clickFunction}
+      className={
+        "w-8 h-8" + (clickFunction ? "cursor-pointer hover:opacity-75" : "")
+      }
+    />
+    <div
+      className="absolute inset-0 flex items-center justify-center text-black 
+		font-bold text-lg pointer-events-none"
+    >
+      {count}
+    </div>
+  </>
+);
