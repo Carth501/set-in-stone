@@ -36,27 +36,53 @@ export function interpolateIcons(text: string): React.ReactNode[] {
   );
 
   let match;
-  while ((match = regex.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(text.slice(lastIndex, match.index));
-    }
+  let fundamentalCount = 0;
+  let pendingFundamental = false;
 
-    // Add the icon
+  const flushFundamental = (index: number) => {
+    if (pendingFundamental && fundamentalCount > 0) {
+      parts.push(
+        <span key={`fundamental-${index}`} className="relative inline-block">
+          {renderFundamentalAspect("FUNDAMENTAL", fundamentalCount)}
+        </span>
+      );
+      fundamentalCount = 0;
+      pendingFundamental = false;
+    }
+  };
+
+  while ((match = regex.exec(text)) !== null) {
     const iconCode = match[0] as keyof typeof ICON_CODES;
     const aspectName = ICON_CODES[iconCode];
-    parts.push(
-      <img
-        key={`${match.index}-${iconCode}`}
-        src={Icons[aspectName]}
-        alt={aspectName}
-        className="inline w-5 h-5 vertical-align-top"
-      />
-    );
+
+    if (aspectName === "FUNDAMENTAL") {
+      if (!pendingFundamental && match.index > lastIndex) {
+        parts.push(text.slice(lastIndex, match.index));
+      }
+      fundamentalCount++;
+      pendingFundamental = true;
+    } else {
+      flushFundamental(match.index);
+
+      if (match.index > lastIndex) {
+        parts.push(text.slice(lastIndex, match.index));
+      }
+
+      parts.push(
+        <img
+          key={`${match.index}-${iconCode}`}
+          src={Icons[aspectName]}
+          alt={aspectName}
+          className="inline w-5 h-5 vertical-align-top"
+        />
+      );
+    }
 
     lastIndex = regex.lastIndex;
   }
 
-  // Add remaining text
+  flushFundamental(text.length);
+
   if (lastIndex < text.length) {
     parts.push(text.slice(lastIndex));
   }
