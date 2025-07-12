@@ -12,4 +12,4 @@ export interface TextureFunction {
   (config?: TextureConfig): React.ReactElement;
 }
 
-export type TextureType = "none" | "subtle-noise" | "paper";
+export type TextureType = "none" | "subtle-noise" | "paper" | "marble";

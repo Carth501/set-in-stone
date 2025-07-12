@@ -298,6 +298,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     { value: "none", label: "No Texture" },
     { value: "subtle-noise", label: "Subtle Noise" },
     { value: "paper", label: "Paper" },
+    { value: "marble", label: "Marble" },
   ];
 
   return (
