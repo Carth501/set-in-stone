@@ -2,6 +2,7 @@ import { capitalizeFirstLetter } from "@/utils/generalUtils";
 import React from "react";
 import { ASPECTS, Icons, type AspectType } from "../aspects/aspects";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
+import { getTexture, type TextureConfig, type TextureType } from "../textures";
 import type { Card } from "../types/Card";
 import { getCardColorClass } from "../utils/cardColors";
 import {
@@ -16,6 +17,8 @@ type Props = {
   className?: string;
   onFieldClick?: (field: string) => void;
   removeAspect?: (index: number) => void;
+  textureType?: TextureType;
+  textureConfig?: TextureConfig;
   editableElements?: {
     name?: React.ReactNode;
     type?: React.ReactNode;
@@ -32,9 +35,12 @@ const CardDisplay: React.FC<Props> = ({
   className,
   onFieldClick,
   removeAspect,
+  textureType = "none",
+  textureConfig = {},
   editableElements = {},
 }) => {
   const cardColorClass = getCardColorClass(card.aspectList);
+  const textureFunction = getTexture(textureType);
 
   const handleFieldClick = (field: string) => {
     if (onFieldClick) {
@@ -171,8 +177,12 @@ const CardDisplay: React.FC<Props> = ({
 
   return (
     <div className="card-container" id="card-preview">
-      <div className={`card ${cardColorClass} ${className}`}>
-        <div className="grid grid-cols-9 grid-rows-8 gap-2 w-full h-full text-gray-100">
+      <div
+        className={`card ${cardColorClass} ${className}`}
+        style={{ position: "relative" }}
+      >
+        {textureFunction && textureFunction(textureConfig)}
+        <div className="grid grid-cols-9 grid-rows-8 gap-2 w-full h-full text-gray-100 relative z-10">
           <div
             className={`col-span-8 flex flex-col gap-2 ${
               card.type === "CREATURE" ? "row-span-7" : "row-span-8"
