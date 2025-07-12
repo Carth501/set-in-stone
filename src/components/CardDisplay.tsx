@@ -71,7 +71,14 @@ const CardDisplay: React.FC<Props> = ({
         if (aspect === "FUNDAMENTAL") {
           return (
             <div key={aspect} className="relative">
-              {renderFundamentalAspect(aspect, count)}
+              {renderFundamentalAspect(
+                aspect,
+                count,
+                8,
+                () =>
+                  removeAspect &&
+                  removeAspect(ASPECTS.indexOf(aspect as AspectType))
+              )}
             </div>
           );
         }
