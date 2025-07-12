@@ -9,7 +9,7 @@ import {
 import { capitalizeFirstLetter } from "@/utils/generalUtils";
 import React, { useState } from "react";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
-import { type TextureType } from "../textures";
+import { type TextureType, TEXTURE_OPTIONS } from "../textures";
 import type { Card, CardType } from "../types/Card";
 import { insertIconCode } from "../utils/iconInterpolation";
 import AspectSymbolSelector from "./AspectSymbolSelector";
@@ -294,13 +294,6 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     };
   };
 
-  const textureOptions: { value: TextureType; label: string }[] = [
-    { value: "none", label: "No Texture" },
-    { value: "subtle-noise", label: "Subtle Noise" },
-    { value: "paper", label: "Paper" },
-    { value: "marble", label: "Marble" },
-  ];
-
   return (
     <div className="flex flex-row gap-1 relative">
       {editingField === "description" && (
@@ -320,7 +313,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
               <SelectValue placeholder="Select texture" />
             </SelectTrigger>
             <SelectContent>
-              {textureOptions.map((option) => (
+              {TEXTURE_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
                 </SelectItem>

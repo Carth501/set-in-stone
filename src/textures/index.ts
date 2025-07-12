@@ -10,6 +10,13 @@ export const TEXTURES: Record<TextureType, TextureFunction | null> = {
   marble: marbleTexture,
 };
 
+export const TEXTURE_OPTIONS: { value: TextureType; label: string }[] = [
+  { value: "none", label: "No Texture" },
+  { value: "subtle-noise", label: "Subtle Noise" },
+  { value: "paper", label: "Paper" },
+  { value: "marble", label: "Marble" },
+];
+
 export const getTexture = (type: TextureType): TextureFunction | null => {
   return TEXTURES[type] || null;
 };
