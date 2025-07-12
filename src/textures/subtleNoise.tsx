@@ -2,7 +2,7 @@ import React from "react";
 import type { TextureConfig } from "./types";
 
 export const subtleNoise = (config: TextureConfig = {}): React.ReactElement => {
-  const { opacity = 0.15, intensity = 0.8, color = "#ffffff" } = config;
+  const { opacity = 0.5, intensity = 0.8, color = "#ffffff" } = config;
 
   const svgId = `noise-${Math.random().toString(36).substr(2, 9)}`;
 

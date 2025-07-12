@@ -1,7 +1,15 @@
 import { ASPECTS, sortAspectRecord } from "@/aspects/aspects";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { capitalizeFirstLetter } from "@/utils/generalUtils";
 import React, { useState } from "react";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
+import { type TextureType } from "../textures";
 import type { Card, CardType } from "../types/Card";
 import { insertIconCode } from "../utils/iconInterpolation";
 import AspectSymbolSelector from "./AspectSymbolSelector";
@@ -21,6 +29,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
   const [textareaRef, setTextareaRef] = useState<HTMLTextAreaElement | null>(
     null
   );
+  const [selectedTexture, setSelectedTexture] = useState<TextureType>("none");
 
   const startEditing = (field: string) => {
     setEditingField(field);
@@ -285,6 +294,12 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     };
   };
 
+  const textureOptions: { value: TextureType; label: string }[] = [
+    { value: "none", label: "No Texture" },
+    { value: "subtle-noise", label: "Subtle Noise" },
+    { value: "paper", label: "Paper" },
+  ];
+
   return (
     <div className="flex flex-row gap-1 relative">
       {editingField === "description" && (
@@ -292,13 +307,37 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
           <IconInsertButtons onIconInsert={handleIconInsert} />
         </div>
       )}
-      <CardDisplay
-        card={card}
-        className={className}
-        onFieldClick={startEditing}
-        editableElements={getEditableElements()}
-        removeAspect={handleAspectDecrement}
-      />
+
+      <div className="flex flex-col gap-2">
+        <div className="w-48" data-html2canvas-ignore="true">
+          <Select
+            value={selectedTexture}
+            onValueChange={(value) => setSelectedTexture(value as TextureType)}
+            defaultValue="none"
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select texture" />
+            </SelectTrigger>
+            <SelectContent>
+              {textureOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <CardDisplay
+          card={card}
+          className={className}
+          onFieldClick={startEditing}
+          editableElements={getEditableElements()}
+          removeAspect={handleAspectDecrement}
+          textureType={selectedTexture}
+        />
+      </div>
+
       <AspectSymbolSelector vertical={true} onSelect={handleAspectIncrement} />
     </div>
   );

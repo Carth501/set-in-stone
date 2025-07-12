@@ -4,7 +4,7 @@ import type { TextureConfig } from "./types";
 export const paperTexture = (
   config: TextureConfig = {}
 ): React.ReactElement => {
-  const { opacity = 0.2, intensity = 0.6, color = "#f5f5dc" } = config;
+  const { color = "#f5f5dc" } = config;
 
   const svgId = `paper-${Math.random().toString(36).substr(2, 9)}`;
 
@@ -12,7 +12,6 @@ export const paperTexture = (
     <div
       className="absolute inset-0 pointer-events-none"
       style={{
-        opacity,
         mixBlendMode: "overlay",
         transform: "translateZ(0)",
       }}
@@ -21,7 +20,7 @@ export const paperTexture = (
         <defs>
           <filter id={svgId} x="0%" y="0%" width="100%" height="100%">
             <feTurbulence
-              baseFrequency={0.4 * intensity}
+              baseFrequency={0.4}
               numOctaves="4"
               result="paper"
               seed="2"
