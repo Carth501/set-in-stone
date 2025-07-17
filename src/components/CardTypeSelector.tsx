@@ -43,22 +43,26 @@ const CardTypeSelector: React.FC<Props> = ({ value, onChange, className }) => {
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         onKeyDown={handleKeyDown}
-        className="w-full bg-gray-700 text-white rounded px-2 py-1 text-lg font-bold text-left border border-gray-600 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full bg-gray-700 text-white rounded px-2 py-1 text-lg 
+		font-bold text-left border border-gray-600 hover:bg-gray-600 
+		focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         {value}
         <span className="float-right">▼</span>
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 bg-gray-700 border border-gray-600 rounded mt-1 z-10 max-h-48 overflow-y-auto">
+        <div
+          className="absolute top-full left-0 bg-gray-700 border 
+		border-gray-600 rounded mt-1 z-10 overflow-y-auto"
+        >
           {CARD_TYPES.map((cardType) => (
             <button
               key={cardType}
               type="button"
               onClick={() => handleSelect(cardType)}
-              className={`w-full text-left px-2 py-1 text-lg font-bold hover:bg-gray-600 ${
-                value === cardType ? "bg-blue-600" : ""
-              }`}
+              className={`w-full text-left px-2 py-1 text-lg font-bold 
+				hover:bg-gray-600 ${value === cardType ? "bg-blue-600" : ""}`}
             >
               {cardType}
             </button>
