@@ -31,6 +31,7 @@ export const CARD_TYPES = [
   "REACTION",
   "FAST",
   "SLOW",
+  "GEM",
 ] as const;
 
 export type CardType = (typeof CARD_TYPES)[number];
