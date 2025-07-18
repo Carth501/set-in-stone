@@ -23,6 +23,7 @@ type Props = {
     name?: React.ReactNode;
     type?: React.ReactNode;
     tags?: React.ReactNode;
+    art?: React.ReactNode;
     description?: React.ReactNode;
     offence?: React.ReactNode;
     defence?: React.ReactNode;
@@ -142,6 +143,33 @@ const CardDisplay: React.FC<Props> = ({
     );
   };
 
+  const cardArt = () => {
+    return (
+      <div
+        className="card-art bg-gray-800/50 rounded-xl overflow-hidden h-48"
+        data-html2canvas-ignore={!card.art}
+        onClick={() => handleFieldClick("art")}
+      >
+        {editableElements.art || (
+          <>
+            {card.art && (
+              <img
+                src={card.art}
+                alt={card.name}
+                className="w-full object-cover"
+              />
+            )}
+            {!card.art && (
+              <div className="w-full h-full flex items-center justify-center text-gray-400">
+                Click to add art
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    );
+  };
+
   const cardDescriptionPanel = () => {
     return (
       <div className="card-description bg-gray-800/50 text-left rounded-xl px-2 py-1 grow-1 overflow-hidden">
@@ -196,6 +224,7 @@ const CardDisplay: React.FC<Props> = ({
             }`}
           >
             {cardHeader()}
+            {cardArt()}
             {cardDescriptionPanel()}
           </div>
           <div

@@ -64,6 +64,8 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
         .map((tag) => tag.trim())
         .map((tag) => tag.toLowerCase())
         .filter((tag) => tag.length > 0);
+    } else if (editingField === "art") {
+      updatedCard.art = tempValue;
     }
 
     onCardChange(updatedCard);
@@ -141,6 +143,21 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     if (editingField === "type") {
       elements.type = (
         <CardTypeSelector value={card.type} onChange={handleCardTypeChange} />
+      );
+    }
+
+    if (editingField === "art") {
+      elements.art = (
+        <input
+          type="text"
+          value={tempValue}
+          onChange={(e) => setTempValue(e.target.value)}
+          onBlur={saveEdit}
+          onKeyDown={handleKeyDown}
+          className="w-full bg-gray-700 text-white rounded px-2 py-1"
+          placeholder="Enter image URL"
+          autoFocus
+        />
       );
     }
 
