@@ -146,7 +146,7 @@ const CardDisplay: React.FC<Props> = ({
   const cardArt = () => {
     return (
       <div
-        className="card-art bg-gray-800/50 rounded-xl overflow-hidden h-48"
+        className="card-art bg-gray-800/50 rounded-xl overflow-hidden max-h-48"
         data-html2canvas-ignore={!card.art}
         onClick={() => handleFieldClick("art")}
       >
