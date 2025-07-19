@@ -105,6 +105,9 @@ const CardDisplay: React.FC<Props> = ({
           )}
         </div>
         <div className="text-lg font-bold flex flex-wrap gap-1 items-center">
+          {card.accessory !== "none" && (
+            <span className="mr-1">{card.accessory}</span>
+          )}
           {editableElements.type || (
             <div
               onClick={() => handleFieldClick("type")}

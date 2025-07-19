@@ -9,8 +9,13 @@ import {
 import { capitalizeFirstLetter } from "@/utils/generalUtils";
 import React, { useState } from "react";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
-import { type TextureType, TEXTURE_OPTIONS } from "../textures";
-import type { Card, CardType } from "../types/Card";
+import { TEXTURE_OPTIONS, type TextureType } from "../textures";
+import {
+  ACCESSORIES,
+  type AccessoryType,
+  type Card,
+  type CardType,
+} from "../types/Card";
 import { insertIconCode } from "../utils/iconInterpolation";
 import AspectSymbolSelector from "./AspectSymbolSelector";
 import CardDisplay from "./CardDisplay";
@@ -311,6 +316,11 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     };
   };
 
+  const setAccessory = (accessory: AccessoryType | null) => {
+    const updatedCard = { ...card, accessory };
+    onCardChange(updatedCard);
+  };
+
   return (
     <div className="flex flex-row gap-1 relative">
       {editingField === "description" && (
@@ -320,19 +330,41 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
       )}
 
       <div className="flex flex-col gap-2">
-        <div className="w-48" data-html2canvas-ignore="true">
+        <div className="flex flex-row gap-2 items-center">
+          <div className="w-48">
+            <Select
+              value={selectedTexture}
+              onValueChange={(value) =>
+                setSelectedTexture(value as TextureType)
+              }
+              defaultValue="none"
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select texture" />
+              </SelectTrigger>
+              <SelectContent>
+                {TEXTURE_OPTIONS.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           <Select
-            value={selectedTexture}
-            onValueChange={(value) => setSelectedTexture(value as TextureType)}
-            defaultValue="none"
+            value={card.accessory ?? "none"}
+            onValueChange={(value) => {
+              setAccessory(value as AccessoryType);
+            }}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select texture" />
+              <SelectValue placeholder="Select accessory" />
             </SelectTrigger>
             <SelectContent>
-              {TEXTURE_OPTIONS.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
+              <SelectItem value="none">No Accessory</SelectItem>
+              {ACCESSORIES.map((option) => (
+                <SelectItem key={option} value={option}>
+                  {option}
                 </SelectItem>
               ))}
             </SelectContent>

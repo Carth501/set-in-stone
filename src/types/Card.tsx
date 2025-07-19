@@ -1,4 +1,5 @@
 export type Card = {
+  accessory: AccessoryType | null;
   type: CardType;
   name: string;
   aspectList: CardCost;
@@ -15,6 +16,7 @@ export type CardCost = {
 };
 
 export const blankCard: Card = {
+  accessory: null,
   type: "CREATURE",
   name: "",
   aspectList: {},
@@ -37,3 +39,7 @@ export const CARD_TYPES = [
 ] as const;
 
 export type CardType = (typeof CARD_TYPES)[number];
+
+export const ACCESSORIES = ["UNIQUE", "OBJECTIVE"];
+
+export type AccessoryType = (typeof ACCESSORIES)[number];
