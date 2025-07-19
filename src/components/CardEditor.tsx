@@ -354,7 +354,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
           <Select
             value={card.accessory ?? "none"}
             onValueChange={(value) => {
-              setAccessory(value === "none" ? null : (value as AccessoryType));
+              setAccessory(value as AccessoryType);
             }}
           >
             <SelectTrigger className="w-full">
