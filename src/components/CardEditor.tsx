@@ -364,7 +364,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
               <SelectItem value="none">No Accessory</SelectItem>
               {ACCESSORIES.map((option) => (
                 <SelectItem key={option} value={option}>
-                  {option}
+                  {capitalizeFirstLetter(option)}
                 </SelectItem>
               ))}
             </SelectContent>
