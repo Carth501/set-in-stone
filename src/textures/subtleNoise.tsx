@@ -20,7 +20,7 @@ export const subtleNoise = (config: TextureConfig = {}): React.ReactElement => {
         <defs>
           <filter id={svgId} x="0%" y="0%" width="100%" height="100%">
             <feTurbulence
-              baseFrequency={0.9 * intensity}
+              baseFrequency={0.2 * intensity}
               numOctaves="3"
               result="noise"
               seed="1"

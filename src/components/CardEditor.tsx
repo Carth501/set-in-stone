@@ -9,7 +9,6 @@ import {
 import { capitalizeFirstLetter } from "@/utils/generalUtils";
 import React, { useState } from "react";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
-import { TEXTURE_OPTIONS, type TextureType } from "../textures";
 import {
   ACCESSORIES,
   type AccessoryType,
@@ -34,7 +33,6 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
   const [textareaRef, setTextareaRef] = useState<HTMLTextAreaElement | null>(
     null
   );
-  const [selectedTexture, setSelectedTexture] = useState<TextureType>("none");
 
   const startEditing = (field: string) => {
     setEditingField(field);
@@ -370,26 +368,6 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
 
       <div className="flex flex-col gap-2">
         <div className="flex flex-row gap-2 items-center">
-          <div className="w-48">
-            <Select
-              value={selectedTexture}
-              onValueChange={(value) =>
-                setSelectedTexture(value as TextureType)
-              }
-              defaultValue="none"
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select texture" />
-              </SelectTrigger>
-              <SelectContent>
-                {TEXTURE_OPTIONS.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
           <Select
             value={card.accessory ?? "none"}
             onValueChange={(value) => {
@@ -416,7 +394,6 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
           onFieldClick={startEditing}
           editableElements={getEditableElements()}
           removeAspect={handleAspectDecrement}
-          textureType={selectedTexture}
         />
       </div>
 
