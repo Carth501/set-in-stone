@@ -99,7 +99,9 @@ const CardDisplay: React.FC<Props> = ({
           {editableElements.name || (
             <div
               onClick={() => handleFieldClick("name")}
-              className={"min-h-8" + (onFieldClick ? " cursor-pointer" : "")}
+              className={
+                "min-h-8 text-header" + (onFieldClick ? " cursor-pointer" : "")
+              }
             >
               {card.name}
             </div>
@@ -107,12 +109,14 @@ const CardDisplay: React.FC<Props> = ({
         </div>
         <div className="text-lg font-bold flex flex-wrap gap-1 items-center">
           {card.accessory !== "none" && card.accessory !== null && (
-            <span className="mr-1">{card.accessory}</span>
+            <span className="mr-1 text-subheader">{card.accessory}</span>
           )}
           {editableElements.type || (
             <div
               onClick={() => handleFieldClick("type")}
-              className={onFieldClick ? "cursor-pointer" : ""}
+              className={
+                "text-subheader " + (onFieldClick ? "cursor-pointer" : "")
+              }
             >
               {card.type}
             </div>
@@ -134,7 +138,7 @@ const CardDisplay: React.FC<Props> = ({
               {card.tags.length === 0 && onFieldClick && (
                 <div
                   onClick={() => handleFieldClick("tags")}
-                  className="text-gray-400 cursor-pointer text-sm"
+                  className="text-header cursor-pointer text-sm"
                   data-html2canvas-ignore="true"
                 >
                   +Add tags
