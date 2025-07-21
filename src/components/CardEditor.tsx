@@ -61,7 +61,11 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
       editingField === "regeneration"
     ) {
       (updatedCard as Card)[editingField] = parseInt(tempValue) || 0;
-    } else if (editingField === "name" || editingField === "description") {
+    } else if (
+      editingField === "name" ||
+      editingField === "description" ||
+      editingField === "objectiveDescription"
+    ) {
       (updatedCard as Card)[editingField] = tempValue;
     } else if (editingField === "tags") {
       updatedCard.tags = tempValue
@@ -110,7 +114,11 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
   };
 
   const handleIconInsert = (iconCode: string) => {
-    if (editingField === "description" && textareaRef) {
+    if (
+      (editingField === "description" ||
+        editingField === "objectiveDescription") &&
+      textareaRef
+    ) {
       const cursorPosition = textareaRef.selectionStart;
       const { newText, newCursorPosition } = insertIconCode(
         tempValue,
@@ -176,6 +184,36 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
             onKeyDown={handleDescriptionKeyDown}
             className="w-full flex-1 bg-gray-700 text-white rounded px-2 py-1 resize-none"
             placeholder="Enter description... (Shift+Enter for new line, Enter to save)"
+            autoFocus
+          />
+          <div className="flex gap-2" data-html2canvas-ignore="true">
+            <button
+              onClick={saveEdit}
+              className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+            >
+              Save
+            </button>
+            <button
+              onClick={cancelEdit}
+              className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (editingField === "objectiveDescription") {
+      elements.objectiveDescription = (
+        <div className="flex flex-col gap-2 h-full">
+          <textarea
+            ref={setTextareaRef}
+            value={tempValue}
+            onChange={(e) => setTempValue(e.target.value)}
+            onKeyDown={handleDescriptionKeyDown}
+            className="w-full flex-1 bg-gray-700 text-white rounded px-2 py-1 resize-none"
+            placeholder="Enter objective reward... (Shift+Enter for new line, Enter to save)"
             autoFocus
           />
           <div className="flex gap-2" data-html2canvas-ignore="true">
@@ -323,7 +361,8 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
 
   return (
     <div className="flex flex-row gap-1 relative">
-      {editingField === "description" && (
+      {(editingField === "description" ||
+        editingField === "objectiveDescription") && (
         <div className="absolute -left-20 top-0 z-10">
           <IconInsertButtons onIconInsert={handleIconInsert} />
         </div>

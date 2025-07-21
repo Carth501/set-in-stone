@@ -25,6 +25,7 @@ type Props = {
     tags?: React.ReactNode;
     art?: React.ReactNode;
     description?: React.ReactNode;
+    objectiveDescription?: React.ReactNode;
     offence?: React.ReactNode;
     defence?: React.ReactNode;
     regeneration?: React.ReactNode;
@@ -105,7 +106,7 @@ const CardDisplay: React.FC<Props> = ({
           )}
         </div>
         <div className="text-lg font-bold flex flex-wrap gap-1 items-center">
-          {card.accessory !== "none" && (
+          {card.accessory !== "none" && card.accessory !== null && (
             <span className="mr-1">{card.accessory}</span>
           )}
           {editableElements.type || (
@@ -191,6 +192,25 @@ const CardDisplay: React.FC<Props> = ({
     );
   };
 
+  const cardObjectiveDescription = () => {
+    return (
+      <div className="card-description bg-gray-800/50 text-left rounded-xl px-2 py-1 grow-1 overflow-hidden">
+        {card.accessory === "OBJECTIVE" &&
+          (editableElements.objectiveDescription || (
+            <div
+              onClick={() => handleFieldClick("objectiveDescription")}
+              className={
+                "h-full w-full whitespace-pre-wrap overflow-y-hidden " +
+                (onFieldClick ? "cursor-pointer" : "")
+              }
+            >
+              {interpolateIcons(card.objectiveDescription)}
+            </div>
+          ))}
+      </div>
+    );
+  };
+
   const renderStatField = (
     field: string,
     value: number,
@@ -229,6 +249,7 @@ const CardDisplay: React.FC<Props> = ({
             {cardHeader()}
             {cardArt()}
             {cardDescriptionPanel()}
+            {cardObjectiveDescription()}
           </div>
           <div
             className={`col-start-9 flex flex-col bg-gray-800/50 rounded-xl pt-1 ${

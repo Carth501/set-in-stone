@@ -5,6 +5,7 @@ export type Card = {
   aspectList: CardCost;
   art: string;
   description: string;
+  objectiveDescription: string;
   offence: number;
   defence: number;
   regeneration: number;
@@ -22,6 +23,7 @@ export const blankCard: Card = {
   aspectList: {},
   art: "",
   description: "",
+  objectiveDescription: "",
   offence: 0,
   defence: 0,
   regeneration: 0,
