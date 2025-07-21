@@ -235,10 +235,7 @@ const CardDisplay: React.FC<Props> = ({
 
   return (
     <div className="card-container" id="card-preview">
-      <div
-        className={`card ${cardColorClass} ${className}`}
-        style={{ position: "relative" }}
-      >
+      <div className={`card ${cardColorClass} ${className} relative`}>
         {textureFunction && textureFunction(textureConfig)}
         <div className="grid grid-cols-9 grid-rows-8 gap-2 w-full h-full text-gray-100 relative z-10">
           <div
