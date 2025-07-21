@@ -199,17 +199,17 @@ const CardDisplay: React.FC<Props> = ({
   const cardObjectiveDescription = () => {
     return (
       <div className="card-description bg-gray-800/50 text-left rounded-xl px-2 py-1 grow-1 overflow-hidden">
-        (editableElements.objectiveDescription || (
-        <div
-          onClick={() => handleFieldClick("objectiveDescription")}
-          className={
-            "h-full w-full whitespace-pre-wrap overflow-y-hidden " +
-            (onFieldClick ? "cursor-pointer" : "")
-          }
-        >
-          {interpolateIcons(card.objectiveDescription)}
-        </div>
-        ))
+        {editableElements.objectiveDescription || (
+          <div
+            onClick={() => handleFieldClick("objectiveDescription")}
+            className={
+              "h-full w-full whitespace-pre-wrap overflow-y-hidden " +
+              (onFieldClick ? "cursor-pointer" : "")
+            }
+          >
+            {interpolateIcons(card.objectiveDescription)}
+          </div>
+        )}
       </div>
     );
   };
