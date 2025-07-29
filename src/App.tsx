@@ -28,8 +28,7 @@ function App() {
 
   return (
     <div>
-      <h1>Create a Card</h1>
-      <div style={{ marginTop: 32 }}>
+      <div id="card-editor" className="bg-gray-900 rounded-3xl p-4">
         <CardEditor
           card={card}
           className={card.type}
