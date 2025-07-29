@@ -35,7 +35,7 @@ function App() {
           className={card.type}
           onCardChange={handleChange}
         />
-        <Button variant="outline" onClick={handleExport}>
+        <Button variant="outline" className="mt-2" onClick={handleExport}>
           Export as Image
         </Button>
       </div>

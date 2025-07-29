@@ -31,7 +31,7 @@ const AspectSymbolSelector: React.FC<Props> = ({
           <Tooltip>
             <TooltipTrigger
               onClick={() => onSelect(idx)}
-              className={`rounded-full w-12 h-12 flex items-center justify-center border-2 transition
+              className={`rounded-full w-11 h-11 flex items-center justify-center border-2 transition
               ${
                 selectedIndex === idx
                   ? "border-blue-500 ring-2 ring-blue-300"
