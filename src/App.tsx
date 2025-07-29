@@ -2,6 +2,7 @@ import html2canvas from "html2canvas-pro";
 import { useState } from "react";
 import "./App.css";
 import CardEditor from "./components/CardEditor.tsx";
+import { Button } from "./components/ui/button.tsx";
 import type { Card } from "./types/Card.tsx";
 import { blankCard } from "./types/Card.tsx";
 
@@ -34,9 +35,9 @@ function App() {
           className={card.type}
           onCardChange={handleChange}
         />
-        <button style={{ marginTop: 16 }} onClick={handleExport}>
+        <Button variant="outline" onClick={handleExport}>
           Export as Image
-        </button>
+        </Button>
       </div>
       {/* ...other components... */}
     </div>
