@@ -1,7 +1,7 @@
 import html2canvas from "html2canvas-pro";
 import { useState } from "react";
-import type { Card } from "src/types/Card";
-import { blankCard } from "src/types/Card";
+import type { Card } from "./types/Card";
+import { blankCard } from "./types/Card";
 import "./App.css";
 import CardEditor from "./components/CardEditor.tsx";
 import { Button } from "./components/ui/button.tsx";

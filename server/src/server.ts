@@ -2,7 +2,7 @@ import cors from "cors";
 import express, { Request, Response } from "express";
 
 const app = express();
-const PORT: number = parseInt(process.env.PORT || "5000");
+const PORT: number = parseInt(process.env.PORT || "5001");
 
 // Mock card data (replace with database later)
 const mockCards: any[] = [
