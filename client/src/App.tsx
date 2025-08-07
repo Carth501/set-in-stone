@@ -1,10 +1,11 @@
+import type { Card } from "@shared/types/Card";
+import { blankCard } from "@shared/types/Card";
 import html2canvas from "html2canvas-pro";
 import { useState } from "react";
 import "./App.css";
 import CardEditor from "./components/CardEditor.tsx";
 import { Button } from "./components/ui/button.tsx";
-import type { Card } from "./types/Card.tsx";
-import { blankCard } from "./types/Card.tsx";
+import { cardService } from "./utils/cardService";
 
 function App() {
   const [card, setCard] = useState<Card>(blankCard);
@@ -27,6 +28,18 @@ function App() {
     link.click();
   };
 
+  const handleLoadCard = async () => {
+    const uuid = prompt("Enter card UUID:");
+    if (uuid) {
+      const fetchedCard = await cardService.fetchCard(uuid);
+      if (fetchedCard) {
+        setCard(fetchedCard);
+      } else {
+        alert("Card not found");
+      }
+    }
+  };
+
   return (
     <div>
       <div id="card-editor" className="bg-gray-900 rounded-3xl p-4">
@@ -35,9 +48,14 @@ function App() {
           className={card.type}
           onCardChange={handleChange}
         />
-        <Button variant="outline" className="mt-2" onClick={handleExport}>
-          Export as Image
-        </Button>
+        <div className="mt-2 space-x-2">
+          <Button variant="outline" onClick={handleExport}>
+            Export as Image
+          </Button>
+          <Button variant="outline" onClick={handleLoadCard}>
+            Load Card
+          </Button>
+        </div>
       </div>
       {/* ...other components... */}
     </div>
