@@ -1,6 +1,6 @@
 import React from "react";
-import { ALL_ASPECTS } from "../aspects/aspects.ts";
-import type { Card } from "../types/Card.tsx";
+import type { Card } from "../../../shared/types/Card";
+import { ASPECTS } from "../aspects/aspects.ts";
 import AspectSymbolSelector from "./AspectSymbolSelector.tsx";
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
   // Add aspect to aspectList or increment its value
   const handleAddAspect = (idx: number) => {
-    const aspect = ALL_ASPECTS[idx];
+    const aspect = ASPECTS[idx];
     const current = card.aspectList?.[aspect] ?? 0;
     onChange({
       ...card,
@@ -21,7 +21,7 @@ const CardEditForm: React.FC<Props> = ({ card, onChange }) => {
 
   // Decrement aspect in aspectList, remove if <= 0
   const handleRemoveAspect = (idx: number) => {
-    const aspect = ALL_ASPECTS[idx];
+    const aspect = ASPECTS[idx];
     const current = card.aspectList?.[aspect] ?? 0;
     onChange({
       ...card,

@@ -8,13 +8,13 @@ import {
 } from "@/components/ui/select";
 import { capitalizeFirstLetter } from "@/utils/generalUtils";
 import React, { useState } from "react";
-import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
 import {
   ACCESSORIES,
   type AccessoryType,
   type Card,
   type CardType,
-} from "../types/Card";
+} from "../../../shared/types/Card";
+import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
 import { insertIconCode } from "../utils/iconInterpolation";
 import AspectSymbolSelector from "./AspectSymbolSelector";
 import CardDisplay from "./CardDisplay";
