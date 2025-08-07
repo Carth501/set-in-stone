@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Card {
+  uuid                  String  @id @default(uuid())
+  accessory             String?
+  type                  String
+  name                  String
+  aspectList            Json
+  art                   String
+  description           String
+  objectiveDescription  String
+  offence               Int
+  defence               Int
+  regeneration          Int
+  tags                  Json
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
