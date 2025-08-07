@@ -1,4 +1,4 @@
-import type { Card } from "@shared/types/Card";
+import type { Card } from "../types/Card";
 
 const API_BASE_URL = "http://localhost:5000/api";
 

@@ -1,9 +1,9 @@
 import { capitalizeFirstLetter } from "@/utils/generalUtils";
 import React from "react";
-import type { Card } from "../../../shared/types/Card";
 import { ASPECTS, Icons, type AspectType } from "../aspects/aspects";
 import { MAX_ASPECT_ICONS } from "../constants/cardConstants";
 import { getTexture, type TextureConfig, type TextureType } from "../textures";
+import type { Card } from "../types/Card";
 import { getCardColorClass } from "../utils/cardColors";
 import {
   interpolateIcons,

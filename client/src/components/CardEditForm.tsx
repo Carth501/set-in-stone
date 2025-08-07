@@ -1,6 +1,6 @@
 import React from "react";
-import type { Card } from "../../../shared/types/Card";
 import { ASPECTS } from "../aspects/aspects.ts";
+import type { Card } from "../types/Card.ts";
 import AspectSymbolSelector from "./AspectSymbolSelector.tsx";
 
 type Props = {

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import type { CardType } from "../../../shared/types/Card";
-import { CARD_TYPES } from "../../../shared/types/Card";
+import type { CardType } from "../types/Card";
+import { CARD_TYPES } from "../types/Card";
 
 type Props = {
   value: CardType;

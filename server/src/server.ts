@@ -1,12 +1,11 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
-import { Card } from "../../shared/types/Card";
 
 const app = express();
 const PORT: number = parseInt(process.env.PORT || "5000");
 
 // Mock card data (replace with database later)
-const mockCards: Card[] = [
+const mockCards: any[] = [
   {
     uuid: "123e4567-e89b-12d3-a456-426614174000",
     accessory: null,
