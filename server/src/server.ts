@@ -18,7 +18,7 @@ app.get("/api/test", (req: Request, res: Response) => {
   res.json({ message: "API is working correctly" });
 });
 
-app.get("/api/cards/:uuid", async (req: Request, res: Response) => {
+app.get("/api/card/:uuid", async (req: Request, res: Response) => {
   const { uuid } = req.params;
   const card = await db.getCard(uuid);
 
@@ -38,7 +38,7 @@ app.post("/api/cards", async (req: Request, res: Response) => {
   }
 });
 
-app.put("/api/cards/:uuid", async (req: Request, res: Response) => {
+app.put("/api/card/:uuid", async (req: Request, res: Response) => {
   const { uuid } = req.params;
   const card = await db.updateCard(uuid, req.body);
 
@@ -60,6 +60,15 @@ app.get("/api/cards", async (req: Request, res: Response) => {
     res.json(cardList);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch cards" });
+  }
+});
+
+app.get("/api/cards/uuids", async (req: Request, res: Response) => {
+  try {
+    const uuids = await db.getAllCardUuids();
+    res.json(uuids);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch card UUIDs" });
   }
 });
 

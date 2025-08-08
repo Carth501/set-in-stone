@@ -5,7 +5,7 @@ const API_BASE_URL = "http://localhost:5001/api";
 export const cardService = {
   async fetchCard(uuid: string): Promise<Card | null> {
     try {
-      const response = await fetch(`${API_BASE_URL}/cards/${uuid}`);
+      const response = await fetch(`${API_BASE_URL}/card/${uuid}`);
       if (!response.ok) return null;
       return await response.json();
     } catch (error) {
@@ -33,7 +33,7 @@ export const cardService = {
 
   async updateCard(card: Card): Promise<Card | null> {
     try {
-      const response = await fetch(`${API_BASE_URL}/cards/${card.uuid}`, {
+      const response = await fetch(`${API_BASE_URL}/card/${card.uuid}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -59,6 +59,17 @@ export const cardService = {
       return await response.json();
     } catch (error) {
       console.error("Failed to fetch cards:", error);
+      return null;
+    }
+  },
+
+  async fetchAllCardUuids(): Promise<string[] | null> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/cards/uuids`);
+      if (!response.ok) return null;
+      return await response.json();
+    } catch (error) {
+      console.error("Failed to fetch card UUIDs:", error);
       return null;
     }
   },
