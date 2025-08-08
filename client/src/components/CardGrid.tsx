@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import type { Card } from "../types/Card";
 import { cardService } from "../utils/cardService";
+import CardDisplay from "./CardDisplay";
 
-// Simplified card preview component
-function CardPreview({
+// Full card display component for grid
+function CardGridItem({
   uuid,
   onClick,
 }: {
@@ -22,7 +23,7 @@ function CardPreview({
 
   if (loading) {
     return (
-      <div className="border rounded-lg p-4 h-32 bg-gray-100 animate-pulse"></div>
+      <div className="border rounded-lg p-4 h-64 bg-gray-100 animate-pulse"></div>
     );
   }
 
@@ -30,12 +31,10 @@ function CardPreview({
 
   return (
     <div
-      className="border rounded-lg p-4 cursor-pointer hover:bg-gray-100 transition-colors h-32"
+      className="cursor-pointer scale-40 hover:scale-100 transition-transform"
       onClick={() => onClick(card)}
     >
-      <h3 className="font-semibold truncate">{card.name || "Unnamed Card"}</h3>
-      <p className="text-sm text-gray-600">{card.type}</p>
-      <p className="text-xs text-gray-400 truncate">{card.uuid}</p>
+      <CardDisplay card={card} />
     </div>
   );
 }
@@ -66,7 +65,7 @@ export default function CardGrid({ onCardSelect }: CardGridProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
       {uuids.map((uuid) => (
-        <CardPreview key={uuid} uuid={uuid} onClick={onCardSelect} />
+        <CardGridItem key={uuid} uuid={uuid} onClick={onCardSelect} />
       ))}
     </div>
   );
