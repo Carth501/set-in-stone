@@ -49,6 +49,20 @@ app.put("/api/cards/:uuid", async (req: Request, res: Response) => {
   res.json(card);
 });
 
+app.get("/api/cards", async (req: Request, res: Response) => {
+  try {
+    const cards = await db.getAllCards();
+    const cardList = cards.map((card) => ({
+      uuid: card.uuid,
+      name: card.name,
+      type: card.type,
+    }));
+    res.json(cardList);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch cards" });
+  }
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
