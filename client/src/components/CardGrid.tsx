@@ -31,10 +31,12 @@ function CardGridItem({
 
   return (
     <div
-      className="cursor-pointer scale-40 hover:scale-100 transition-transform"
+      className="cursor-pointer w-60 h-90 flex justify-center items-center"
       onClick={() => onClick(card)}
     >
-      <CardDisplay card={card} />
+      <div className="scale-60 hover:scale-100 transition origin-center hover:z-20">
+        <CardDisplay card={card} />{" "}
+      </div>
     </div>
   );
 }
