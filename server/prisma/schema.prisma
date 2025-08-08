@@ -12,14 +12,14 @@ model Card {
   accessory             String?
   type                  String
   name                  String
-  aspectList            Json
+  aspectList            String
   art                   String
   description           String
   objectiveDescription  String
   offence               Int
   defence               Int
   regeneration          Int
-  tags                  Json
+  tags                  String
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 }
