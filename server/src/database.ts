@@ -60,7 +60,7 @@ export const db = {
   ): Promise<Card | null> {
     try {
       const updateData = cardToDb(cardData);
-
+      updateData.uuid = uuid;
       const updatedCard = await prisma.card.update({
         where: { uuid },
         data: updateData,
@@ -90,7 +90,9 @@ export const db = {
 
   async getAllCardUuids(): Promise<string[]> {
     const cards = await prisma.card.findMany();
-    return cards.map((card) => card.uuid);
+    return cards
+      .map((card) => card.uuid)
+      .filter((uuid) => uuid && uuid.trim() !== "");
   },
 };
 

@@ -15,6 +15,7 @@ import {
   type Card,
   type CardType,
 } from "../types/Card";
+import { cardService } from "../utils/cardService";
 import { insertIconCode } from "../utils/iconInterpolation";
 import AspectSymbolSelector from "./AspectSymbolSelector";
 import CardDisplay from "./CardDisplay";
@@ -78,6 +79,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     onCardChange(updatedCard);
     setEditingField(null);
     setTempValue("");
+    cardService.updateCard(updatedCard);
   };
 
   const handleCardTypeChange = (cardType: CardType) => {

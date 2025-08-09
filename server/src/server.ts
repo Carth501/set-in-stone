@@ -38,7 +38,7 @@ app.post("/api/cards", async (req: Request, res: Response) => {
   }
 });
 
-app.put("/api/card/:uuid", async (req: Request, res: Response) => {
+app.put("/api/updatecard/:uuid", async (req: Request, res: Response) => {
   const { uuid } = req.params;
   const card = await db.updateCard(uuid, req.body);
 

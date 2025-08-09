@@ -33,7 +33,7 @@ export const cardService = {
 
   async updateCard(card: Card): Promise<Card | null> {
     try {
-      const response = await fetch(`${API_BASE_URL}/card/${card.uuid}`, {
+      const response = await fetch(`${API_BASE_URL}/updatecard/${card.uuid}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
