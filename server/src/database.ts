@@ -19,6 +19,7 @@ const dbToCard = (dbCard: CardDB): Card => ({
 const cardToDb = (card: CreateCardInput | UpdateCardInput): CardDB => ({
   uuid: "",
   name: card.name || "",
+  accessory: card.accessory || null,
   aspectList: JSON.stringify(card.aspectList || {}),
   art: card.art || "",
   description: card.description || "",
@@ -28,7 +29,6 @@ const cardToDb = (card: CreateCardInput | UpdateCardInput): CardDB => ({
   regeneration: card.regeneration || 0,
   tags: JSON.stringify(card.tags || []),
   type: card.type ? (card.type as string) : "",
-  accessory: null,
 });
 
 export const db = {
