@@ -170,6 +170,12 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
           autoFocus
         />
       );
+    } else {
+      elements.art = !card.art && (
+        <div className="w-full h-full flex items-center justify-center text-gray-400">
+          Click to add art
+        </div>
+      );
     }
 
     if (editingField === "description") {

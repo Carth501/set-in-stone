@@ -167,11 +167,6 @@ const CardDisplay: React.FC<Props> = ({
                 className="w-full object-cover"
               />
             )}
-            {!card.art && (
-              <div className="w-full h-full flex items-center justify-center text-gray-400">
-                Click to add art
-              </div>
-            )}
           </>
         )}
       </div>
