@@ -47,6 +47,7 @@ function App() {
     if (newCard) {
       setCard(newCard);
     }
+    setView("editor");
   };
 
   const handleCardSelect = (selectedCard: Card) => {
