@@ -18,6 +18,7 @@ import {
 import { cardService } from "../utils/cardService";
 import { insertIconCode } from "../utils/iconInterpolation";
 import AspectSymbolSelector from "./AspectSymbolSelector";
+import AspectToggle from "./AspectToggle";
 import CardDisplay from "./CardDisplay";
 import CardTypeSelector from "./CardTypeSelector";
 import IconInsertButtons from "./IconInsertButtons";
@@ -365,6 +366,12 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
     onCardChange(updatedCard);
   };
 
+  const handleAspectMaskChange = (newMask: number) => {
+    const updatedCard = { ...card, aspectMask: newMask };
+    onCardChange(updatedCard);
+    cardService.updateCard(updatedCard);
+  };
+
   return (
     <div className="flex flex-row gap-1 relative">
       {(editingField === "description" ||
@@ -402,6 +409,12 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
           onFieldClick={startEditing}
           editableElements={getEditableElements()}
           removeAspect={handleAspectDecrement}
+        />
+
+        <AspectToggle
+          aspectMask={card.aspectMask || 0}
+          onAspectMaskChange={handleAspectMaskChange}
+          filterOutFundamental={true}
         />
       </div>
 

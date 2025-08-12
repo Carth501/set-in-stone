@@ -41,7 +41,7 @@ const CardDisplay: React.FC<Props> = ({
   textureConfig = {},
   editableElements = {},
 }) => {
-  const cardColorClass = getCardColorClass(card.aspectList);
+  const cardColorClass = getCardColorClass(card.aspectList, card.aspectMask);
   const textureFunction = getTexture(textureType);
 
   const handleFieldClick = (field: string) => {

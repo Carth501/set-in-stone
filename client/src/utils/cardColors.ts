@@ -1,11 +1,21 @@
-import type { AspectType } from "../aspects/aspects";
+import { ASPECTS, type AspectType } from "../aspects/aspects";
 import type { CardCost } from "../types/Card";
 
-export function getCardColorClass(aspectList: CardCost): string {
-  const aspectsWithCost = Object.entries(aspectList)
-    .filter(([, count]) => count > 0)
-    .filter(([aspect]) => aspect !== "FUNDAMENTAL")
-    .map(([aspect]) => aspect as AspectType);
+export function getCardColorClass(
+  aspectList: CardCost,
+  aspectMask?: number
+): string {
+  let aspectsWithCost;
+  if (aspectMask) {
+    aspectsWithCost = ASPECTS.filter((aspect, index) => {
+      return (aspectMask & (1 << index)) !== 0;
+    });
+  } else {
+    aspectsWithCost = Object.entries(aspectList)
+      .filter(([, count]) => count > 0)
+      .filter(([aspect]) => aspect !== "FUNDAMENTAL")
+      .map(([aspect]) => aspect as AspectType);
+  }
 
   if (aspectsWithCost.length === 0) {
     return "bg-fundamental";

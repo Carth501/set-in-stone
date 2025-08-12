@@ -4,6 +4,7 @@ export type Card = {
   type: CardType;
   name: string;
   aspectList: CardCost;
+  aspectMask?: number;
   art: string;
   description: string;
   objectiveDescription: string;

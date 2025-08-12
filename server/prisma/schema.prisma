@@ -13,6 +13,7 @@ model Card {
   type                  String
   name                  String
   aspectList            String
+  aspectMask            Int?     @default(0)
   art                   String
   description           String
   objectiveDescription  String

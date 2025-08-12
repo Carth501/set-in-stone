@@ -4,6 +4,7 @@ export type Card = {
   type: CardType;
   name: string;
   aspectList: CardCost;
+  aspectMask?: number;
   art: string;
   description: string;
   objectiveDescription: string;
@@ -24,6 +25,7 @@ export type CardDB = {
   type: string;
   name: string;
   aspectList: string; // JSON string
+  aspectMask?: number;
   art: string;
   description: string;
   objectiveDescription: string;
