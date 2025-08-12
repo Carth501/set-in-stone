@@ -22,6 +22,7 @@ import AspectToggle from "./AspectToggle";
 import CardDisplay from "./CardDisplay";
 import CardTypeSelector from "./CardTypeSelector";
 import IconInsertButtons from "./IconInsertButtons";
+import { Button } from "./ui/button";
 
 type Props = {
   card: Card;
@@ -35,6 +36,8 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
   const [textareaRef, setTextareaRef] = useState<HTMLTextAreaElement | null>(
     null
   );
+  const [aspectOverridePanelOpen, setAspectOverridePanelOpen] =
+    useState<boolean>(false);
 
   const startEditing = (field: string) => {
     setEditingField(field);
@@ -373,53 +376,69 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
   };
 
   return (
-    <div className="flex flex-row gap-1 relative">
-      {(editingField === "description" ||
-        editingField === "objectiveDescription") && (
-        <div className="absolute -left-20 top-0 z-10">
-          <IconInsertButtons onIconInsert={handleIconInsert} />
+    <>
+      <div className="flex flex-row gap-1 relative">
+        {(editingField === "description" ||
+          editingField === "objectiveDescription") && (
+          <div className="absolute -left-20 top-0 z-10">
+            <IconInsertButtons onIconInsert={handleIconInsert} />
+          </div>
+        )}
+
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-row gap-2 items-center">
+            <Select
+              value={card.accessory ?? "none"}
+              onValueChange={(value) => {
+                setAccessory(value as AccessoryType);
+              }}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select accessory" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">No Accessory</SelectItem>
+                {ACCESSORIES.map((option) => (
+                  <SelectItem key={option} value={option}>
+                    {capitalizeFirstLetter(option)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <CardDisplay
+            card={card}
+            className={className}
+            onFieldClick={startEditing}
+            editableElements={getEditableElements()}
+            removeAspect={handleAspectDecrement}
+          />
         </div>
-      )}
 
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-row gap-2 items-center">
-          <Select
-            value={card.accessory ?? "none"}
-            onValueChange={(value) => {
-              setAccessory(value as AccessoryType);
-            }}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select accessory" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="none">No Accessory</SelectItem>
-              {ACCESSORIES.map((option) => (
-                <SelectItem key={option} value={option}>
-                  {capitalizeFirstLetter(option)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <CardDisplay
-          card={card}
-          className={className}
-          onFieldClick={startEditing}
-          editableElements={getEditableElements()}
-          removeAspect={handleAspectDecrement}
-        />
-
-        <AspectToggle
-          aspectMask={card.aspectMask || 0}
-          onAspectMaskChange={handleAspectMaskChange}
-          filterOutFundamental={true}
+        <AspectSymbolSelector
+          vertical={true}
+          onSelect={handleAspectIncrement}
         />
       </div>
 
-      <AspectSymbolSelector vertical={true} onSelect={handleAspectIncrement} />
-    </div>
+      <Button
+        onClick={() => setAspectOverridePanelOpen(!aspectOverridePanelOpen)}
+        className="px-3 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors absolute left-20 bottom-60 -rotate-90"
+      >
+        Aspect override panel {aspectOverridePanelOpen ? "▼" : "▲"}
+      </Button>
+      {aspectOverridePanelOpen && (
+        <div className="p-3 rounded border absolute bottom-0 left-10">
+          <AspectToggle
+            aspectMask={card.aspectMask || 0}
+            onAspectMaskChange={handleAspectMaskChange}
+            filterOutFundamental={true}
+            vertical={true}
+          />
+        </div>
+      )}
+    </>
   );
 };
 

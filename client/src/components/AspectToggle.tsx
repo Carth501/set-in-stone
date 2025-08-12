@@ -7,6 +7,7 @@ type Props = {
   onAspectMaskChange: (newMask: number) => void;
   className?: string;
   filterOutFundamental?: boolean;
+  vertical?: boolean;
 };
 
 const AspectToggle: React.FC<Props> = ({
@@ -14,6 +15,7 @@ const AspectToggle: React.FC<Props> = ({
   onAspectMaskChange,
   className = "",
   filterOutFundamental,
+  vertical,
 }) => {
   const isAspectEnabled = (aspect: AspectType): boolean => {
     return (aspectMask & (1 << ASPECTS.indexOf(aspect))) !== 0;
@@ -25,7 +27,11 @@ const AspectToggle: React.FC<Props> = ({
   };
 
   return (
-    <div className={`flex flex-wrap gap-2 ${className}`}>
+    <div
+      className={`flex flex-wrap gap-2 ${className} ${
+        vertical ? "flex-col" : "flex-row"
+      }`}
+    >
       {ASPECTS.map((aspect) => {
         if (filterOutFundamental && aspect === "FUNDAMENTAL") {
           return null;
