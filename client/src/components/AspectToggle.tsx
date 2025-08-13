@@ -39,27 +39,29 @@ const AspectToggle: React.FC<Props> = ({
         const isEnabled = isAspectEnabled(aspect);
 
         return (
-          <Tooltip>
-            <TooltipTrigger
-              onClick={() => toggleAspect(aspect)}
-              className={`rounded-full w-11 h-11 flex items-center justify-center border-2 transition
+          <div key={aspect}>
+            <Tooltip>
+              <TooltipTrigger
+                onClick={() => toggleAspect(aspect)}
+                className={`rounded-full w-11 h-11 flex items-center justify-center border-2 transition
               ${
                 isEnabled
                   ? "border-blue-500 ring-2 ring-blue-300"
                   : "border-gray-400"
               }
               bg-gray-800 hover:bg-gray-700`}
-            >
-              <img
-                src={Icons[aspect]}
-                alt={aspect}
-                className="w-8 h-8 object-contain"
-              />
-            </TooltipTrigger>
-            <TooltipContent sideOffset={4} side="bottom">
-              {aspect}
-            </TooltipContent>
-          </Tooltip>
+              >
+                <img
+                  src={Icons[aspect]}
+                  alt={aspect}
+                  className="w-8 h-8 object-contain"
+                />
+              </TooltipTrigger>
+              <TooltipContent sideOffset={4} side="bottom">
+                {aspect}
+              </TooltipContent>
+            </Tooltip>
+          </div>
         );
       })}
     </div>
