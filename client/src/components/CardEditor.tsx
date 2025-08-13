@@ -422,22 +422,27 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
         />
       </div>
 
-      <Button
-        onClick={() => setAspectOverridePanelOpen(!aspectOverridePanelOpen)}
-        className="px-3 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors absolute left-20 bottom-60 -rotate-90"
-      >
-        Aspect override panel {aspectOverridePanelOpen ? "▼" : "▲"}
-      </Button>
-      {aspectOverridePanelOpen && (
-        <div className="p-3 rounded border absolute bottom-0 left-10">
-          <AspectToggle
-            aspectMask={card.aspectMask || 0}
-            onAspectMaskChange={handleAspectMaskChange}
-            filterOutFundamental={true}
-            vertical={true}
-          />
+      <div className="h-0">
+        <Button
+          onClick={() => setAspectOverridePanelOpen(!aspectOverridePanelOpen)}
+          className="px-3 py-2 rounded transition-colors relative -left-66 bottom-40 -rotate-90"
+          variant="outline"
+        >
+          Aspect override panel {aspectOverridePanelOpen ? "▼" : "▲"}
+        </Button>
+        <div className="w-17 relative -left-32 bottom-120">
+          {aspectOverridePanelOpen && (
+            <div className="p-3 rounded border relative">
+              <AspectToggle
+                aspectMask={card.aspectMask || 0}
+                onAspectMaskChange={handleAspectMaskChange}
+                filterOutFundamental={true}
+                vertical={true}
+              />
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 };
