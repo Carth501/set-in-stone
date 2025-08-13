@@ -3,10 +3,10 @@ import type { CardCost } from "../types/Card";
 
 export function getCardColorClass(
   aspectList: CardCost,
-  aspectMask?: number
+  aspectMask: number
 ): string {
   let aspectsWithCost;
-  if (aspectMask) {
+  if (aspectMask > 0) {
     aspectsWithCost = ASPECTS.filter((aspect, index) => {
       return (aspectMask & (1 << index)) !== 0;
     });

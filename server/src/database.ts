@@ -21,6 +21,7 @@ const cardToDb = (card: CreateCardInput | UpdateCardInput): CardDB => ({
   name: card.name || "",
   accessory: card.accessory || null,
   aspectList: JSON.stringify(card.aspectList || {}),
+  aspectMask: card.aspectMask || 0,
   art: card.art || "",
   description: card.description || "",
   objectiveDescription: card.objectiveDescription || "",
