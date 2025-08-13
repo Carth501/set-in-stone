@@ -116,7 +116,7 @@ export const db = {
         select: { uuid: true },
         skip: offset,
         take: limit,
-        orderBy: { createdAt: "desc" },
+        orderBy: { createdAt: "asc" },
       }),
       prisma.card.count(),
     ]);
