@@ -86,7 +86,10 @@ export const db = {
 
   async getAllCards(): Promise<Card[]> {
     const cards = await prisma.card.findMany();
-    return cards.map(dbToCard);
+    return {
+      cards: cards.map((card) => dbToCard(card as CardDB)),
+      total,
+    };
   },
 
   async getAllCardUuids(): Promise<string[]> {
