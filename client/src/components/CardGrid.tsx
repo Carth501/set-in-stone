@@ -50,8 +50,8 @@ export default function CardGrid({ onCardSelect }: CardGridProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    cardService.fetchAllCardUuids?.().then((cardUuids: string[] | null) => {
-      if (cardUuids) setUuids(cardUuids);
+    cardService.fetchAllCardUuids?.().then((response) => {
+      if (response) setUuids(response.uuids);
       setLoading(false);
     });
   }, []);

@@ -84,19 +84,48 @@ export const db = {
     }
   },
 
-  async getAllCards(): Promise<Card[]> {
-    const cards = await prisma.card.findMany();
+  async getAllCards(
+    page: number = 1,
+    limit: number = 20
+  ): Promise<{ cards: Card[]; total: number }> {
+    const offset = (page - 1) * limit;
+
+    const [cards, total] = await Promise.all([
+      prisma.card.findMany({
+        skip: offset,
+        take: limit,
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.card.count(),
+    ]);
+
     return {
       cards: cards.map((card) => dbToCard(card as CardDB)),
       total,
     };
   },
 
-  async getAllCardUuids(): Promise<string[]> {
-    const cards = await prisma.card.findMany();
-    return cards
+  async getAllCardUuids(
+    page: number = 1,
+    limit: number = 20
+  ): Promise<{ uuids: string[]; total: number }> {
+    const offset = (page - 1) * limit;
+
+    const [cards, total] = await Promise.all([
+      prisma.card.findMany({
+        select: { uuid: true },
+        skip: offset,
+        take: limit,
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.card.count(),
+    ]);
+
+    const uuids = cards
       .map((card) => card.uuid)
       .filter((uuid) => uuid && uuid.trim() !== "");
+
+    return { uuids, total };
   },
 };
 

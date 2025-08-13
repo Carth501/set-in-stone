@@ -51,13 +51,27 @@ app.put("/api/updatecard/:uuid", async (req: Request, res: Response) => {
 
 app.get("/api/cards", async (req: Request, res: Response) => {
   try {
-    const cards = await db.getAllCards();
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+
+    const { cards, total } = await db.getAllCards(page, limit);
     const cardList = cards.map((card) => ({
       uuid: card.uuid,
       name: card.name,
       type: card.type,
     }));
-    res.json(cardList);
+
+    res.json({
+      cards: cardList,
+      pagination: {
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        totalCards: total,
+        cardsPerPage: limit,
+        hasNextPage: page < Math.ceil(total / limit),
+        hasPreviousPage: page > 1,
+      },
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch cards" });
   }
@@ -65,8 +79,22 @@ app.get("/api/cards", async (req: Request, res: Response) => {
 
 app.get("/api/cards/uuids", async (req: Request, res: Response) => {
   try {
-    const uuids = await db.getAllCardUuids();
-    res.json(uuids);
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+
+    const { uuids, total } = await db.getAllCardUuids(page, limit);
+
+    res.json({
+      uuids,
+      pagination: {
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        totalCards: total,
+        cardsPerPage: limit,
+        hasNextPage: page < Math.ceil(total / limit),
+        hasPreviousPage: page > 1,
+      },
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch card UUIDs" });
   }
