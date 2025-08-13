@@ -57,7 +57,7 @@ const AspectToggle: React.FC<Props> = ({
                   className="w-8 h-8 object-contain"
                 />
               </TooltipTrigger>
-              <TooltipContent sideOffset={4} side="bottom">
+              <TooltipContent sideOffset={4} side="left">
                 {aspect}
               </TooltipContent>
             </Tooltip>
