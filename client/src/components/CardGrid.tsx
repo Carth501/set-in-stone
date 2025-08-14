@@ -11,6 +11,14 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "./ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 // Full card display component for grid
 function CardGridItem({
@@ -64,10 +72,11 @@ export default function CardGrid({ onCardSelect }: CardGridProps) {
     hasNextPage: false,
     hasPreviousPage: false,
   });
+  const [pageSize, setPageSize] = useState(20);
 
   const fetchCards = async (page: number) => {
     setLoading(true);
-    const response = await cardService.fetchAllCardUuids(page);
+    const response = await cardService.fetchAllCardUuids(page, pageSize);
     if (response) {
       setUuids(response.uuids);
       setPagination(response.pagination);
@@ -158,6 +167,20 @@ export default function CardGrid({ onCardSelect }: CardGridProps) {
                   : "cursor-pointer"
               }
             />
+          </PaginationItem>
+          <PaginationItem>
+            <Select onValueChange={(value) => setPageSize(Number(value))}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Set Page Size" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="20">20</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                  <SelectItem value="100">100</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </PaginationItem>
         </PaginationContent>
       </Pagination>
