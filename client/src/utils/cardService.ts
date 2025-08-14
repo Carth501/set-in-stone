@@ -83,7 +83,7 @@ export const cardService = {
 
   async fetchAllCardUuids(
     page: number = 1,
-    limit: number = 20
+    limit: number = 2
   ): Promise<{
     uuids: string[];
     pagination: PaginatedCardsResponse["pagination"];
