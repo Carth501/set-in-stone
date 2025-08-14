@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import type { Card } from "../types/Card";
 import { cardService } from "../utils/cardService";
 import CardDisplay from "./CardDisplay";
+import type { FilterConfig } from "./Filters";
+import Filters from "./Filters";
 import {
   Pagination,
   PaginationContent,
@@ -11,14 +13,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "./ui/pagination";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 
 // Full card display component for grid
 function CardGridItem({
@@ -60,9 +54,10 @@ function CardGridItem({
 
 interface CardGridProps {
   onCardSelect: (card: Card) => void;
+  filters?: FilterConfig;
 }
 
-export default function CardGrid({ onCardSelect }: CardGridProps) {
+export default function CardGrid({ onCardSelect, filters }: CardGridProps) {
   const [uuids, setUuids] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -72,11 +67,16 @@ export default function CardGrid({ onCardSelect }: CardGridProps) {
     hasNextPage: false,
     hasPreviousPage: false,
   });
-  const [pageSize, setPageSize] = useState(20);
 
   const fetchCards = async (page: number) => {
     setLoading(true);
-    const response = await cardService.fetchAllCardUuids(page, pageSize);
+
+    // Log the filter configuration for now
+    if (filters) {
+      console.log("Applied filters:", filters);
+    }
+
+    const response = await cardService.fetchAllCardUuids(page);
     if (response) {
       setUuids(response.uuids);
       setPagination(response.pagination);
@@ -86,7 +86,7 @@ export default function CardGrid({ onCardSelect }: CardGridProps) {
 
   useEffect(() => {
     fetchCards(currentPage);
-  }, [currentPage]);
+  }, [currentPage, filters]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -102,6 +102,9 @@ export default function CardGrid({ onCardSelect }: CardGridProps) {
 
   return (
     <>
+      <Filters
+        onSearch={(filters) => console.log("Searching with filters:", filters)}
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
         {uuids.map((uuid) => (
           <CardGridItem key={uuid} uuid={uuid} onClick={onCardSelect} />
@@ -167,20 +170,6 @@ export default function CardGrid({ onCardSelect }: CardGridProps) {
                   : "cursor-pointer"
               }
             />
-          </PaginationItem>
-          <PaginationItem>
-            <Select onValueChange={(value) => setPageSize(Number(value))}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Set Page Size" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="20">20</SelectItem>
-                  <SelectItem value="50">50</SelectItem>
-                  <SelectItem value="100">100</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
           </PaginationItem>
         </PaginationContent>
       </Pagination>
