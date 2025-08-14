@@ -2,6 +2,15 @@ import { useEffect, useState } from "react";
 import type { Card } from "../types/Card";
 import { cardService } from "../utils/cardService";
 import CardDisplay from "./CardDisplay";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "./ui/pagination";
 
 // Full card display component for grid
 function CardGridItem({
@@ -48,13 +57,31 @@ interface CardGridProps {
 export default function CardGrid({ onCardSelect }: CardGridProps) {
   const [uuids, setUuids] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pagination, setPagination] = useState({
+    totalPages: 1,
+    totalCards: 0,
+    hasNextPage: false,
+    hasPreviousPage: false,
+  });
+
+  const fetchCards = async (page: number) => {
+    setLoading(true);
+    const response = await cardService.fetchAllCardUuids(page);
+    if (response) {
+      setUuids(response.uuids);
+      setPagination(response.pagination);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    cardService.fetchAllCardUuids?.().then((response) => {
-      if (response) setUuids(response.uuids);
-      setLoading(false);
-    });
-  }, []);
+    fetchCards(currentPage);
+  }, [currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   if (loading) {
     return <div>Loading cards...</div>;
@@ -65,10 +92,46 @@ export default function CardGrid({ onCardSelect }: CardGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
-      {uuids.map((uuid) => (
-        <CardGridItem key={uuid} uuid={uuid} onClick={onCardSelect} />
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
+        {uuids.map((uuid) => (
+          <CardGridItem key={uuid} uuid={uuid} onClick={onCardSelect} />
+        ))}
+      </div>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={() =>
+                pagination.hasPreviousPage && handlePageChange(currentPage - 1)
+              }
+              className={
+                !pagination.hasPreviousPage
+                  ? "pointer-events-none opacity-50"
+                  : "cursor-pointer"
+              }
+            />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink>{currentPage}</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext
+              onClick={() =>
+                pagination.hasNextPage && handlePageChange(currentPage + 1)
+              }
+              className={
+                !pagination.hasNextPage
+                  ? "pointer-events-none opacity-50"
+                  : "cursor-pointer"
+              }
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </>
   );
 }
