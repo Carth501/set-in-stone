@@ -115,28 +115,34 @@ export default function CardGrid({ onCardSelect }: CardGridProps) {
           {currentPage > 2 && (
             <>
               <PaginationItem>
-                <PaginationLink>1</PaginationLink>
+                <PaginationLink onClick={() => handlePageChange(1)}>
+                  1
+                </PaginationLink>
               </PaginationItem>
               <PaginationEllipsis />
             </>
           )}
           {currentPage > 1 && (
             <PaginationItem>
-              <PaginationLink>{currentPage - 1}</PaginationLink>
+              <PaginationLink onClick={() => handlePageChange(currentPage - 1)}>
+                {currentPage - 1}
+              </PaginationLink>
             </PaginationItem>
           )}
           <PaginationItem>
-            <PaginationLink>{currentPage}</PaginationLink>
+            <PaginationLink isActive={true}>{currentPage}</PaginationLink>
           </PaginationItem>
           {currentPage < pagination.totalPages && (
-            <PaginationItem>
+            <PaginationItem onClick={() => handlePageChange(currentPage + 1)}>
               <PaginationLink>{currentPage + 1}</PaginationLink>
             </PaginationItem>
           )}
           {currentPage < pagination.totalPages - 1 && (
             <>
               <PaginationEllipsis />
-              <PaginationItem>
+              <PaginationItem
+                onClick={() => handlePageChange(pagination.totalPages)}
+              >
                 <PaginationLink>{pagination.totalPages}</PaginationLink>
               </PaginationItem>
             </>
