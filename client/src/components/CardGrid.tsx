@@ -3,7 +3,6 @@ import type { Card } from "../types/Card";
 import { cardService } from "../utils/cardService";
 import CardDisplay from "./CardDisplay";
 import type { FilterConfig } from "./Filters";
-import Filters from "./Filters";
 import {
   Pagination,
   PaginationContent,
@@ -101,10 +100,7 @@ export default function CardGrid({ onCardSelect, filters }: CardGridProps) {
   }
 
   return (
-    <>
-      <Filters
-        onSearch={(filters) => console.log("Searching with filters:", filters)}
-      />
+    <div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
         {uuids.map((uuid) => (
           <CardGridItem key={uuid} uuid={uuid} onClick={onCardSelect} />
@@ -173,6 +169,6 @@ export default function CardGrid({ onCardSelect, filters }: CardGridProps) {
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-    </>
+    </div>
   );
 }

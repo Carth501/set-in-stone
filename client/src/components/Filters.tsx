@@ -70,7 +70,7 @@ export default function Filters({ onSearch }: FiltersProps) {
     <div className="p-4 bg-transparent rounded-lg space-y-4">
       <h3 className="text-lg font-semibold">Filters</h3>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="flex flex-wrap flex-col items-stretch gap-4">
         <div>
           <Select onValueChange={(value) => setPageSize(Number(value))}>
             <SelectTrigger className="w-[180px]">

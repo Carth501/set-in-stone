@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./App.css";
 import CardEditor from "./components/CardEditor.tsx";
 import CardGrid from "./components/CardGrid.tsx";
+import Filters from "./components/Filters.tsx";
 import { Button } from "./components/ui/button.tsx";
 import type { Card } from "./types/Card";
 import { blankCard } from "./types/Card";
@@ -77,7 +78,14 @@ function App() {
         </div>
 
         {view === "grid" ? (
-          <CardGrid onCardSelect={handleCardSelect} />
+          <div className="flex flex-row">
+            <Filters
+              onSearch={(filters) =>
+                console.log("Searching with filters:", filters)
+              }
+            />
+            <CardGrid onCardSelect={handleCardSelect} />
+          </div>
         ) : (
           <div id="card-editor" className="bg-gray-900 rounded-3xl p-4">
             <CardEditor
