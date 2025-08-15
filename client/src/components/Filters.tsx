@@ -72,6 +72,7 @@ export default function Filters({ onSearch }: FiltersProps) {
 
       <div className="flex flex-wrap flex-col items-stretch gap-4">
         <div>
+          <Label htmlFor="page-size">Page Size</Label>
           <Select onValueChange={(value) => setPageSize(Number(value))}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Set Page Size" />
