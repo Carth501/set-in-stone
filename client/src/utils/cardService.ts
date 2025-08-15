@@ -18,6 +18,20 @@ export interface PaginatedCardsResponse {
   };
 }
 
+export interface FilterConfig {
+  pageSize?: number;
+  name?: string;
+  type?: string;
+  tags?: string[];
+  offenceMin?: number;
+  offenceMax?: number;
+  defenceMin?: number;
+  defenceMax?: number;
+  regenerationMin?: number;
+  regenerationMax?: number;
+  hasArt?: boolean;
+}
+
 export const cardService = {
   async fetchCard(uuid: string): Promise<Card | null> {
     try {

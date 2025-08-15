@@ -1,3 +1,4 @@
+import type { FilterConfig } from "@/utils/cardService";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
@@ -10,20 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-
-export interface FilterConfig {
-  pageSize?: number;
-  name?: string;
-  type?: string;
-  tags?: string[];
-  offenceMin?: number;
-  offenceMax?: number;
-  defenceMin?: number;
-  defenceMax?: number;
-  regenerationMin?: number;
-  regenerationMax?: number;
-  hasArt?: boolean;
-}
 
 interface FiltersProps {
   onSearch: (filters: FilterConfig) => void;

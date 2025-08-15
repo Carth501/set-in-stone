@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import type { Card } from "../types/Card";
+import type { FilterConfig } from "../utils/cardService";
 import { cardService } from "../utils/cardService";
 import CardDisplay from "./CardDisplay";
-import type { FilterConfig } from "./Filters";
 import {
   Pagination,
   PaginationContent,
