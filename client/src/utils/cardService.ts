@@ -113,4 +113,32 @@ export const cardService = {
       return null;
     }
   },
+
+  async searchCardUuids(
+    page: number = 1,
+    limit: number = 20,
+    filters: FilterConfig = {}
+  ): Promise<{
+    uuids: string[];
+    pagination: PaginatedCardsResponse["pagination"];
+  } | null> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/cards/uuids/search`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          page,
+          limit,
+          filters,
+        }),
+      });
+      if (!response.ok) return null;
+      return await response.json();
+    } catch (error) {
+      console.error("Failed to search card UUIDs:", error);
+      return null;
+    }
+  },
 };

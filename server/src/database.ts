@@ -127,6 +127,77 @@ export const db = {
 
     return { uuids, total };
   },
+
+  async searchCardUuids(
+    page: number = 1,
+    limit: number = 20,
+    filters: any = {}
+  ): Promise<{ uuids: string[]; total: number }> {
+    const offset = (page - 1) * limit;
+
+    // Build where clause from filters
+    const where: any = {};
+
+    if (filters.name) {
+      where.name = { contains: filters.name, mode: "insensitive" };
+    }
+
+    if (filters.type) {
+      where.type = filters.type;
+    }
+
+    if (filters.offenceMin !== undefined || filters.offenceMax !== undefined) {
+      where.offence = {};
+      if (filters.offenceMin !== undefined)
+        where.offence.gte = filters.offenceMin;
+      if (filters.offenceMax !== undefined)
+        where.offence.lte = filters.offenceMax;
+    }
+
+    if (filters.defenceMin !== undefined || filters.defenceMax !== undefined) {
+      where.defence = {};
+      if (filters.defenceMin !== undefined)
+        where.defence.gte = filters.defenceMin;
+      if (filters.defenceMax !== undefined)
+        where.defence.lte = filters.defenceMax;
+    }
+
+    if (
+      filters.regenerationMin !== undefined ||
+      filters.regenerationMax !== undefined
+    ) {
+      where.regeneration = {};
+      if (filters.regenerationMin !== undefined)
+        where.regeneration.gte = filters.regenerationMin;
+      if (filters.regenerationMax !== undefined)
+        where.regeneration.lte = filters.regenerationMax;
+    }
+
+    if (filters.hasArt !== undefined) {
+      if (filters.hasArt) {
+        where.art = { not: "" };
+      } else {
+        where.art = "";
+      }
+    }
+
+    const [cards, total] = await Promise.all([
+      prisma.card.findMany({
+        select: { uuid: true },
+        where,
+        skip: offset,
+        take: limit,
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.card.count({ where }),
+    ]);
+
+    const uuids = cards
+      .map((card) => card.uuid)
+      .filter((uuid) => uuid && uuid.trim() !== "");
+
+    return { uuids, total };
+  },
 };
 
 export default prisma;

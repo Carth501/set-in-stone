@@ -100,6 +100,28 @@ app.get("/api/cards/uuids", async (req: Request, res: Response) => {
   }
 });
 
+app.post("/api/cards/uuids/search", async (req: Request, res: Response) => {
+  try {
+    const { page = 1, limit = 20, filters = {} } = req.body;
+
+    const { uuids, total } = await db.searchCardUuids(page, limit, filters);
+
+    res.json({
+      uuids,
+      pagination: {
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        totalCards: total,
+        cardsPerPage: limit,
+        hasNextPage: page < Math.ceil(total / limit),
+        hasPreviousPage: page > 1,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to search card UUIDs" });
+  }
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
