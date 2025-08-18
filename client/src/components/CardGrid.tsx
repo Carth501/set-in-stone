@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type { Card } from "../types/Card";
-import type { FilterConfig } from "../utils/cardService";
 import { cardService } from "../utils/cardService";
 import CardDisplay from "./CardDisplay";
 import {
@@ -53,47 +52,27 @@ function CardGridItem({
 
 interface CardGridProps {
   onCardSelect: (card: Card) => void;
-  filters?: FilterConfig;
+  uuids: string[];
+  pagination: {
+    totalPages: number;
+    totalCards: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  };
+  currentPage: number;
+  onPageChange: (page: number) => void;
 }
 
-export default function CardGrid({ onCardSelect, filters }: CardGridProps) {
-  const [uuids, setUuids] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pagination, setPagination] = useState({
-    totalPages: 1,
-    totalCards: 0,
-    hasNextPage: false,
-    hasPreviousPage: false,
-  });
-
-  const fetchCards = async (page: number) => {
-    setLoading(true);
-
-    // Log the filter configuration for now
-    if (filters) {
-      console.log("Applied filters:", filters);
-    }
-
-    const response = await cardService.fetchAllCardUuids(page);
-    if (response) {
-      setUuids(response.uuids);
-      setPagination(response.pagination);
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchCards(currentPage);
-  }, [currentPage, filters]);
-
+export default function CardGrid({
+  onCardSelect,
+  uuids,
+  pagination,
+  currentPage,
+  onPageChange,
+}: CardGridProps) {
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    onPageChange(page);
   };
-
-  if (loading) {
-    return <div>Loading cards...</div>;
-  }
 
   if (uuids.length === 0) {
     return <div>There are no cards that match your filters.</div>;
