@@ -135,6 +135,8 @@ export const db = {
   ): Promise<{ uuids: string[]; total: number }> {
     const offset = (page - 1) * limit;
 
+    console.log("searchCardUuids: ", filters);
+
     // Build where clause from filters
     const where: any = {};
 
@@ -142,8 +144,8 @@ export const db = {
       where.name = { contains: filters.name, mode: "insensitive" };
     }
 
-    if (filters.type) {
-      where.type = filters.type;
+    if (filters.type && filters.type !== "all") {
+      where.type = filters.type.toUpperCase();
     }
 
     if (filters.offenceMin !== undefined || filters.offenceMax !== undefined) {
@@ -180,6 +182,7 @@ export const db = {
         where.art = "";
       }
     }
+    console.log("where: ", where);
 
     const [cards, total] = await Promise.all([
       prisma.card.findMany({

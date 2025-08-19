@@ -103,7 +103,7 @@ app.get("/api/cards/uuids", async (req: Request, res: Response) => {
 app.post("/api/cards/uuids/search", async (req: Request, res: Response) => {
   try {
     const { page = 1, limit = 20, filters = {} } = req.body;
-
+    console.log(filters);
     const { uuids, total } = await db.searchCardUuids(page, limit, filters);
 
     res.json({
