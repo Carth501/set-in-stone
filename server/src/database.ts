@@ -135,7 +135,6 @@ export const db = {
   ): Promise<{ uuids: string[]; total: number }> {
     const offset = (page - 1) * limit;
 
-    // Build where clause from filters
     const where: any = {};
 
     if (filters.name && filters.name.trim() !== "") {
@@ -145,6 +144,18 @@ export const db = {
 
     if (filters.type && filters.type !== "all") {
       where.type = filters.type.toUpperCase();
+    }
+
+    if (filters.tags && filters.tags.length > 0) {
+      const tagConditions = filters.tags.map((tag: string) => ({
+        tags: { contains: `"${tag.toLowerCase()}"` },
+      }));
+
+      if (tagConditions.length === 1) {
+        where.tags = tagConditions[0].tags;
+      } else {
+        where.AND = tagConditions;
+      }
     }
 
     if (filters.offenceMin !== undefined || filters.offenceMax !== undefined) {
