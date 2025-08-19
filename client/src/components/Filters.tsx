@@ -98,6 +98,7 @@ export default function Filters({ onSearch }: FiltersProps) {
             onValueChange={(value) =>
               handleInputChange("accessory", value || undefined)
             }
+            defaultValue="any"
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Filter By Accessory" />
@@ -118,6 +119,7 @@ export default function Filters({ onSearch }: FiltersProps) {
             onValueChange={(value) =>
               handleInputChange("type", value || undefined)
             }
+            defaultValue="any"
           >
             <SelectTrigger>
               <SelectValue placeholder="Select type" />
