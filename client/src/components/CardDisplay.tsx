@@ -265,6 +265,7 @@ const CardDisplay: React.FC<Props> = ({
           )}
         </div>
       </div>
+      <div className="text-xs text-gray-500 ">{card.uuid}</div>
     </div>
   );
 };
