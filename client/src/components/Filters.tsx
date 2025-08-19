@@ -85,6 +85,25 @@ export default function Filters({ onSearch }: FiltersProps) {
         </div>
 
         <div>
+          <Label htmlFor="page-size">Accessory</Label>
+          <Select
+            onValueChange={(value) =>
+              handleInputChange("accessory", value || undefined)
+            }
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter By Accessory" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="any">Any Accessory</SelectItem>
+              <SelectItem value="unique">Unique</SelectItem>
+              <SelectItem value="objective">Objective</SelectItem>
+              <SelectItem value="none">None</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
           <Label htmlFor="type">Card Type</Label>
           <Select
             value={filters.type || ""}
@@ -96,7 +115,7 @@ export default function Filters({ onSearch }: FiltersProps) {
               <SelectValue placeholder="Select type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Types</SelectItem>
+              <SelectItem value="any">Any Type</SelectItem>
               <SelectItem value="creature">Creature</SelectItem>
               <SelectItem value="spell">Spell</SelectItem>
               <SelectItem value="artifact">Artifact</SelectItem>

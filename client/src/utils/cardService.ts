@@ -21,6 +21,7 @@ export interface PaginatedCardsResponse {
 export interface FilterConfig {
   pageSize?: number;
   name?: string;
+  accessory?: string;
   type?: string;
   tags?: string[];
   offenceMin?: number;

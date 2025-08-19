@@ -142,7 +142,11 @@ export const db = {
       where.name = { contains: nameFilter };
     }
 
-    if (filters.type && filters.type !== "all") {
+    if (filters.accessory && filters.accessory !== "any") {
+      where.accessory = filters.accessory.toUpperCase();
+    }
+
+    if (filters.type && filters.type !== "any") {
       where.type = filters.type.toUpperCase();
     }
 
