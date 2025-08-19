@@ -135,13 +135,12 @@ export const db = {
   ): Promise<{ uuids: string[]; total: number }> {
     const offset = (page - 1) * limit;
 
-    console.log("searchCardUuids: ", filters);
-
     // Build where clause from filters
     const where: any = {};
 
-    if (filters.name) {
-      where.name = { contains: filters.name, mode: "insensitive" };
+    if (filters.name && filters.name.trim() !== "") {
+      const nameFilter = filters.name.trim();
+      where.name = { contains: nameFilter };
     }
 
     if (filters.type && filters.type !== "all") {
@@ -182,24 +181,28 @@ export const db = {
         where.art = "";
       }
     }
-    console.log("where: ", where);
 
-    const [cards, total] = await Promise.all([
-      prisma.card.findMany({
-        select: { uuid: true },
-        where,
-        skip: offset,
-        take: limit,
-        orderBy: { createdAt: "desc" },
-      }),
-      prisma.card.count({ where }),
-    ]);
+    try {
+      const [cards, total] = await Promise.all([
+        prisma.card.findMany({
+          select: { uuid: true, name: true },
+          where,
+          skip: offset,
+          take: limit,
+          orderBy: { createdAt: "desc" },
+        }),
+        prisma.card.count({ where }),
+      ]);
 
-    const uuids = cards
-      .map((card) => card.uuid)
-      .filter((uuid) => uuid && uuid.trim() !== "");
+      const uuids = cards
+        .map((card) => card.uuid)
+        .filter((uuid) => uuid && uuid.trim() !== "");
 
-    return { uuids, total };
+      return { uuids, total };
+    } catch (error) {
+      console.error("Prisma query failed:", error);
+      throw error;
+    }
   },
 };
 

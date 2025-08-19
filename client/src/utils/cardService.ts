@@ -82,7 +82,6 @@ export const cardService = {
     page: number = 1,
     limit: number = 20
   ): Promise<PaginatedCardsResponse | null> {
-    console.log(`Fetching all cards - Page: ${page}, Limit: ${limit}`);
     try {
       const response = await fetch(
         `${API_BASE_URL}/cards?page=${page}&limit=${limit}`
