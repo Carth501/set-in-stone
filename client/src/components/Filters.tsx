@@ -44,6 +44,11 @@ export default function Filters({ onSearch }: FiltersProps) {
     onSearch(filters);
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSearch();
+  };
+
   const clearFilters = () => {
     setFilters({});
     setTagInput("");
@@ -54,7 +59,10 @@ export default function Filters({ onSearch }: FiltersProps) {
   }
 
   return (
-    <div className="p-4 bg-transparent rounded-lg space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      className="p-4 bg-transparent rounded-lg space-y-4"
+    >
       <h3 className="text-lg font-semibold">Filters</h3>
 
       <div className="flex flex-wrap flex-col items-stretch gap-4">
@@ -243,16 +251,13 @@ export default function Filters({ onSearch }: FiltersProps) {
       </div>
 
       <div className="flex gap-2">
-        <Button
-          onClick={handleSearch}
-          className="bg-blue-600 hover:bg-blue-700"
-        >
+        <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
           Search
         </Button>
-        <Button onClick={clearFilters} variant="outline">
+        <Button type="button" onClick={clearFilters} variant="outline">
           Clear Filters
         </Button>
       </div>
-    </div>
+    </form>
   );
 }
