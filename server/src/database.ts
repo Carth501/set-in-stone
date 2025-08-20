@@ -189,6 +189,10 @@ export const db = {
         where.regeneration.lte = filters.regenerationMax;
     }
 
+    if (filters.aspect !== undefined && filters.aspect > 0) {
+      where.aspectMask = { equals: filters.aspect };
+    }
+
     if (filters.hasArt !== undefined) {
       if (filters.hasArt) {
         where.art = { not: "" };

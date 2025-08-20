@@ -24,6 +24,7 @@ export interface FilterConfig {
   accessory?: string;
   type?: string;
   tags?: string[];
+  aspect?: number;
   offenceMin?: number;
   offenceMax?: number;
   defenceMin?: number;

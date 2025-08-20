@@ -1,5 +1,6 @@
 import type { FilterConfig } from "@/utils/cardService";
 import { useState } from "react";
+import AspectToggle from "./AspectToggle";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
 import { Input } from "./ui/input";
@@ -141,6 +142,16 @@ export default function Filters({ onSearch }: FiltersProps) {
             placeholder="tag1, tag2, tag3..."
             value={tagInput}
             onChange={(e) => handleTagsChange(e.target.value)}
+          />
+        </div>
+
+        <div className="max-w-45">
+          <AspectToggle
+            aspectMask={filters.aspect || 0}
+            onAspectMaskChange={(newMask: number) =>
+              handleInputChange("aspect", newMask)
+            }
+            filterOutFundamental={true}
           />
         </div>
 
