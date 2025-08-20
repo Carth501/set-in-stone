@@ -135,123 +135,91 @@ export const db = {
   ): Promise<{ uuids: string[]; total: number }> {
     const offset = (page - 1) * limit;
 
-    // Build WHERE conditions for raw SQL
-    const whereConditions: string[] = [];
-    const params: any[] = [];
+    const where: any = {};
 
     if (filters.name && filters.name.trim() !== "") {
-      whereConditions.push(`name LIKE ?`);
-      params.push(`%${filters.name.trim()}%`);
+      const nameFilter = filters.name.trim();
+      where.name = { contains: nameFilter };
     }
 
     if (filters.accessory && filters.accessory !== "any") {
-      whereConditions.push(`accessory = ?`);
-      params.push(filters.accessory.toUpperCase());
+      where.accessory = filters.accessory.toUpperCase();
     }
 
     if (filters.type && filters.type !== "any") {
-      whereConditions.push(`type = ?`);
-      params.push(filters.type.toUpperCase());
+      where.type = filters.type.toUpperCase();
     }
 
     if (filters.tags && filters.tags.length > 0) {
-      for (const tag of filters.tags) {
-        whereConditions.push(`tags LIKE ?`);
-        params.push(`%"${tag.toLowerCase()}"%`);
+      const tagConditions = filters.tags.map((tag: string) => ({
+        tags: { contains: `"${tag.toLowerCase()}"` },
+      }));
+
+      if (tagConditions.length === 1) {
+        where.tags = tagConditions[0].tags;
+      } else {
+        where.AND = tagConditions;
       }
     }
 
-    if (filters.offenceMin !== undefined) {
-      whereConditions.push(`offence >= ?`);
-      params.push(filters.offenceMin);
+    if (filters.offenceMin !== undefined || filters.offenceMax !== undefined) {
+      where.offence = {};
+      if (filters.offenceMin !== undefined)
+        where.offence.gte = filters.offenceMin;
+      if (filters.offenceMax !== undefined)
+        where.offence.lte = filters.offenceMax;
     }
 
-    if (filters.offenceMax !== undefined) {
-      whereConditions.push(`offence <= ?`);
-      params.push(filters.offenceMax);
+    if (filters.defenceMin !== undefined || filters.defenceMax !== undefined) {
+      where.defence = {};
+      if (filters.defenceMin !== undefined)
+        where.defence.gte = filters.defenceMin;
+      if (filters.defenceMax !== undefined)
+        where.defence.lte = filters.defenceMax;
     }
 
-    if (filters.defenceMin !== undefined) {
-      whereConditions.push(`defence >= ?`);
-      params.push(filters.defenceMin);
+    if (
+      filters.regenerationMin !== undefined ||
+      filters.regenerationMax !== undefined
+    ) {
+      where.regeneration = {};
+      if (filters.regenerationMin !== undefined)
+        where.regeneration.gte = filters.regenerationMin;
+      if (filters.regenerationMax !== undefined)
+        where.regeneration.lte = filters.regenerationMax;
     }
 
-    if (filters.defenceMax !== undefined) {
-      whereConditions.push(`defence <= ?`);
-      params.push(filters.defenceMax);
-    }
-
-    if (filters.regenerationMin !== undefined) {
-      whereConditions.push(`regeneration >= ?`);
-      params.push(filters.regenerationMin);
-    }
-
-    if (filters.regenerationMax !== undefined) {
-      whereConditions.push(`regeneration <= ?`);
-      params.push(filters.regenerationMax);
-    }
-
-    // Handle aspect filtering using both bitmask and JSON aspectList
-    if (filters.aspectMask !== undefined && filters.aspectMask > 0) {
-      // Use bitmask for efficient filtering
-      whereConditions.push(`(aspectMask & ?) = ?`);
-      params.push(filters.aspectMask, filters.aspectMask);
+    if (filters.aspect !== undefined && filters.aspect > 0) {
+      where.aspectMask = { equals: filters.aspect };
     }
 
     if (filters.hasArt !== undefined) {
       if (filters.hasArt) {
-        whereConditions.push(`art != ""`);
+        where.art = { not: "" };
       } else {
-        whereConditions.push(`art = ""`);
+        where.art = "";
       }
     }
 
-    const whereClause =
-      whereConditions.length > 0
-        ? `WHERE ${whereConditions.join(" AND ")}`
-        : "";
-
-    console.log("whereConditions: ", whereConditions);
-    console.log("params: ", params);
-    console.log("whereClause: ", whereClause);
     try {
-      // Get the filtered UUIDs with pagination
-      const cardsQuery = `
-        SELECT uuid, name FROM Card 
-        ${whereClause}
-        ORDER BY createdAt DESC
-        LIMIT ? OFFSET ?
-      `;
+      const [cards, total] = await Promise.all([
+        prisma.card.findMany({
+          select: { uuid: true, name: true },
+          where,
+          skip: offset,
+          take: limit,
+          orderBy: { createdAt: "desc" },
+        }),
+        prisma.card.count({ where }),
+      ]);
 
-      // Get total count for pagination
-      const countQuery = `
-        SELECT COUNT(*) as total FROM Card 
-        ${whereClause}
-      `;
-
-      const cards = (await prisma.$queryRawUnsafe(
-        cardsQuery,
-        ...params,
-        limit,
-        offset
-      )) as any[];
-      console.log("countQuery: ", countQuery);
-      const countResult = (await prisma.$queryRawUnsafe(
-        countQuery,
-        ...params
-      )) as any[];
-
-      console.log("countResult: ", countResult);
-
-      const total = Number(countResult[0].total);
       const uuids = cards
         .map((card) => card.uuid)
         .filter((uuid) => uuid && uuid.trim() !== "");
-      console.log("uuids: ", uuids, " total: ", total);
 
       return { uuids, total };
     } catch (error) {
-      console.error("Raw SQL query failed:", error);
+      console.error("Prisma query failed:", error);
       throw error;
     }
   },

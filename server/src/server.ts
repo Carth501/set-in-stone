@@ -104,7 +104,7 @@ app.post("/api/cards/uuids/search", async (req: Request, res: Response) => {
   try {
     const { page = 1, limit = 20, filters = {} } = req.body;
     const { uuids, total } = await db.searchCardUuids(page, limit, filters);
-    console.log("Result uuids: ", uuids, " total: ", total);
+
     res.json({
       uuids,
       pagination: {
