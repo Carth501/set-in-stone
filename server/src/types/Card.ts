@@ -25,6 +25,7 @@ export type CardDB = {
   type: string;
   name: string;
   aspectList: string; // JSON string
+  identity: number;
   aspectMask: number;
   art: string;
   description: string;

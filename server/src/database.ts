@@ -1,10 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import {
+  CardCost,
   type Card,
   type CardDB,
   type CreateCardInput,
   type UpdateCardInput,
 } from "./types/Card";
+import { ASPECTS } from "./types/aspects";
 
 const prisma = new PrismaClient();
 
@@ -21,6 +23,7 @@ const cardToDb = (card: CreateCardInput | UpdateCardInput): CardDB => ({
   name: card.name || "",
   accessory: card.accessory || null,
   aspectList: JSON.stringify(card.aspectList || {}),
+  identity: generateIdentity(card.aspectMask || 0, card.aspectList || {}),
   aspectMask: card.aspectMask || 0,
   art: card.art || "",
   description: card.description || "",
@@ -31,6 +34,28 @@ const cardToDb = (card: CreateCardInput | UpdateCardInput): CardDB => ({
   tags: JSON.stringify(card.tags || []),
   type: card.type ? (card.type as string) : "",
 });
+
+export const generateIdentity = (
+  aspectMask: number,
+  aspectList: CardCost
+): number => {
+  if (aspectMask !== null && aspectMask !== undefined && aspectMask !== 0) {
+    return aspectMask;
+  } else {
+    console.log("aspectList ", aspectList);
+    let value = 0;
+    for (let i = 0; i < ASPECTS.length; i++) {
+      console.log("i ", i);
+      console.log("ASPECTS[i] ", ASPECTS[i]);
+      if (aspectList[ASPECTS[i]] > 0) {
+        console.log("aspectList[ASPECTS[i]] ", aspectList[ASPECTS[i]]);
+        console.log("1 << i ", 1 << i);
+        value += 1 << i;
+      }
+    }
+    return value;
+  }
+};
 
 export const db = {
   async getCard(uuid: string): Promise<Card | null> {
