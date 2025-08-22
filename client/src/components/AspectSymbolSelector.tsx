@@ -8,6 +8,7 @@ type Props = {
   onSelect: (index: number) => void;
   aspectCounts?: Partial<Record<AspectType, number>>;
   vertical?: boolean;
+  showTooltips?: boolean;
 };
 
 const AspectSymbolSelector: React.FC<Props> = ({
@@ -16,6 +17,7 @@ const AspectSymbolSelector: React.FC<Props> = ({
   onSelect,
   aspectCounts,
   vertical = false,
+  showTooltips = true,
 }) => (
   <div
     className={`flex ${vertical ? "flex-col" : "flex-row"} gap-4`}
@@ -45,9 +47,11 @@ const AspectSymbolSelector: React.FC<Props> = ({
                 className="w-8 h-8 object-contain"
               />
             </TooltipTrigger>
-            <TooltipContent sideOffset={4} side="right">
-              {aspect}
-            </TooltipContent>
+            {showTooltips && (
+              <TooltipContent sideOffset={4} side="right">
+                {aspect}
+              </TooltipContent>
+            )}
           </Tooltip>
           {aspectCounts && count && count > 0 && (
             <span className="text-xs mt-1 text-center">{count}</span>

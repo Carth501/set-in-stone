@@ -152,6 +152,7 @@ export default function Filters({ onSearch }: FiltersProps) {
               handleInputChange("aspect", newMask)
             }
             filterOutFundamental={true}
+            showTooltips={false}
           />
         </div>
 

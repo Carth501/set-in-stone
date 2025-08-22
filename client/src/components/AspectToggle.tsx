@@ -8,6 +8,7 @@ type Props = {
   className?: string;
   filterOutFundamental?: boolean;
   vertical?: boolean;
+  showTooltips?: boolean;
 };
 
 const AspectToggle: React.FC<Props> = ({
@@ -16,6 +17,7 @@ const AspectToggle: React.FC<Props> = ({
   className = "",
   filterOutFundamental,
   vertical,
+  showTooltips = true,
 }) => {
   const isAspectEnabled = (aspect: AspectType): boolean => {
     return (aspectMask & (1 << ASPECTS.indexOf(aspect))) !== 0;
@@ -57,9 +59,11 @@ const AspectToggle: React.FC<Props> = ({
                   className="w-8 h-8 object-contain"
                 />
               </TooltipTrigger>
-              <TooltipContent sideOffset={4} side="left">
-                {aspect}
-              </TooltipContent>
+              {showTooltips && (
+                <TooltipContent sideOffset={4} side="left">
+                  {aspect}
+                </TooltipContent>
+              )}
             </Tooltip>
           </div>
         );
