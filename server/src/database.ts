@@ -42,14 +42,9 @@ export const generateIdentity = (
   if (aspectMask !== null && aspectMask !== undefined && aspectMask !== 0) {
     return aspectMask;
   } else {
-    console.log("aspectList ", aspectList);
     let value = 0;
     for (let i = 0; i < ASPECTS.length; i++) {
-      console.log("i ", i);
-      console.log("ASPECTS[i] ", ASPECTS[i]);
-      if (aspectList[ASPECTS[i]] > 0) {
-        console.log("aspectList[ASPECTS[i]] ", aspectList[ASPECTS[i]]);
-        console.log("1 << i ", 1 << i);
+      if (ASPECTS[i] !== "FUNDAMENTAL" && aspectList[ASPECTS[i]] > 0) {
         value += 1 << i;
       }
     }
@@ -215,7 +210,7 @@ export const db = {
     }
 
     if (filters.aspect !== undefined && filters.aspect > 0) {
-      where.aspectMask = { equals: filters.aspect };
+      where.identity = { equals: filters.aspect };
     }
 
     if (filters.hasArt !== undefined) {
