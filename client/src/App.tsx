@@ -4,9 +4,11 @@ import "./App.css";
 import CardEditor from "./components/CardEditor.tsx";
 import CardGrid from "./components/CardGrid.tsx";
 import Filters from "./components/Filters.tsx";
+import LoginModal from "./components/LoginModal.tsx";
 import { Button } from "./components/ui/button.tsx";
 import type { Card } from "./types/Card";
 import { blankCard } from "./types/Card";
+import { authService, type User } from "./utils/authService.ts";
 import { cardService, type FilterConfig } from "./utils/cardService";
 
 function App() {
@@ -21,6 +23,17 @@ function App() {
   });
   const [filters, setFilters] = useState<FilterConfig>({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [user, setUser] = useState<User | null>(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  // Check if user is already logged in on app start
+  useEffect(() => {
+    authService.getCurrentUser().then((currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+      }
+    });
+  }, []);
 
   const handleChange = (newCard: Card) => setCard(newCard);
 
@@ -76,9 +89,37 @@ function App() {
     setView("editor");
   };
 
+  const handleLoginSuccess = (loggedInUser: User) => {
+    setUser(loggedInUser);
+    setShowLoginModal(false);
+  };
+
+  const handleLogout = async () => {
+    await authService.logout();
+    setUser(null);
+  };
+
+  const login = () => {
+    setShowLoginModal(true);
+  };
+
   return (
     <div>
       <div className="p-4">
+        <div className="absolute top-8 right-8 space-x-2">
+          {user ? (
+            <>
+              <span className="text-xl text-gray-300">{user.username}</span>
+              <Button variant="outline" onClick={handleLogout}>
+                Log Out
+              </Button>
+            </>
+          ) : (
+            <Button variant="outline" onClick={login}>
+              Log In
+            </Button>
+          )}
+        </div>
         <div className="mb-4 space-x-2">
           <Button
             variant={view === "grid" ? "default" : "outline"}
@@ -126,6 +167,12 @@ function App() {
           </div>
         )}
       </div>
+
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLoginSuccess={handleLoginSuccess}
+      />
     </div>
   );
 }
