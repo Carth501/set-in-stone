@@ -1,6 +1,7 @@
 import html2canvas from "html2canvas-pro";
 import { useEffect, useState } from "react";
 import "./App.css";
+import CardDisplay from "./components/CardDisplay.tsx";
 import CardEditor from "./components/CardEditor.tsx";
 import CardGrid from "./components/CardGrid.tsx";
 import Filters from "./components/Filters.tsx";
@@ -13,7 +14,7 @@ import { cardService, type FilterConfig } from "./utils/cardService";
 
 function App() {
   const [card, setCard] = useState<Card>(blankCard);
-  const [view, setView] = useState<"grid" | "editor">("grid");
+  const [view, setView] = useState<"grid" | "editor" | "viewer">("grid");
   const [uuids, setUuids] = useState<string[]>([]);
   const [pagination, setPagination] = useState({
     totalPages: 1,
@@ -86,7 +87,11 @@ function App() {
 
   const handleCardSelect = (selectedCard: Card) => {
     setCard(selectedCard);
-    setView("editor");
+    if (user) {
+      setView("editor");
+    } else {
+      setView("viewer");
+    }
   };
 
   const handleLoginSuccess = (loggedInUser: User) => {
@@ -127,18 +132,29 @@ function App() {
           >
             Card Grid
           </Button>
-          <Button
-            variant={view === "editor" ? "default" : "outline"}
-            onClick={() => setView("editor")}
-          >
-            Card Editor
-          </Button>
-          <Button variant="outline" onClick={handleNewCard}>
-            New Card
-          </Button>
-        </div>
 
-        {view === "grid" ? (
+          {user ? (
+            <Button
+              variant={view === "editor" ? "default" : "outline"}
+              onClick={() => setView("editor")}
+            >
+              Card Editor
+            </Button>
+          ) : (
+            <Button
+              variant={view === "viewer" ? "default" : "outline"}
+              onClick={() => setView("viewer")}
+            >
+              Card View
+            </Button>
+          )}
+          {user && (
+            <Button variant="outline" onClick={handleNewCard}>
+              New Card
+            </Button>
+          )}
+        </div>
+        {view === "grid" && (
           <div className="flex flex-row">
             <Filters onSearch={(filters) => setFilters(filters)} />
             <CardGrid
@@ -149,13 +165,27 @@ function App() {
               onPageChange={setCurrentPage}
             />
           </div>
-        ) : (
+        )}
+        {view === "editor" && (
           <div id="card-editor" className="bg-gray-900 rounded-3xl p-4">
             <CardEditor
               card={card}
               className={card.type}
               onCardChange={handleChange}
             />
+            <div className="mt-2 space-x-2">
+              <Button variant="outline" onClick={handleExport}>
+                Export as Image
+              </Button>
+              <Button variant="outline" onClick={handleLoadCard}>
+                Load Card
+              </Button>
+            </div>
+          </div>
+        )}
+        {view === "viewer" && (
+          <div id="card-view" className="bg-gray-900 rounded-3xl p-4">
+            <CardDisplay card={card} className={card.type} />
             <div className="mt-2 space-x-2">
               <Button variant="outline" onClick={handleExport}>
                 Export as Image
