@@ -39,14 +39,21 @@ app.get("/api/card/:uuid", async (req: Request, res: Response) => {
   res.json(card);
 });
 
-app.post("/api/cards", async (req: Request, res: Response) => {
-  try {
-    const card = await db.createCard(req.body);
-    res.status(201).json(card);
-  } catch (error) {
-    res.status(400).json({ error: "Failed to create card" });
+app.post(
+  "/api/cards",
+  authenticateUser,
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      const card = await db.createCard(req.body, req.user.id);
+      res.status(201).json(card);
+    } catch (error) {
+      res.status(400).json({ error: "Failed to create card" });
+    }
   }
-});
+);
 
 app.put("/api/updatecard/:uuid", async (req: Request, res: Response) => {
   const { uuid } = req.params;

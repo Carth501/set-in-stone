@@ -12,6 +12,7 @@ export type Card = {
   defence: number;
   regeneration: number;
   tags: string[];
+  creatorId?: string;
 };
 
 export type CardCost = {
@@ -36,6 +37,7 @@ export type CardDB = {
   tags: string; // JSON string
   createdAt?: Date;
   updatedAt?: Date;
+  creatorId?: string;
 };
 
 export const blankCard: Card = {

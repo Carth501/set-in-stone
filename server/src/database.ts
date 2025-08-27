@@ -62,13 +62,14 @@ export const db = {
     return dbToCard(card as CardDB);
   },
 
-  async createCard(cardData: CreateCardInput): Promise<Card> {
+  async createCard(cardData: CreateCardInput, userId: string): Promise<Card> {
     const dbData = cardToDb(cardData);
     const newUUID = crypto.randomUUID();
     const newCard = await prisma.card.create({
       data: {
         ...dbData,
         uuid: newUUID,
+        creatorId: userId,
       },
     });
 
