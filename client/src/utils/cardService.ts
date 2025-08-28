@@ -37,7 +37,9 @@ export interface FilterConfig {
 export const cardService = {
   async fetchCard(uuid: string): Promise<Card | null> {
     try {
-      const response = await fetch(`${API_BASE_URL}/card/${uuid}`);
+      const response = await fetch(`${API_BASE_URL}/card/${uuid}`, {
+        credentials: "include",
+      });
       if (!response.ok) return null;
       return await response.json();
     } catch (error) {
@@ -53,6 +55,7 @@ export const cardService = {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(card),
       });
       if (!response.ok) return null;
@@ -70,6 +73,7 @@ export const cardService = {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(card),
       });
       if (!response.ok) return null;
@@ -86,31 +90,15 @@ export const cardService = {
   ): Promise<PaginatedCardsResponse | null> {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/cards?page=${page}&limit=${limit}`
+        `${API_BASE_URL}/cards?page=${page}&limit=${limit}`,
+        {
+          credentials: "include",
+        }
       );
       if (!response.ok) return null;
       return await response.json();
     } catch (error) {
       console.error("Failed to fetch cards:", error);
-      return null;
-    }
-  },
-
-  async fetchAllCardUuids(
-    page: number = 1,
-    limit: number = 20
-  ): Promise<{
-    uuids: string[];
-    pagination: PaginatedCardsResponse["pagination"];
-  } | null> {
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}/cards/uuids?page=${page}&limit=${limit}`
-      );
-      if (!response.ok) return null;
-      return await response.json();
-    } catch (error) {
-      console.error("Failed to fetch card UUIDs: ", error);
       return null;
     }
   },
@@ -129,6 +117,7 @@ export const cardService = {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           page,
           limit,
@@ -139,6 +128,28 @@ export const cardService = {
       return await response.json();
     } catch (error) {
       console.error("Failed to search card UUIDs:", error);
+      return null;
+    }
+  },
+
+  async fetchAllCardUuids(
+    page: number = 1,
+    limit: number = 20
+  ): Promise<{
+    uuids: string[];
+    pagination: PaginatedCardsResponse["pagination"];
+  } | null> {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/cards/uuids?page=${page}&limit=${limit}`,
+        {
+          credentials: "include",
+        }
+      );
+      if (!response.ok) return null;
+      return await response.json();
+    } catch (error) {
+      console.error("Failed to fetch card UUIDs: ", error);
       return null;
     }
   },
