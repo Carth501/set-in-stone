@@ -59,7 +59,8 @@ export function interpolateIcons(text: string): React.ReactNode[] {
     const aspectName = ICON_CODES[iconCode];
 
     if (aspectName === "FUNDAMENTAL") {
-      if (!pendingFundamental && match.index > lastIndex) {
+      if (match.index > lastIndex) {
+        flushFundamental(match.index);
         parts.push(text.slice(lastIndex, match.index));
       }
       fundamentalCount++;
