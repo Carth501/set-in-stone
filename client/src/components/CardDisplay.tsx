@@ -158,17 +158,7 @@ const CardDisplay: React.FC<Props> = ({
         data-html2canvas-ignore={!card.art}
         onClick={() => handleFieldClick("art")}
       >
-        {editableElements.art || (
-          <>
-            {card.art && (
-              <img
-                src={card.art}
-                alt={card.name}
-                className="w-full object-cover"
-              />
-            )}
-          </>
-        )}
+        <img src={card.art} alt={card.name} className="w-full object-cover" />
       </div>
     );
   };
@@ -242,7 +232,8 @@ const CardDisplay: React.FC<Props> = ({
             }`}
           >
             {cardHeader()}
-            {cardArt()}
+            {editableElements.art || (card.art && cardArt())}
+
             {cardDescriptionPanel()}
             {card.accessory === "OBJECTIVE" && cardObjectiveDescription()}
           </div>
