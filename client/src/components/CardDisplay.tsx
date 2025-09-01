@@ -95,7 +95,7 @@ const CardDisplay: React.FC<Props> = ({
   const cardHeader = () => {
     return (
       <div className="card-header bg-gray-800/50 rounded-xl text-left p-2 shrink-0">
-        <div className="text-2xl font-bold overflow-ellipsis">
+        <div className="text-xl font-bold overflow-ellipsis">
           {editableElements.name || (
             <div
               onClick={() => handleFieldClick("name")}
