@@ -9,6 +9,7 @@ import {
   interpolateIcons,
   renderFundamentalAspect,
 } from "../utils/iconInterpolation";
+import { parseDescriptionWithLore } from "../utils/loreUtils";
 import "./Card.css";
 
 type Props = {
@@ -174,6 +175,8 @@ const CardDisplay: React.FC<Props> = ({
   };
 
   const cardDescriptionPanel = () => {
+    const { gameText, loreText } = parseDescriptionWithLore(card.description);
+
     return (
       <div className="card-description bg-gray-800/50 text-left rounded-xl px-2 py-1 grow-1 overflow-hidden">
         {editableElements.description || (
@@ -184,7 +187,12 @@ const CardDisplay: React.FC<Props> = ({
               (onFieldClick ? "cursor-pointer" : "")
             }
           >
-            {interpolateIcons(card.description)}
+            <div>{gameText}</div>
+            {loreText && (
+              <div className="text-gray-400 italic mt-2 border-t border-gray-600 pt-2">
+                {loreText}
+              </div>
+            )}
           </div>
         )}
       </div>
