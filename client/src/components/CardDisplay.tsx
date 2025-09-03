@@ -167,7 +167,7 @@ const CardDisplay: React.FC<Props> = ({
           >
             <div>{gameText}</div>
             {loreText && (
-              <div className="text-gray-400 italic mt-2 border-t border-gray-600 pt-2">
+              <div className="text-gray-300 italic mt-2 border-t border-gray-600 text-sm">
                 {loreText}
               </div>
             )}
