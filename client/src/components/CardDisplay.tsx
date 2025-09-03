@@ -151,28 +151,6 @@ const CardDisplay: React.FC<Props> = ({
     );
   };
 
-  const cardArt = () => {
-    return (
-      <div
-        className="card-art bg-gray-800/50 rounded-xl overflow-hidden max-h-48"
-        data-html2canvas-ignore={!card.art}
-        onClick={() => handleFieldClick("art")}
-      >
-        {editableElements.art || (
-          <>
-            {card.art && (
-              <img
-                src={card.art}
-                alt={card.name}
-                className="w-full object-cover"
-              />
-            )}
-          </>
-        )}
-      </div>
-    );
-  };
-
   const cardDescriptionPanel = () => {
     return (
       <div className="card-description bg-gray-800/50 text-left rounded-xl px-2 py-1 grow-1 overflow-hidden">
@@ -242,7 +220,6 @@ const CardDisplay: React.FC<Props> = ({
             }`}
           >
             {cardHeader()}
-            {cardArt()}
             {cardDescriptionPanel()}
             {card.accessory === "OBJECTIVE" && cardObjectiveDescription()}
           </div>
