@@ -152,28 +152,6 @@ const CardDisplay: React.FC<Props> = ({
     );
   };
 
-  const cardArt = () => {
-    return (
-      <div
-        className="card-art bg-gray-800/50 rounded-xl overflow-hidden max-h-48"
-        data-html2canvas-ignore={!card.art}
-        onClick={() => handleFieldClick("art")}
-      >
-        {editableElements.art || (
-          <>
-            {card.art && (
-              <img
-                src={card.art}
-                alt={card.name}
-                className="w-full object-cover"
-              />
-            )}
-          </>
-        )}
-      </div>
-    );
-  };
-
   const cardDescriptionPanel = () => {
     const { gameText, loreText } = parseDescriptionWithLore(card.description);
 
@@ -250,7 +228,6 @@ const CardDisplay: React.FC<Props> = ({
             }`}
           >
             {cardHeader()}
-            {cardArt()}
             {cardDescriptionPanel()}
             {card.accessory === "OBJECTIVE" && cardObjectiveDescription()}
           </div>
