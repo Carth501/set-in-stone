@@ -164,6 +164,7 @@ const CardDisplay: React.FC<Props> = ({
               "h-full w-full whitespace-pre-wrap overflow-y-hidden " +
               (onFieldClick ? "cursor-pointer" : "")
             }
+            style={{ tabSize: 4 }} // Set tab width to 4 spaces
           >
             <div>{gameText}</div>
             {loreText && (

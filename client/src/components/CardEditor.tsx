@@ -107,7 +107,22 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
   };
 
   const handleDescriptionKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && e.shiftKey) {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      const textarea = e.target as HTMLTextAreaElement;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+
+      // Insert tab character at cursor position
+      const newValue =
+        tempValue.substring(0, start) + "\t" + tempValue.substring(end);
+      setTempValue(newValue);
+
+      // Set cursor position after the tab
+      setTimeout(() => {
+        textarea.setSelectionRange(start + 1, start + 1);
+      }, 0);
+    } else if (e.key === "Enter" && e.shiftKey) {
       return;
     } else if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -193,7 +208,8 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
             onChange={(e) => setTempValue(e.target.value)}
             onKeyDown={handleDescriptionKeyDown}
             className="w-full flex-1 bg-gray-700 text-white rounded px-2 py-1 resize-none"
-            placeholder="Enter description... (Shift+Enter for new line, Enter to save)"
+            style={{ tabSize: 4 }} // Set tab width to 4 spaces
+            placeholder="Enter description... (Tab for indent, Shift+Enter for new line, Enter to save)"
             autoFocus
           />
           <div className="flex gap-2" data-html2canvas-ignore="true">
@@ -223,7 +239,8 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
             onChange={(e) => setTempValue(e.target.value)}
             onKeyDown={handleDescriptionKeyDown}
             className="w-full flex-1 bg-gray-700 text-white rounded px-2 py-1 resize-none"
-            placeholder="Enter objective reward... (Shift+Enter for new line, Enter to save)"
+            style={{ tabSize: 4 }} // Set tab width to 4 spaces
+            placeholder="Enter objective reward... (Tab for indent, Shift+Enter for new line, Enter to save)"
             autoFocus
           />
           <div className="flex gap-2" data-html2canvas-ignore="true">
