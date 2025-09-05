@@ -211,9 +211,9 @@ export const db = {
       params.push(filters.regenerationMax);
     }
 
-    if (filters.aspectMask !== undefined && filters.aspectMask > 0) {
+    if (filters.aspect !== undefined && filters.aspect > 0) {
       whereConditions.push(`(identity & ?) = ?`);
-      params.push(filters.aspectMask, filters.aspectMask);
+      params.push(filters.aspect, filters.aspect);
     }
 
     if (filters.hasArt !== undefined) {

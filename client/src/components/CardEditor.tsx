@@ -208,7 +208,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
             onChange={(e) => setTempValue(e.target.value)}
             onKeyDown={handleDescriptionKeyDown}
             className="w-full flex-1 bg-gray-700 text-white rounded px-2 py-1 resize-none"
-            style={{ tabSize: 4 }} // Set tab width to 4 spaces
+            style={{ tabSize: 4 }}
             placeholder="Enter description... (Tab for indent, Shift+Enter for new line, Enter to save)"
             autoFocus
           />
@@ -239,7 +239,7 @@ const CardEditor: React.FC<Props> = ({ card, onCardChange, className }) => {
             onChange={(e) => setTempValue(e.target.value)}
             onKeyDown={handleDescriptionKeyDown}
             className="w-full flex-1 bg-gray-700 text-white rounded px-2 py-1 resize-none"
-            style={{ tabSize: 4 }} // Set tab width to 4 spaces
+            style={{ tabSize: 4 }}
             placeholder="Enter objective reward... (Tab for indent, Shift+Enter for new line, Enter to save)"
             autoFocus
           />
