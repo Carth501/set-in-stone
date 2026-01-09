@@ -26,7 +26,8 @@ model Card {
   updatedAt             DateTime @updatedAt
   creatorId             String?
   
-  creator               User?    @relation(fields: [creatorId], references: [id])
+  creator               User?               @relation(fields: [creatorId], references: [id])
+  setMemberships        CardSetMembership[]
 }
 
 model User {
@@ -39,6 +40,7 @@ model User {
   
   sessions      Session[]
   createdCards  Card[]
+  cardSets      CardSet[]
 }
 
 model Session {
@@ -51,4 +53,32 @@ model Session {
   
   @@index([userId])
   @@index([expiresAt])
+}
+
+model CardSet {
+  id          String              @id @default(uuid())
+  name        String
+  description String              @default("")
+  creatorId   String
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  
+  creator     User                @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  cards       CardSetMembership[]
+  
+  @@index([creatorId])
+}
+
+model CardSetMembership {
+  id        String   @id @default(uuid())
+  setId     String
+  cardUuid  String
+  addedAt   DateTime @default(now())
+  
+  set       CardSet  @relation(fields: [setId], references: [id], onDelete: Cascade)
+  card      Card     @relation(fields: [cardUuid], references: [uuid], onDelete: Cascade)
+  
+  @@unique([setId, cardUuid])
+  @@index([setId])
+  @@index([cardUuid])
 }

@@ -138,6 +138,195 @@ app.post("/api/cards/uuids/search", async (req: Request, res: Response) => {
   }
 });
 
+//#region CardSet routes
+
+// Get all sets for the logged-in user
+app.get(
+  "/api/sets",
+  authenticateUser,
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+
+      const sets = await db.getUserCardSets(req.user.id);
+      res.json(sets);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch card sets" });
+    }
+  }
+);
+
+// Get a specific set with its cards
+app.get("/api/sets/:setId", async (req: Request, res: Response) => {
+  try {
+    const { setId } = req.params;
+    const cardSet = await db.getCardSet(setId);
+
+    if (!cardSet) {
+      return res.status(404).json({ error: "Card set not found" });
+    }
+
+    res.json(cardSet);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch card set" });
+  }
+});
+
+// Create a new set
+app.post(
+  "/api/sets",
+  authenticateUser,
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      if (!req.user?.id) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+
+      const { name, description } = req.body;
+
+      if (!name || name.trim() === "") {
+        return res.status(400).json({ error: "Set name is required" });
+      }
+
+      const newSet = await db.createCardSet({ name, description }, req.user.id);
+      res.status(201).json(newSet);
+    } catch (error) {
+      res.status(400).json({ error: "Failed to create card set" });
+    }
+  }
+);
+
+// Update a set's name or description
+app.put(
+  "/api/sets/:setId",
+  authenticateUser,
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const { setId } = req.params;
+      const { name, description } = req.body;
+
+      // Verify ownership
+      const existingSet = await db.getCardSet(setId);
+      if (!existingSet) {
+        return res.status(404).json({ error: "Card set not found" });
+      }
+
+      if (existingSet.creatorId !== req.user?.id) {
+        return res.status(403).json({ error: "Unauthorized" });
+      }
+
+      const updatedSet = await db.updateCardSet(setId, { name, description });
+
+      if (!updatedSet) {
+        return res.status(404).json({ error: "Card set not found" });
+      }
+
+      res.json(updatedSet);
+    } catch (error) {
+      res.status(400).json({ error: "Failed to update card set" });
+    }
+  }
+);
+
+// Delete a set
+app.delete(
+  "/api/sets/:setId",
+  authenticateUser,
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const { setId } = req.params;
+
+      // Verify ownership
+      const existingSet = await db.getCardSet(setId);
+      if (!existingSet) {
+        return res.status(404).json({ error: "Card set not found" });
+      }
+
+      if (existingSet.creatorId !== req.user?.id) {
+        return res.status(403).json({ error: "Unauthorized" });
+      }
+
+      const deleted = await db.deleteCardSet(setId);
+
+      if (!deleted) {
+        return res.status(404).json({ error: "Card set not found" });
+      }
+
+      res.json({ message: "Card set deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete card set" });
+    }
+  }
+);
+
+// Add a card to a set
+app.post(
+  "/api/sets/:setId/cards/:cardUuid",
+  authenticateUser,
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const { setId, cardUuid } = req.params;
+
+      // Verify ownership
+      const existingSet = await db.getCardSet(setId);
+      if (!existingSet) {
+        return res.status(404).json({ error: "Card set not found" });
+      }
+
+      if (existingSet.creatorId !== req.user?.id) {
+        return res.status(403).json({ error: "Unauthorized" });
+      }
+
+      const success = await db.addCardToSet(setId, cardUuid);
+
+      if (!success) {
+        return res.status(400).json({ error: "Failed to add card to set" });
+      }
+
+      res.json({ message: "Card added to set successfully" });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to add card to set" });
+    }
+  }
+);
+
+// Remove a card from a set
+app.delete(
+  "/api/sets/:setId/cards/:cardUuid",
+  authenticateUser,
+  async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const { setId, cardUuid } = req.params;
+
+      // Verify ownership
+      const existingSet = await db.getCardSet(setId);
+      if (!existingSet) {
+        return res.status(404).json({ error: "Card set not found" });
+      }
+
+      if (existingSet.creatorId !== req.user?.id) {
+        return res.status(403).json({ error: "Unauthorized" });
+      }
+
+      const success = await db.removeCardFromSet(setId, cardUuid);
+
+      if (!success) {
+        return res
+          .status(400)
+          .json({ error: "Failed to remove card from set" });
+      }
+
+      res.json({ message: "Card removed from set successfully" });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to remove card from set" });
+    }
+  }
+);
+
+//#endregion
+
 //#region Auth routes
 app.post("/api/auth/register", async (req: Request, res: Response) => {
   try {

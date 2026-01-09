@@ -6,6 +6,12 @@ import {
   type CreateCardInput,
   type UpdateCardInput,
 } from "./types/Card";
+import {
+  type CardSet,
+  type CardSetWithCards,
+  type CreateCardSetInput,
+  type UpdateCardSetInput,
+} from "./types/CardSet";
 import { ASPECTS } from "./types/aspects";
 
 const prisma = new PrismaClient();
@@ -263,6 +269,165 @@ export const db = {
     } catch (error) {
       console.error("Raw SQL query failed:", error);
       throw error;
+    }
+  },
+
+  // CardSet operations
+  async createCardSet(
+    setData: CreateCardSetInput,
+    userId: string
+  ): Promise<CardSet> {
+    const newSet = await prisma.cardSet.create({
+      data: {
+        name: setData.name,
+        description: setData.description || "",
+        creatorId: userId,
+      },
+    });
+
+    return {
+      id: newSet.id,
+      name: newSet.name,
+      description: newSet.description,
+      creatorId: newSet.creatorId,
+      createdAt: newSet.createdAt,
+      updatedAt: newSet.updatedAt,
+    };
+  },
+
+  async getCardSet(setId: string): Promise<CardSetWithCards | null> {
+    const cardSet = await prisma.cardSet.findUnique({
+      where: { id: setId },
+      include: {
+        cards: {
+          select: { cardUuid: true },
+          orderBy: { addedAt: "asc" },
+        },
+      },
+    });
+
+    if (!cardSet) return null;
+
+    return {
+      id: cardSet.id,
+      name: cardSet.name,
+      description: cardSet.description,
+      creatorId: cardSet.creatorId,
+      createdAt: cardSet.createdAt,
+      updatedAt: cardSet.updatedAt,
+      cardUuids: cardSet.cards.map((c) => c.cardUuid),
+    };
+  },
+
+  async getUserCardSets(userId: string): Promise<CardSetWithCards[]> {
+    const sets = await prisma.cardSet.findMany({
+      where: { creatorId: userId },
+      include: {
+        cards: {
+          select: { cardUuid: true },
+          orderBy: { addedAt: "asc" },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return sets.map((set) => ({
+      id: set.id,
+      name: set.name,
+      description: set.description,
+      creatorId: set.creatorId,
+      createdAt: set.createdAt,
+      updatedAt: set.updatedAt,
+      cardUuids: set.cards.map((c) => c.cardUuid),
+    }));
+  },
+
+  async updateCardSet(
+    setId: string,
+    setData: UpdateCardSetInput
+  ): Promise<CardSet | null> {
+    try {
+      const updatedSet = await prisma.cardSet.update({
+        where: { id: setId },
+        data: {
+          ...(setData.name && { name: setData.name }),
+          ...(setData.description !== undefined && {
+            description: setData.description,
+          }),
+        },
+      });
+
+      return {
+        id: updatedSet.id,
+        name: updatedSet.name,
+        description: updatedSet.description,
+        creatorId: updatedSet.creatorId,
+        createdAt: updatedSet.createdAt,
+        updatedAt: updatedSet.updatedAt,
+      };
+    } catch {
+      return null;
+    }
+  },
+
+  async deleteCardSet(setId: string): Promise<boolean> {
+    try {
+      await prisma.cardSet.delete({
+        where: { id: setId },
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  },
+
+  async addCardToSet(setId: string, cardUuid: string): Promise<boolean> {
+    try {
+      // Check if card exists
+      const card = await prisma.card.findUnique({
+        where: { uuid: cardUuid },
+      });
+
+      if (!card) return false;
+
+      // Check if card is already in the set
+      const existing = await prisma.cardSetMembership.findUnique({
+        where: {
+          setId_cardUuid: {
+            setId,
+            cardUuid,
+          },
+        },
+      });
+
+      if (existing) return true; // Already in set, consider it a success
+
+      await prisma.cardSetMembership.create({
+        data: {
+          setId,
+          cardUuid,
+        },
+      });
+
+      return true;
+    } catch {
+      return false;
+    }
+  },
+
+  async removeCardFromSet(setId: string, cardUuid: string): Promise<boolean> {
+    try {
+      await prisma.cardSetMembership.delete({
+        where: {
+          setId_cardUuid: {
+            setId,
+            cardUuid,
+          },
+        },
+      });
+      return true;
+    } catch {
+      return false;
     }
   },
 };
