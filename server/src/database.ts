@@ -430,6 +430,10 @@ export const db = {
       return false;
     }
   },
+
+  async disconnect(): Promise<void> {
+    await prisma.$disconnect();
+  },
 };
 
 export default prisma;
